@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Shapes">
+      <UniqueIdentifier>{9b2a5152-a7ca-4ad5-a932-8d7210ae7bbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Buffers">
+      <UniqueIdentifier>{5d3e667a-8eb9-4289-8c15-b8cec543009e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Buffers">
+      <UniqueIdentifier>{a46e049d-d65e-4409-8a66-c38162649902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\textures">
+      <UniqueIdentifier>{ce9fdd89-1653-45cb-8a56-6d80a9f05cbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\objs">
+      <UniqueIdentifier>{397d5f07-280b-4f76-8851-e6c43c154720}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{339d4dcc-42e8-4b6c-b55a-54b82993c8a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shapes\Objects">
+      <UniqueIdentifier>{ddfdda7b-4ecc-46d7-a3c8-17632e44549d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shapes\StaticShapes">
+      <UniqueIdentifier>{386e8a83-6b72-4b1c-95c4-50a88b444cde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resource">
+      <UniqueIdentifier>{8612e243-c3e2-42ca-8767-e49dbeaaef5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Resource">
+      <UniqueIdentifier>{d12b2b5e-5b34-4e57-a356-a3b21bbbfc72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\World">
+      <UniqueIdentifier>{abf1d126-2c50-485a-810b-fe1f72bdb5a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World">
+      <UniqueIdentifier>{92fa8fbd-cb02-426d-b10f-a59c84615743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Vendor">
+      <UniqueIdentifier>{ed2cdeaa-85e6-49f6-8cc5-7237658cf344}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shapes\Objects\Box">
+      <UniqueIdentifier>{ab8b0d05-5984-4a30-b3a3-4b9c81eced39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders\shadowMapping">
+      <UniqueIdentifier>{5f2359c0-e352-41d2-b9f0-ed9e8bb63880}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Buffers\IndexBuffer.cpp">
+      <Filter>Source Files\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Buffers\VertexArray.cpp">
+      <Filter>Source Files\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Buffers\VertexBuffer.cpp">
+      <Filter>Source Files\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World\Camera.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World\Renderer.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World\Window.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World\World.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resources\Shader.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GlWrap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shapes\Objects\Teapot.hpp">
+      <Filter>Source Files\Shapes\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shapes\VertexFormat.hpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shapes\VertexFormatObj.hpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="objectLoader.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shapes\ShapeBase.h">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resources\ObjectReader.hpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Buffers\GLRegisterable.h">
+      <Filter>Header Files\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="objectLoader.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Constants.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vendor\imgui.cpp">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vendor\imgui_demo.cpp">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vendor\imgui_draw.cpp">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vendor\imgui_impl_glfw.cpp">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vendor\imgui_impl_opengl3.cpp">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vendor\imgui_tables.cpp">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vendor\imgui_widgets.cpp">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resources\stb_image.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resources\objloader.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shapes\Objects\Box.hpp">
+      <Filter>Source Files\Shapes\Objects\Box</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World\Game.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resources\ShaderPool.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Buffers\FrameBuffer.cpp">
+      <Filter>Source Files\Buffers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\lightCube.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="res\shaders\PBR.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="res\shaders\baseShape.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="res\shaders\object.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="res\shaders\cube3d.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="res\shaders\lights.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="res\shaders\objectNoTexture.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="res\shaders\test.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="res\shaders\shadowMap.shader">
+      <Filter>Resource Files\Shaders\shadowMapping</Filter>
+    </None>
+    <None Include="res\shaders\shadowMapping.shader">
+      <Filter>Resource Files\Shaders\shadowMapping</Filter>
+    </None>
+    <None Include="res\shaders\shadowMapQuadDebug.shader">
+      <Filter>Resource Files\Shaders\shadowMapping</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\wall.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="res\textures\phone.png">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="res\textures\timon.png">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="res\textures\uvmap.DDS">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="res\textures\uvtemplate.bmp">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="res\textures\Yellobrk.bmp">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="res\textures\container2.bmp">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="res\textures\container2_specular.bmp">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Buffers\IndexBuffer.h">
+      <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Buffers\VertexArray.h">
+      <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Buffers\VertexBuffer.h">
+      <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\World\Camera.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\World\Renderer.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\World\Window.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\World\World.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\Shader.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GlWrap.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shapes\ObjShapeBase.h">
+      <Filter>Source Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Buffers\VertexBufferLayout.h">
+      <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vendor\imconfig.h">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vendor\imgui.h">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vendor\imgui_impl_glfw.h">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vendor\imgui_impl_opengl3.h">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vendor\imgui_internal.h">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vendor\imstb_rectpack.h">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vendor\imstb_textedit.h">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vendor\imstb_truetype.h">
+      <Filter>Resource Files\Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\World\Lights.hpp">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\stb_image.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\texture.hpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\objloader.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shapes\Objects\sphere.hpp">
+      <Filter>Source Files\Shapes\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\Resources.hpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shapes\Objects\BoxMetalic.hpp">
+      <Filter>Source Files\Shapes\Objects\Box</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shapes\Objects\BoxWood.hpp">
+      <Filter>Source Files\Shapes\Objects\Box</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shapes\Objects\PBRTexturedBox.hpp">
+      <Filter>Source Files\Shapes\Objects\Box</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\ShaderPool.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\TexturePool.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\TexturePool.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\TextureEntries.hpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WorldLoader.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\World\Game.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shapes\Objects\Car.hpp">
+      <Filter>Source Files\Shapes\Objects\Box</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shapes\Objects\Statue.hpp">
+      <Filter>Source Files\Shapes\Objects\Box</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Buffers\FrameBuffer.h">
+      <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
