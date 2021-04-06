@@ -9,20 +9,17 @@ out VS_OUT {
     vec3 FragPos;
     vec3 Normal;
     vec2 TexCoords;
-    vec4 FragPosLightSpace;
 } vs_out;
 
 uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
-uniform mat4 lightSpaceMatrix;
 
 void main()
 {
     vs_out.FragPos = vec3(model * vec4(aPos, 1.0));
     vs_out.Normal = transpose(inverse(mat3(model))) * aNormal;
     vs_out.TexCoords = aTexCoords;
-    vs_out.FragPosLightSpace = lightSpaceMatrix * vec4(vs_out.FragPos, 1.0);
     gl_Position = projection * view * model * vec4(aPos, 1.0);
 }
 
@@ -34,45 +31,8 @@ out vec4 FragColor;
 
 // -------------------------------- Lights -----------------------------------
 
-struct Material {
-    sampler2D diffuse;
-    sampler2D specular;
-    float shininess;
-}; 
-
-struct DirLight {
-    vec3 direction;
-	
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
-};
-
 struct PointLight {
     vec3 position;
-    
-    float constant;
-    float linear;
-    float quadratic;
-	
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
-};
-
-struct SpotLight {
-    vec3 position;
-    vec3 direction;
-    float cutOff;
-    float outerCutOff;
-  
-    float constant;
-    float linear;
-    float quadratic;
-  
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;       
 };
 
 // input parameters
@@ -80,7 +40,6 @@ in VS_OUT {
     vec3 FragPos;
     vec3 Normal;
     vec2 TexCoords;
-    vec4 FragPosLightSpace;
 } fs_in;
 
 // material parameters
@@ -89,8 +48,6 @@ uniform sampler2D normalMap;
 uniform sampler2D metallicMap;
 uniform sampler2D roughnessMap;
 uniform sampler2D aoMap;
-uniform sampler2D shadowMap;
-uniform sampler2D diffuseTexture;
 
 uniform vec3 lightPos;
 uniform vec3 viewPos;
@@ -156,14 +113,12 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
     return F0 + (1.0 - F0) * pow(max(1.0 - cosTheta, 0.0), 5.0);
 }
 
-vec3 CalculatePointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 albedo, float metallic, float roughness, vec3 F0);
+vec3 CalculatePointLight(PointLight light, vec3 N, vec3 V, vec3 albedo, float metallic, float roughness, vec3 F0);
 vec3 CalculatePointLightColor();
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 
 // ----------------------------------------------------------------------------
 void main()
-{	
-    vec3 diffuse = texture(diffuseTexture, fs_in.TexCoords).rgb;	    
+{	   
     vec3 albedo     = pow(texture(albedoMap, fs_in.TexCoords).rgb, vec3(2.2));
     float metallic  = texture(metallicMap, fs_in.TexCoords).r;
     float roughness = texture(roughnessMap, fs_in.TexCoords).r;

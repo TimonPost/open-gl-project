@@ -13,23 +13,15 @@ public:
 	{
 	}
 
-	TeaPot() : ObjShapeBase("uvTemplateTexture", "objectShader", "C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\ojbs\\teapot.obj")
+	TeaPot() : ObjShapeBase("uvTemplateTexture", "C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\ojbs\\teapot.obj")
 	{
 	}
 
 	void ObjShapeBase::Draw(Graphics* graphics) override
 	{
-		auto* render = graphics->Render;
-	
-		auto* texture = TexturePool::Instance()->GetSimpleTextureById(TextureIdentifier);
-		texture->Bind();
-
-		_shader->SetUniformMatrix4fv("mv", render->V() * _model);
-		_shader->SetUniformMatrix4fv("projection", render->P());
-
+		SetUniforms(graphics->activeShader);
+		
 		glDrawArrays(GL_TRIANGLES, 0, _size);
-
-		texture->Unbind();
 	}
 
 	virtual ~TeaPot() = default;

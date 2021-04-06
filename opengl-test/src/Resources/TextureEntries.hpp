@@ -30,6 +30,39 @@ public:
 	}
 };
 
+class ObjectTextureEntry : public GLRegisterable
+{
+	unsigned int _diffuseMapPath;
+	unsigned int _specularMapPath;
+
+public:
+	std::string Label;
+
+	ObjectTextureEntry(std::string label, std::string diffuseMapPath, std::string specularMapPath)
+	{
+		_diffuseMapPath = loadTexture(diffuseMapPath.c_str());
+		_specularMapPath = loadTexture(specularMapPath.c_str());
+		
+		Label = label;
+	}
+
+	void Bind() const override
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, _diffuseMapPath);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, _specularMapPath);
+	}
+
+	void Unbind() const override
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+};
+
 class PBRTextureEntry : public GLRegisterable
 {
 public:

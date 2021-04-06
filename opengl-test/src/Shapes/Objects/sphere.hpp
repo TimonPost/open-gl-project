@@ -14,8 +14,7 @@ private:
     std::vector<glm::vec3> normals;
     unsigned int indices[8320];
     float data[33800];
-    
-	
+    	
 	void CreateCircleArray()
 	{
         const unsigned int X_SEGMENTS = 64;
@@ -82,14 +81,17 @@ private:
         }
 	}
 
-public:    	
-	Sphere() : ShapeBase("wood", "pbrShader")
+public:
+    Sphere(Sphere* sphere) : ShapeBase(sphere)
+    {        
+    }
+	
+	Sphere(string textureId) : ShapeBase(textureId)
 	{
 		CreateCircleArray();
 
 		WithBuffer(data, sizeof(data));
 		WithIndexBuffer(indices, sizeof(indices));
-		WithShader(ShaderIdentifier);
 
 		_layout->AddFloat(3);	
 		_layout->AddFloat(3);
@@ -99,19 +101,10 @@ public:
 	}
     
 	void ShapeBase::Draw(Graphics* graphics) override
-	{		
-        auto* render = graphics->Render;
-        
-		// Render object
-       
-		  
-        
-        _shader->SetUniformMatrix4fv("model", _model);
-        _shader->SetUniformMatrix4fv("projection", render->P());
+	{	
+        graphics->activeShader->SetUniformMatrix4fv("model", _model);
 		
-		glDrawElements(GL_TRIANGLE_STRIP, 8320, GL_UNSIGNED_INT, 0);
-
-		texture->Unbind();
+		glDrawElements(GL_TRIANGLE_STRIP, 8320, GL_UNSIGNED_INT, 0);        
 	}
 
 	virtual ~Sphere()

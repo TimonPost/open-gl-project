@@ -6,17 +6,13 @@ class Box : public ObjShapeBase
 {
 
 public:
-	Box() : ObjShapeBase("uvTemplateTexture", "objectShader", "C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\ojbs\\box.obj")
+	Box() : ObjShapeBase("uvTemplateTexture", "C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\ojbs\\box.obj")
 	{
 	}
 	
 	void ObjShapeBase::Draw(Graphics* graphics) override
-	{
-		auto* render = graphics->Render;
-
-		ApplyShaderProperties();
-		_shader->SetUniformMatrix4fv("mv", render->V() * _model);
-		_shader->SetUniformMatrix4fv("projection", render->P());
+	{		
+		SetUniforms(graphics->activeShader);
 
 		glDrawArrays(GL_TRIANGLES, 0, _size);
 	}
@@ -24,3 +20,17 @@ public:
 	virtual ~Box() = default;
 };
 
+
+class CubeShadowObject : public ShadowObjectBase
+{
+public:
+	CubeShadowObject(string textureIdentifier) : ShadowObjectBase(textureIdentifier, "C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\ojbs\\box.obj")
+	{
+	}
+
+	void Draw(Graphics* graphics) override
+	{
+		graphics->activeShader->SetUniformMatrix4fv("model", _model);
+		glDrawArrays(GL_TRIANGLES, 0, _size);
+	}
+};

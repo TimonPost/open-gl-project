@@ -1,6 +1,5 @@
 #shader vertex
 #version 330 core
-
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormal;
 layout (location = 2) in vec2 aTexCoords;
@@ -30,8 +29,11 @@ void main()
 
 #shader fragment
 #version 330 core
-
 out vec4 FragColor;
+
+struct Material {
+    sampler2D diffuseMap;
+}; 
 
 in VS_OUT {
     vec3 FragPos;
@@ -40,7 +42,7 @@ in VS_OUT {
     vec4 FragPosLightSpace;
 } fs_in;
 
-uniform sampler2D diffuseTexture;
+uniform Material material;
 uniform sampler2D shadowMap;
 
 uniform vec3 lightPos;
@@ -84,18 +86,15 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 
 void main()
 {           
-    vec3 color = texture(diffuseTexture, fs_in.TexCoords).rgb;
+    vec3 color = texture(material.diffuseMap, fs_in.TexCoords).rgb;
     vec3 normal = normalize(fs_in.Normal);
     vec3 lightColor = vec3(0.3);
-
     // ambient
     vec3 ambient = 0.3 * color;
-
     // diffuse
     vec3 lightDir = normalize(lightPos - fs_in.FragPos);
     float diff = max(dot(lightDir, normal), 0.0);
     vec3 diffuse = diff * lightColor;
-
     // specular
     vec3 viewDir = normalize(viewPos - fs_in.FragPos);
     vec3 reflectDir = reflect(-lightDir, normal);
@@ -103,7 +102,6 @@ void main()
     vec3 halfwayDir = normalize(lightDir + viewDir);  
     spec = pow(max(dot(normal, halfwayDir), 0.0), 64.0);
     vec3 specular = spec * lightColor;    
-    
     // calculate shadow
     float shadow = ShadowCalculation(fs_in.FragPosLightSpace);                      
     vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;    

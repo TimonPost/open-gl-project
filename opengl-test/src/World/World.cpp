@@ -144,17 +144,17 @@ void renderSphere()
         {
             data.push_back(positions[i].x);
             data.push_back(positions[i].y);
-            data.push_back(positions[i].z);
-            if (uv.size() > 0)
-            {
-                data.push_back(uv[i].x);
-                data.push_back(uv[i].y);
-            }
+            data.push_back(positions[i].z);           
             if (normals.size() > 0)
             {
                 data.push_back(normals[i].x);
                 data.push_back(normals[i].y);
                 data.push_back(normals[i].z);
+            }
+            if (uv.size() > 0)
+            {
+                data.push_back(uv[i].x);
+                data.push_back(uv[i].y);
             }
         }
         glBindVertexArray(sphereVAO);
@@ -288,16 +288,16 @@ void World::AddShadowShape(ShapeBase& shape)
     _shadowShapes.push_back(&shape);
 }
 
+void World::AddObjectShape(ObjShapeBase& shape)
+{
+    _objectShapes.push_back(&shape);
+}
 
 Camera* World::MainCamera() const
 {
 	return _render->camera.get();
 }
 
-std::vector<ShapeBase*>* World::GetShapes()
-{
-	return &_pbrShapes;
-}
 
 bool initialized = false;
 
@@ -312,27 +312,61 @@ void World::DrawShapes()
     graphics.directionalLight = &directionalLight;
     graphics.spotLight = &spotLight;
     graphics.pointLights = &pointLights;
-
+    	
     RenderShadowShapes(&graphics);
 
-    // RenderPBRShapes(&graphics);
-       
-    // for (int i = 0; i < _lightCubes.size(); i++)
-    // {
-    //     _lightCubes[i]->Bind();
-    //     _lightCubes[i]->Draw(&graphics);
-    //     _lightCubes[i]->Unbind();
-    // }
+    RenderPBRShapes(&graphics);
+
+    Shader* objectShader = ShaderPool::Instance()->GetShaderById(objectShaderID);
+    objectShader->Bind();
+    objectShader->SetUniformMatrix4fv("projection", _render->P());
+    objectShader->SetUniformMatrix4fv("view", _render->V());
+	
+    graphics.activeShader = objectShader;
+	
+    for (int i = 0; i < _objectShapes.size(); i++)
+    {
+        objectShader->SetUniform3fv("lightPos", _render->LightPosition());
+    	
+        auto* texture = TexturePool::Instance()->GetSimpleTextureById(_objectShapes[i]->TextureIdentifier);
+        texture->Bind();
+        _objectShapes[i]->Bind();
+        _objectShapes[i]->Draw(&graphics);
+        _objectShapes[i]->Unbind();
+        texture->Unbind();
+    }
+    
+    auto* lightCube = new Box();
+    lightCube->ambient_color = glm::vec3(1, 1, 1);    
+    lightCube->Scale(glm::vec3(0.5f, 0.5f, 0.5f));
+    lightCube->Translate(graphics.Render->LightPosition());
+
+    auto* texture = TexturePool::Instance()->GetSimpleTextureById(lightCube->TextureIdentifier);
+    texture->Bind();
+    lightCube->Bind();
+    lightCube->Draw(&graphics);
+    lightCube->Unbind();
+    texture->Unbind();
 }
 
 void World::RenderScene(Graphics* graphics)
 {
- 
+    for (int i = 0; i < _shadowShapes.size(); i++)
+    {
+        auto* texture = TexturePool::Instance()->GetSimpleTextureById(_shadowShapes[i]->TextureIdentifier);
+        texture->Bind();
+
+        _shadowShapes[i]->Bind();
+        _shadowShapes[i]->Draw(graphics);
+        _shadowShapes[i]->Unbind();
+    	
+        texture->Unbind();
+    }
 }
 
 void World::RenderPBRShapes(Graphics* graphics)
 {
-    Shader* pbrShader = ShaderPool::Instance()->GetShaderById("pbrShader");
+    Shader* pbrShader = ShaderPool::Instance()->GetShaderById(pbrShaderID);
     pbrShader->Bind();
 	
     graphics->ApplyLightsToShader(pbrShader);
@@ -340,63 +374,43 @@ void World::RenderPBRShapes(Graphics* graphics)
     pbrShader->SetUniformMatrix4fv("view", _render->V());
     pbrShader->SetUniform3fv("viewPos", _render->camera->position);
     pbrShader->SetUniform3fv("lightPos", _render->LightPosition());
-    pbrShader->SetUniformMatrix4fv("lightSpaceMatrix", _render->LightSpaceMVP());
     
     for (int i = 0; i < _pbrShapes.size(); i++)
-    {        
+    {
+        auto* texture = TexturePool::Instance()->GetPBRById(_pbrShapes[i]->TextureIdentifier);
+        texture->Bind();
         _pbrShapes[i]->Bind();
         _pbrShapes[i]->Draw(graphics);
         _pbrShapes[i]->Unbind();
+        texture->Unbind();
     }
 }
 
 void World::RenderShadowShapes(Graphics* graphics)
-{
+{	
 	// Start shadow map pass
     shadowMap.ShadowMapPass(graphics->Render);
-    
-    shadowMap._shadowShader->Bind();
-    shadowMap._shadowShader->SetUniformMatrix4fv("lightSpaceMatrix", _render->LightSpaceMVP());
-		
-    for (int i = 0; i < _shadowShapes.size(); i++)
-    {    	
-        _shadowShapes[i]->Bind();
-        _shadowShapes[i]->Draw(graphics);
-        _shadowShapes[i]->Unbind();
-    }
+
+    graphics->activeShader = shadowMap._shadowShader;
+
+    RenderScene(graphics);
 	
     // End shadow map pass
     shadowMap.EndShadowMapPass();
 
     shadowMap.ScenePassStart(GL_TEXTURE1);
-
-    SimpleTextureEntry* wood = TexturePool::Instance()->GetSimpleTextureById("wood");
-    wood->Bind();
 	
-    Shader* shadowMapShader = ShaderPool::Instance()->GetShaderById(shadowMappingShader);
+    Shader* shadowMapShader = ShaderPool::Instance()->GetShaderById(shadowMappingShaderID);
     shadowMapShader->Bind();
-    shadowMapShader->SetUniform1i("diffuseTexture", 0);
-    shadowMapShader->SetUniform1i("shadowMap", 1);
-	
+    	
     shadowMapShader->SetUniformMatrix4fv("projection", _render->P());
     shadowMapShader->SetUniformMatrix4fv("view", _render->V());
     shadowMapShader->SetUniform3fv("viewPos", _render->camera->position);
     shadowMapShader->SetUniform3fv("lightPos", _render->LightPosition());
     shadowMapShader->SetUniformMatrix4fv("lightSpaceMatrix", _render->LightSpaceMVP());
-	
-    renderScene(shadowMapShader);
 
-    // Render scene into shadow map
-	for (int i = 0; i < _shadowShapes.size(); i++)
-	{
-        auto* texture = TexturePool::Instance()->GetSimpleTextureById(_pbrShapes[i]->TextureIdentifier);
-        texture->Bind();
-		
-	    _shadowShapes[i]->Bind();
-	    _shadowShapes[i]->Draw(graphics);
-	    _shadowShapes[i]->Unbind();
-		
-        texture->Unbind();
-	}
+    graphics->activeShader = shadowMapShader;
 	
+    // Render scene into shadow map
+    RenderScene(graphics);
 }

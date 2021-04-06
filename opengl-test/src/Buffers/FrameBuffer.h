@@ -22,12 +22,8 @@ public:
 
 	bool Init()
 	{
-		 // configure depth map FBO
-		 // -----------------------
-
 		glGenFramebuffers(1, &depthMapFBO);
 		// create depth texture
-
 		glGenTextures(1, &depthMap);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
@@ -44,7 +40,7 @@ public:
 		glReadBuffer(GL_NONE);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		
-		_shadowShader = ShaderPool::Instance()->GetShaderById(shadowMapShader);
+		_shadowShader = ShaderPool::Instance()->GetShaderById(shadowMapShaderID);
 				
 		GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
@@ -71,6 +67,7 @@ public:
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		_shadowShader->Unbind();
 	}
 	
 	void ScenePassStart(GLint textureSlot)

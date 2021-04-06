@@ -5,8 +5,9 @@ layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 normal;
 layout (location = 2) in vec2 uv;
 
-uniform vec3 light_pos;
-uniform mat4 mv;
+uniform vec3 lightPos;
+uniform mat4 model;
+uniform mat4 view;
 uniform mat4 projection;
 
 out VS_OUT
@@ -20,6 +21,8 @@ out vec2 UV;
 
 void main()
 {
+	mat4 mv = view * model;
+	
 	// Calculate view-space coordinate
 	vec4 P = mv * vec4(position, 1.0);
 
@@ -27,7 +30,7 @@ void main()
 	vs_out.N = mat3(mv) * normal;
 
 	// Calculate light vector
-	vs_out.L = light_pos - P.xyz;
+	vs_out.L = lightPos - P.xyz;
 
 	// Calculate view vector;
 	vs_out.V = -P.xyz; 

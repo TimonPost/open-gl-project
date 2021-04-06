@@ -10,13 +10,13 @@
 #include "../GlWrap.h"
 #include "../Resources/Shader.h"
 #include "../Buffers/FrameBuffer.h"
+
 class World
 {
 private:
-	std::vector<Box*> _lightCubes;
-
 	std::vector<ShapeBase*> _pbrShapes;
 	std::vector<ShapeBase*> _shadowShapes;
+	std::vector<ObjShapeBase*> _objectShapes;
 	
 	std::shared_ptr<Renderer> _render;
 	
@@ -41,15 +41,14 @@ public:
 		for (int i = 0; i < pointLights.size(); i++)
 		{
 			auto* lightCube = new Box();
-			lightCube->ambient_color = glm::vec3(1,1,1);		
-			lightCube->RefreshShaderProperties();
+			lightCube->ambient_color = glm::vec3(1,1,1);
 			
 			auto* lightData = &pointLights[i];
 						
 			lightCube->Scale(glm::vec3(0.5f, 0.5f, 0.5f));
 			lightCube->Translate(lightData->position);		
 			
-			_lightCubes.push_back(lightCube);
+			_objectShapes.push_back(lightCube);
 		}
 
 		shadowMap.Init();
@@ -67,9 +66,10 @@ public:
 			
 	void AddBPRShape(ShapeBase& shape);
 	void AddShadowShape(ShapeBase& shape);
+	void AddObjectShape(ObjShapeBase& shape);
+
 	Camera* MainCamera() const;
 	std::unique_ptr<Renderer>* Render();
-	std::vector<ShapeBase*>* GetShapes();
 	void DrawShapes();
 	void RenderScene(Graphics* graphics);
 	void RenderPBRShapes(Graphics* graphics);

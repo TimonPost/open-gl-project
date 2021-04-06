@@ -21,5 +21,9 @@ static std::string ground_texture = "groundTexture";
 static std::string statue_texture = "statueTexture";
 static std::string romanArchTexture = "romanArchTexture";
 
-static std::string shadowMapShader = "shadowMapShader";
-static std::string shadowMappingShader = "shadowMappingShader";
+static std::string shadowMapShaderID = "shadowMapShader";
+static std::string shadowMappingShaderID = "shadowMappingShader"; 
+
+static std::string objectShaderID = "objectShader";
+static std::string pbrShaderID = "pbrShader"; 
+static std::string lightingShaderID = "lightingShader";

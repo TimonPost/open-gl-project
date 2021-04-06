@@ -56,13 +56,13 @@ glm::mat4 Renderer::MVP() const
 
 glm::mat4 Renderer::LightProjection() const
 {
-	float near_plane = 1.0f, far_plane = 7.5f;
-	return glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+	float near_plane = 1.0f, far_plane = 50.5f;
+	return glm::ortho(-30.0f, 30.0f, -5.0f, 30.0f, near_plane, far_plane);
 }
 
 glm::vec3 Renderer::LightPosition() const
 {
-	return glm::vec3(-2.0f, 4.0f, -1.0f);
+	return glm::vec3(-2.0f, 10.0f, -10.0f);
 }
 
 glm::mat4 Renderer::LightView() const

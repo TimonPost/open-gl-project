@@ -4,15 +4,14 @@
 #include "Resources/TexturePool.h"
 #include "World/World.h"
 #include "Shapes/Objects/Box.hpp"
-#include "Shapes/Objects/BoxMetalic.hpp"
 #include "Shapes/Objects/BoxWood.hpp"
-#include "Shapes/Objects/sphere.hpp"
-#include "Shapes/Objects/Statue.hpp"
+#include "Shapes/Objects/Models.hpp"
+#include "Shapes/Objects/Sphere.hpp"
 
 
-static float wallSize = 50;
-static float wallHeight = 20;
-static float translate = 25;
+static float wallSize = 100;
+static float wallHeight = 30;
+static float translate = 30;
 
 class WorldLoader
 {	
@@ -25,54 +24,52 @@ class WorldLoader
 		x->Translate(glm::vec3(-0, -0, -0));
 		x->Scale(glm::vec3(UNIT_SIZE * lenght, UNIT_SIZE * thickness, UNIT_SIZE * thickness));
 		x->ambient_color = glm::vec3(1, 0, 0);
-		x->RefreshShaderProperties();
 
 		Box* y = new Box();
 		y->Translate(glm::vec3(-0, -0, -0));
 		y->Scale(glm::vec3(UNIT_SIZE * thickness, UNIT_SIZE * lenght, UNIT_SIZE * thickness));
 		y->ambient_color = glm::vec3(0, 1, 0);
-		y->RefreshShaderProperties();
 
 		Box* z = new Box();
 		z->Translate(glm::vec3(-0, -0, -0));
 		z->Scale(glm::vec3(UNIT_SIZE * thickness, UNIT_SIZE * thickness, UNIT_SIZE * lenght));
 		z->ambient_color = glm::vec3(0, 0, 1);
-		z->RefreshShaderProperties();
 
-		world->AddShadowShape(*x);
-		world->AddBPRShape(*y);
-		world->AddBPRShape(*z);
+		world->AddObjectShape(*x);
+		world->AddObjectShape(*y);
+		world->AddObjectShape(*z);
 	}
 
 	static void LoadRoom(World* world){	
 
-		BoxMetalic* wall1 = new BoxMetalic(wall_texture);
-		wall1->Translate(glm::vec3(0, 0, -translate));
-		wall1->Scale(glm::vec3(wallSize, wallHeight, 1));
-
-		BoxMetalic* wall2 = new BoxMetalic(wall_texture);
-		wall2->Translate(glm::vec3(0, 0, translate));
-		wall2->Scale(glm::vec3(wallSize, wallHeight, 1));
-
-		BoxMetalic* wall3 = new BoxMetalic(wall_texture);
-		wall3->Translate(glm::vec3(translate, 0, 0));
-		wall3->Scale(glm::vec3(1, wallHeight, wallSize));
-
-
-		BoxMetalic* wall4 = new BoxMetalic(wall_texture);
-		wall4->Translate(glm::vec3(-translate, 0, 0));
-		wall4->Scale(glm::vec3(1, wallHeight, wallSize));
+		PBRTexturedBox* front = new PBRTexturedBox(wall_texture);
+		front->Translate(glm::vec3(0, 0, -translate));
+		front->Scale(glm::vec3(wallSize, wallHeight, 1));
+		//
+		PBRTexturedBox* back = new PBRTexturedBox(wall_texture);
+		back->Translate(glm::vec3(0, 0, translate));
+		back->Scale(glm::vec3(wallSize, wallHeight, 1));
 		
-		Box* lightBar = new Box();
+		PBRTexturedBox* right = new PBRTexturedBox(wall_texture);
+		right->Translate(glm::vec3(translate, 0, 0));
+		right->Scale(glm::vec3(1, wallHeight, wallSize));		
+		
+		PBRTexturedBox* left = new PBRTexturedBox(wall_texture);
+		left->Translate(glm::vec3(-translate, 0, 0));
+		left->Scale(glm::vec3(1, wallHeight, wallSize));
+		
+		CubeShadowObject* lightBar = new CubeShadowObject("container");
 		lightBar->Translate(glm::vec3(0, wallHeight - 5, -translate+1));
 		lightBar->Scale(glm::vec3(wallSize, 1, 3));
-		lightBar->ambient_color = glm::vec3(1,1,1);
-		lightBar->RefreshShaderProperties();
 		
-		BoxMetalic* ground = new BoxMetalic("wood");
+		CubeShadowObject* ground = new CubeShadowObject("wood");
 		ground->Translate(glm::vec3(0, 0, 0));
 		ground->Scale(glm::vec3(wallSize, 0.1, wallSize));
 
+		PBRTexturedBox* cube1 = new PBRTexturedBox(ground_texture);
+		cube1->Translate(glm::vec3(-translate + 5, 0, -5));
+		cube1->Scale(glm::vec3(5, 5, 5));
+		
 		// StatueMesh* statue  = new StatueMesh();
 		// statue->Translate(glm::vec3(0, 1, -translate + 0.6));
 		// statue->Scale(glm::vec3(0.05, 0.05, 0.05));
@@ -81,19 +78,19 @@ class WorldLoader
 		// romanArch->Translate(glm::vec3(0, 10, -translate + 0.8));
 		// romanArch->Scale(glm::vec3(0.03, 0.03, 0.03)); 
 
-		DoubleCube* doubleCuebe = new DoubleCube();
-		doubleCuebe->Translate(glm::vec3(0, 20, 0));
-		doubleCuebe->Scale(glm::vec3(15, 15, 15));
+		// DoubleCube* doubleCuebe = new DoubleCube();
+		// doubleCuebe->Translate(glm::vec3(0, 20, 0));
+		// doubleCuebe->Scale(glm::vec3(15, 15, 15));
 		
 		world->AddShadowShape(*ground);
 		//world->AddShape(*statue);
 		//world->AddShape(*romanArch);
 		
-		world->AddBPRShape(*wall1);
-		world->AddBPRShape(*wall2);
-		// world->AddShape(*wall3);
-		// world->AddShape(*wall4);
-
+		world->AddBPRShape(*front);
+		world->AddBPRShape(*back);
+		world->AddBPRShape(*right);
+		world->AddBPRShape(*left);
+		world->AddBPRShape(*cube1);
 		//world->AddShape(*lightBar);
 	}
 
@@ -110,10 +107,10 @@ class WorldLoader
 		light1.quadratic = 0.032f;
 
 		PointLight light2 = light1;
-		light2.position = glm::vec3(0, wallHeight - 10, -translate + 2);
+		light2.position = glm::vec3(0, wallHeight *0.30, -translate + 5);
 
 		PointLight light3 = light1;
-		light3.position = glm::vec3(-(wallSize / 2) + 2, wallHeight - 10, -translate + 2);
+		light3.position = glm::vec3(0, wallHeight *0.30, translate - 5);
 
 		PointLight light4 = light1;
 		light4.position = glm::vec3((wallSize / 2) - 2, wallHeight - 10, -translate + 2);
@@ -130,7 +127,7 @@ class WorldLoader
 		
 		world->AddPointLight(light1);
 		world->AddPointLight(light2);
-		// world->AddPointLight(light3);
+		world->AddPointLight(light3);
 		// world->AddPointLight(light4);
 		// world->AddPointLight(light6);
 		// world->AddPointLight(light7);
@@ -143,23 +140,6 @@ class WorldLoader
 		directionalLight.specular = glm::vec3(0.5f, 0.5f, 0.5f);
 
 		world->SetDirectionalLight(directionalLight);
-
-		SpotLight spotLight;
-		spotLight.position = world->MainCamera()->position;
-		spotLight.direction = world->MainCamera()->Front;
-
-		spotLight.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
-		spotLight.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
-		spotLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
-
-		spotLight.constant = 1.0f;
-		spotLight.linear = 0.09f;
-		spotLight.quadratic = 0.032f;
-
-		spotLight.cutOff = glm::cos(glm::radians(12.5f));
-		spotLight.outerCutOff = glm::cos(glm::radians(15.0f));
-
-		world->SetSpotLight(spotLight);
 	}
 
 	static void InitializeTextures(World* world)
@@ -198,6 +178,7 @@ class WorldLoader
 
 		SimpleTextureEntry* uvTemplate = new SimpleTextureEntry("uvTemplateTexture", "res\\textures\\uvtemplate.bmp");
 		SimpleTextureEntry* wood = new SimpleTextureEntry("wood", "res\\textures\\wood.png");
+		ObjectTextureEntry* woodCrate = new ObjectTextureEntry("woodCrate", "res\\textures\\container2.bmp", "res\\textures\\container2_specular.bmp");
 		
 		TexturePool* pool = TexturePool::Instance();
 
@@ -207,60 +188,73 @@ class WorldLoader
 		pool->AddPBRTexture(pbrRomanArch);
 		pool->AddSimpleTexture(uvTemplate);
 		pool->AddSimpleTexture(wood);
+		pool->AddObjectTexture(woodCrate);
 	}
-
-	const std::string PBRShader = "pbrShader";
-	
+			
 	static void InitializeShaders(World* world)
-	{
+	{		
+		Shader* pbrShader = new Shader("res\\shaders\\PBR.shader", pbrShaderID);
+		pbrShader->Bind();
+		pbrShader->SetUniform1i("albedoMap", 0);
+		pbrShader->SetUniform1i("normalMap", 1);
+		pbrShader->SetUniform1i("metallicMap", 2);
+		pbrShader->SetUniform1i("roughnessMap", 3);
+		pbrShader->SetUniform1i("aoMap", 4);
 		
-		Shader* pbrShader = new Shader("res\\shaders\\PBR.shader", "pbrShader");
-		Shader* lightsShader = new Shader("res\\shaders\\lights.shader", "lightsShader");
-		Shader* objectShader = new Shader("res\\shaders\\object.shader", "objectShader");
-		Shader* objectNoTextureShader = new Shader("res\\shaders\\objectNoTexture.shader", "objectNoTextureShader");
-		Shader* baseShapeShader = new Shader("res\\shaders\\baseShape.shader", "baseShapeShader");
-		Shader* cube3dShader = new Shader("res\\shaders\\cube3d.shader", "cube3dShader");
+		Shader* objectShader = new Shader("res\\shaders\\object.shader", objectShaderID);
 		
-		Shader* shadowMapShaderInstance = new Shader("res\\shaders\\shadowMap.shader", shadowMapShader);
-		Shader* shadowMappingShaderInstance = new Shader("res\\shaders\\shadowMapping.shader", shadowMappingShader);
+		Shader* shadowMapShader = new Shader("res\\shaders\\shadowMap.shader", shadowMapShaderID);
+		Shader* shadowMappingShader = new Shader("res\\shaders\\shadowMapping.shader", shadowMappingShaderID);
+		shadowMappingShader->Bind();
+		shadowMappingShader->SetUniform1i("material.diffuseMap", 0);
+		shadowMappingShader->SetUniform1i("shadowMap", 1);
+
+		// Shader* lightingShader = new Shader("res\\shaders\\lighting.shader", lightingShaderID);
+		// lightingShader->Bind();
+		// lightingShader->SetUniform1i("material.diffuseMap", 0);
+		// lightingShader->SetUniform1i("material.specularMap", 1);
+		
 		Shader* debugShader = new Shader("res\\shaders\\shadowMapQuadDebug.shader", "debugShader");
 		
 		ShaderPool* pool = ShaderPool::Instance();
 
 		pool->AddShader(pbrShader);
 		pool->AddShader(objectShader);
-		pool->AddShader(objectNoTextureShader);
-		pool->AddShader(baseShapeShader);
-		pool->AddShader(cube3dShader);
-		pool->AddShader(lightsShader);
-		pool->AddShader(shadowMapShaderInstance);
-		pool->AddShader(shadowMappingShaderInstance);
+		pool->AddShader(shadowMapShader);
+		pool->AddShader(shadowMappingShader);
 		pool->AddShader(debugShader);
 	}
-	//
-	// static void TestSpheres(World* world)
-	// {
-	// 	int nrRows = 3;
-	// 	int nrColumns = 6;
-	// 	float spacing = 0.5;
-	//
-	// 	for (int row = 0; row < nrRows; ++row)
-	// 	{
-	// 		for (int col = 0; col < nrColumns; ++col)
-	// 		{
-	// 			Sphere* sphere = new Sphere();
-	// 			sphere->Scale(glm::vec3(0.25, 0.25, 0.25));
-	// 			sphere->Translate(glm::vec3(
-	// 				(float)(col - (nrColumns / 2)) * spacing,
-	// 				1+(float)(row - (nrRows / 2)) * spacing,
-	// 				row
-	// 			));
-	//
-	// 			world->AddBPRShape(*sphere);
-	//
-	// 		}
-	// 	}
-	// }
+	
+	static void TestSpheres(World* world)
+	{
+		int nrRows = 5;
+		int nrColumns = 6;
+		float spacing = 2;
+	
+		for (int row = 0; row < nrRows; ++row)
+		{
+			for (int col = 0; col < nrColumns; ++col)
+			{
+				glm::vec3 transform = glm::vec3(
+					(float)(col - (nrColumns / 2)) * spacing,
+					5 + (float)(row - (nrRows / 2)) * spacing,
+					row
+				);
+				
+				Sphere* sphere = new Sphere("wood");
+				sphere->Scale(glm::vec3(0.70, 0.70, 0.70));
+				sphere->Translate(transform);
+				 
+				world->AddShadowShape(*sphere);
+
+				Sphere* sphere1 = new Sphere(wall_texture);
+				sphere1->Translate(transform);
+				sphere1->Scale(glm::vec3(0.75, 0.75, 0.75));
+				
+				world->AddBPRShape(*sphere1);
+			}
+		}
+	}
 
 public:
 	WorldLoader() {  }
@@ -272,7 +266,7 @@ public:
 		
 		SetupLighting(world);
 		world->Initialize();
-		//TestSpheres(world);
+		TestSpheres(world);
 
 		LoadRoom(world);
 		//AddCoordinateLines(world);

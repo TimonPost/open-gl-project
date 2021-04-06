@@ -26,20 +26,16 @@ public:
 		diffuse_color = toClone->diffuse_color;
 		specular = toClone->specular;
 		power = toClone->power;
-
-		// Make uniform vars
-		RefreshShaderProperties();
 	}
 
-	ObjShapeBase(std::string textureIdentifier, std::string shaderIdentifier, const std::string& objPath) :ShapeBase(textureIdentifier, shaderIdentifier)
+	ObjShapeBase(std::string textureIdentifier, const std::string& objPath) :ShapeBase(textureIdentifier)
 	{		
 		Loader loader;
 		
-		std::vector<VertexFormatObjectWithUV> buffer = ObjReader::GetBufferWithUv(objPath);
+		std::vector<VertexFormatObjectWithUV> buffer = ObjReader::LoadObject(objPath);
 		_size = (sizeof(VertexFormatObjectWithUV) * buffer.size());
 
 		WithBuffer(&buffer[0], _size);
-		WithShader(ShaderIdentifier);
 
 		_layout->AddFloat(3);
 		_layout->AddFloat(3);
@@ -52,45 +48,35 @@ public:
 		diffuse_color = glm::vec3(0.5, 0.5, 0.3);
 		specular = glm::vec3(0.7, 0.7, 0.7);
 		power = 1024;
-
-		RefreshShaderProperties();
 	}
 
-	void RefreshShaderProperties() const
+	void SetUniforms(Shader* shader)
 	{
-		_shader->Bind();
-		ApplyShaderProperties();
-		_shader->Unbind();
+		shader->SetUniformMatrix4fv("model", _model);
+		shader->SetUniform3fv("light_pos", light_position);
+		shader->SetUniform3fv("mat_ambient", ambient_color);
+		shader->SetUniform3fv("mat_specular", specular);
+		shader->SetUniform1f("mat_power", power);
 	}
-
-	void ApplyShaderProperties() const
-	{
-		_shader->SetUniform3fv("light_pos", light_position);
-		_shader->SetUniform3fv("mat_ambient", ambient_color);
-		_shader->SetUniform3fv("mat_specular", specular);
-		_shader->SetUniform1f("mat_power", power);
-	}
-
+	
 	virtual void Draw(Graphics* graphics)  = 0;
 };
 
 class PBRTexturedObjectBase : public ShapeBase
 {
 public:
-	
+		
 	PBRTexturedObjectBase(PBRTexturedObjectBase* toClone) : ShapeBase(toClone)
 	{
-		TextureIdentifier = toClone->TextureIdentifier;
 	}
 
-	PBRTexturedObjectBase(std::string textureIdentifier, std::string shaderIdentifier, const std::string& objPath) :ShapeBase(
-		std::move(textureIdentifier), std::move(shaderIdentifier))
+	PBRTexturedObjectBase(std::string textureIdentifier, const std::string& objPath) :ShapeBase(
+		std::move(textureIdentifier))
 	{	
-		std::vector<VertexFormatObjectWithUV> buffer = ObjReader::LoadWithLib(objPath);
+		std::vector<VertexFormatObjectWithUV> buffer = ObjReader::LoadObject(objPath);
 		_size = sizeof(VertexFormatObjectWithUV) * buffer.size();
 
 		WithBuffer(&buffer[0], _size);
-		WithShader(ShaderIdentifier);
 
 		_layout->AddFloat(3);
 		_layout->AddFloat(3);
@@ -98,37 +84,31 @@ public:
 
 		_va->AddBuffer(_vb, _layout);
 	}
-
+		
 	virtual void Draw(Graphics* graphics) = 0;
 };
 
-
-
-class SpecularTexturedObjectBase : public ShapeBase
+class ShadowObjectBase : public ShapeBase
 {
 public:
 
-	SpecularTexturedObjectBase(PBRTexturedObjectBase* toClone) : ShapeBase(toClone)
+	ShadowObjectBase(PBRTexturedObjectBase* toClone) : ShapeBase(toClone)
 	{
 	}
 
-	SpecularTexturedObjectBase(std::string textureIdentifier, std::string shaderIdentifier, const std::string& objPath) :ShapeBase(
-		std::move(textureIdentifier), std::move(shaderIdentifier))
+	ShadowObjectBase(std::string textureIdentifier, const std::string& objPath) :ShapeBase(
+		std::move(textureIdentifier))
 	{
-		Loader loader;
-
-		std::vector<VertexFormatObjectWithUV> buffer = ObjReader::GetBufferWithUv(objPath);
+		std::vector<VertexFormatObjectWithUV> buffer = ObjReader::LoadObject(objPath);
 		_size = sizeof(VertexFormatObjectWithUV) * buffer.size();
 
 		WithBuffer(&buffer[0], _size);
-		WithShader(ShaderIdentifier);
-
 		_layout->AddFloat(3);
 		_layout->AddFloat(3);
 		_layout->AddFloat(2);
 
 		_va->AddBuffer(_vb, _layout);
 	}
-
+	
 	virtual void Draw(Graphics* graphics) = 0;
 };

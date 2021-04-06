@@ -147,15 +147,10 @@
   <ItemGroup>
     <None Include="res\shaders\cube3d.shader" />
     <None Include="res\shaders\shadowMapping.shader" />
-    <None Include="res\shaders\lights.shader" />
-    <None Include="res\shaders\lightCube.shader" />
-    <None Include="res\shaders\object.shader" />
-    <None Include="res\shaders\objectNoTexture.shader" />
+    <None Include="res\shaders\lighting.shader" />
     <None Include="res\shaders\PBR.shader" />
-    <None Include="res\shaders\baseShape.shader" />
     <None Include="res\shaders\shadowMap.shader" />
     <None Include="res\shaders\shadowMapQuadDebug.shader" />
-    <None Include="res\shaders\test.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="objectLoader.cpp" />
@@ -194,12 +189,8 @@
   <ItemGroup>
     <Image Include="res\textures\container2.bmp" />
     <Image Include="res\textures\container2_specular.bmp" />
-    <Image Include="res\textures\phone.png" />
     <Image Include="res\textures\timon.png" />
-    <Image Include="res\textures\uvmap.DDS" />
     <Image Include="res\textures\uvtemplate.bmp" />
-    <Image Include="res\textures\wall.jpg" />
-    <Image Include="res\textures\Yellobrk.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Buffers\FrameBuffer.h" />
@@ -218,12 +209,9 @@
     <ClInclude Include="src\Resources\TextureEntries.hpp" />
     <ClInclude Include="src\Resources\TexturePool.h" />
     <ClInclude Include="src\Resources\TexturePool.cpp" />
-    <ClInclude Include="src\Shapes\Objects\Car.hpp" />
     <ClInclude Include="src\Shapes\Objects\PBRTexturedBox.hpp" />
-    <ClInclude Include="src\Shapes\Objects\BoxMetalic.hpp" />
-    <ClInclude Include="src\Shapes\Objects\BoxWood.hpp" />
     <ClInclude Include="src\Shapes\Objects\sphere.hpp" />
-    <ClInclude Include="src\Shapes\Objects\Statue.hpp" />
+    <ClInclude Include="src\Shapes\Objects\Models.hpp" />
     <ClInclude Include="src\Shapes\ObjShapeBase.h" />
     <ClInclude Include="src\Vendor\imconfig.h" />
     <ClInclude Include="src\Vendor\imgui.h" />

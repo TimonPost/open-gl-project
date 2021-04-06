@@ -34,9 +34,6 @@
     <Filter Include="Source Files\Shapes\Objects">
       <UniqueIdentifier>{ddfdda7b-4ecc-46d7-a3c8-17632e44549d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Shapes\StaticShapes">
-      <UniqueIdentifier>{386e8a83-6b72-4b1c-95c4-50a88b444cde}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Resource">
       <UniqueIdentifier>{8612e243-c3e2-42ca-8767-e49dbeaaef5f}</UniqueIdentifier>
     </Filter>
@@ -158,28 +155,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\lightCube.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
     <None Include="res\shaders\PBR.shader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="res\shaders\baseShape.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="res\shaders\object.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
     <None Include="res\shaders\cube3d.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="res\shaders\lights.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="res\shaders\objectNoTexture.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="res\shaders\test.shader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="res\shaders\shadowMap.shader">
@@ -191,24 +170,15 @@
     <None Include="res\shaders\shadowMapQuadDebug.shader">
       <Filter>Resource Files\Shaders\shadowMapping</Filter>
     </None>
+    <None Include="res\shaders\lighting.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\textures\wall.jpg">
-      <Filter>Resource Files\textures</Filter>
-    </Image>
-    <Image Include="res\textures\phone.png">
-      <Filter>Resource Files\textures</Filter>
-    </Image>
     <Image Include="res\textures\timon.png">
       <Filter>Resource Files\textures</Filter>
     </Image>
-    <Image Include="res\textures\uvmap.DDS">
-      <Filter>Resource Files\textures</Filter>
-    </Image>
     <Image Include="res\textures\uvtemplate.bmp">
-      <Filter>Resource Files\textures</Filter>
-    </Image>
-    <Image Include="res\textures\Yellobrk.bmp">
       <Filter>Resource Files\textures</Filter>
     </Image>
     <Image Include="res\textures\container2.bmp">
@@ -297,12 +267,6 @@
     <ClInclude Include="src\Resources\Resources.hpp">
       <Filter>Source Files\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shapes\Objects\BoxMetalic.hpp">
-      <Filter>Source Files\Shapes\Objects\Box</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Shapes\Objects\BoxWood.hpp">
-      <Filter>Source Files\Shapes\Objects\Box</Filter>
-    </ClInclude>
     <ClInclude Include="src\Shapes\Objects\PBRTexturedBox.hpp">
       <Filter>Source Files\Shapes\Objects\Box</Filter>
     </ClInclude>
@@ -324,14 +288,11 @@
     <ClInclude Include="src\World\Game.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shapes\Objects\Car.hpp">
-      <Filter>Source Files\Shapes\Objects\Box</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Shapes\Objects\Statue.hpp">
-      <Filter>Source Files\Shapes\Objects\Box</Filter>
-    </ClInclude>
     <ClInclude Include="src\Buffers\FrameBuffer.h">
       <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shapes\Objects\Models.hpp">
+      <Filter>Source Files\Shapes\Objects\Box</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

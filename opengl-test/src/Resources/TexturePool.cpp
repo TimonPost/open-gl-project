@@ -23,6 +23,11 @@ void TexturePool::AddPBRTexture(PBRTextureEntry* entry)
 	PBRTextures.push_back(entry);
 }
 
+void TexturePool::AddObjectTexture(ObjectTextureEntry* entry)
+{
+	ObjectTextures.push_back(entry);
+}
+
 void TexturePool::AddSimpleTexture(SimpleTextureEntry* entry)
 {
 	SimpleTextures.push_back(entry);
