@@ -34,6 +34,10 @@ protected:
 
 public:
 	std::string TextureIdentifier;
+	ShapeBase()
+	{
+		
+	}
 	
 	ShapeBase(ShapeBase* shape) : ShapeBase(shape->TextureIdentifier)
 	{
@@ -57,32 +61,32 @@ public:
 		RefreshModel();
 	}
 	
-	void Scale(glm::vec3 scale)
+	virtual void Scale(glm::vec3 scale)
 	{
 		_scale = glm::scale(_scale, scale);
 		RefreshModel();
 	}
 
-	void Rotate(glm::vec3 rotate, float angle)
+	virtual void Rotate(glm::vec3 rotate, float angle)
 	{
 		_rotate = glm::rotate(_rotate, angle, rotate);
 		RefreshModel();
 	}
 
-	void Translate(glm::vec3 translate)
+	virtual void Translate(glm::vec3 translate)
 	{
 		_translate = glm::translate(_translate, translate);
 		RefreshModel();
 	}
 
-	void WithBuffer(void* data, int size)
+	virtual void WithBuffer(void* data, int size)
 	{
 		_va = std::make_unique<VertexArray>();
 		_vb = std::make_shared<VertexBuffer>(data, size);
 		_layout = std::make_shared<VertexBufferLayout>();
 	}
 
-	void WithIndexBuffer(unsigned int* indices, unsigned int size)
+	virtual void WithIndexBuffer(unsigned int* indices, unsigned int size)
 	{
 		_indexBuffer = std::make_unique<IndexBuffer>(indices, size);
 		_hasIndexBuffer = true;

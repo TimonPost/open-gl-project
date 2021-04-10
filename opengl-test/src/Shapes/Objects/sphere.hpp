@@ -1,8 +1,81 @@
 #pragma once
 
 #include "../ShapeBase.h"
-#include "../../Resources/TexturePool.h"
-#include "../../Buffers/FrameBuffer.h"
+
+class Animation
+{
+public:
+    glm::mat4 _translation;
+
+    float tick = 0;
+    float increment = 0;
+    virtual  glm::vec3 Advance() = 0;
+};
+
+class HorizontalCircleAnimation : public Animation
+{
+public:
+    HorizontalCircleAnimation()
+	{
+        increment = glm::pi<float>() / 60;
+	}
+	
+    glm::vec3 Advance() override
+	{
+        tick += increment;
+                
+        return glm::vec3(0.0, glm::cos(tick)*0.15, glm::sin(tick)*0.15);
+	}	
+};
+
+class VerticalCircleAnimation : public Animation
+{
+public:
+    VerticalCircleAnimation()
+    {
+        increment = glm::pi<float>() / 60;
+    }
+
+    glm::vec3 Advance() override
+    {
+        tick += increment;
+
+        return glm::vec3(glm::sin(tick) * 0.15, glm::cos(tick) * 0.15, 0.0);
+    }
+};
+
+class ZLineAnimation : public Animation
+{
+public:
+    ZLineAnimation()
+    {
+        increment = glm::pi<float>() / 60;
+    }
+
+    glm::vec3 Advance() override
+    {
+        tick += increment;
+
+        return glm::vec3(0, 0, glm::cos(tick) * 0.15);
+    }
+};
+
+class XLineAnimation : public Animation
+{
+public:
+    XLineAnimation()
+    {
+        increment = glm::pi<float>() / 60;        
+    }
+
+    glm::vec3 Advance() override
+    {
+        tick += increment;
+
+        return glm::vec3(glm::sin(tick) * 0.15, 0, 0.0);
+    }
+};
+
 
 class Sphere : public ShapeBase
 {
@@ -14,7 +87,9 @@ private:
     std::vector<glm::vec3> normals;
     unsigned int indices[8320];
     float data[33800];
-    	
+
+    Animation* animation;
+	
 	void CreateCircleArray()
 	{
         const unsigned int X_SEGMENTS = 64;
@@ -86,8 +161,9 @@ public:
     {        
     }
 	
-	Sphere(string textureId) : ShapeBase(textureId)
+	Sphere(string textureId, Animation* animation = nullptr) : ShapeBase(textureId)
 	{
+        this->animation = animation;
 		CreateCircleArray();
 
 		WithBuffer(data, sizeof(data));
@@ -101,7 +177,11 @@ public:
 	}
     
 	void ShapeBase::Draw(Graphics* graphics) override
-	{	
+	{
+        if (animation != NULL) {
+            Translate(animation->Advance());
+        }
+    	    	
         graphics->activeShader->SetUniformMatrix4fv("model", _model);
 		
 		glDrawElements(GL_TRIANGLE_STRIP, 8320, GL_UNSIGNED_INT, 0);        

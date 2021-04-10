@@ -1,16 +1,14 @@
 #pragma once
 
 #include "PBRTexturedBox.hpp"
- #include "../ShapeBase.h"
-#include "../../WorldLoader.hpp"
-#include "../../../objectLoader.h"
-#include "../../Resources/ObjectReader.hpp"
+#include "../../Resources/MeshObject.hpp"
+#include "../../Resources/ObjectReader.h"
 
-class StatueMesh : public PBRTexturedObject
+class StatueMesh : public MeshesLoader
 {
 
 public:
-    StatueMesh() : PBRTexturedObject(statue_texture, "C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\statue\\2k\\export.obj")
+    StatueMesh() : MeshesLoader(statue_texture, statue_meshID)
     {
     }
 };
@@ -32,3 +30,32 @@ public:
      {
      }     
  };
+  
+
+class Building : public MeshesLoader
+ {
+	
+ public:
+     Building() : MeshesLoader(building_texture, building_meshID)
+     {   
+     	
+     }
+ };
+
+class Post : public MeshesLoader
+{
+
+public:
+    Post() : MeshesLoader(post_texture, post_meshID)
+    {
+    }
+};
+
+class WindowMesh : public MeshesLoader
+{
+
+public:
+    WindowMesh() : MeshesLoader(window_texture, window_meshID)
+    {
+    }
+};

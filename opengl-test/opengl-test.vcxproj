@@ -145,7 +145,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="res\shaders\cube3d.shader" />
     <None Include="res\shaders\shadowMapping.shader" />
     <None Include="res\shaders\lighting.shader" />
     <None Include="res\shaders\PBR.shader" />
@@ -153,8 +152,6 @@
     <None Include="res\shaders\shadowMapQuadDebug.shader" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="objectLoader.cpp" />
-    <ClCompile Include="objectLoader.h" />
     <ClCompile Include="src\Buffers\FrameBuffer.cpp" />
     <ClCompile Include="src\Buffers\GLRegisterable.h" />
     <ClCompile Include="src\Buffers\IndexBuffer.cpp" />
@@ -163,8 +160,9 @@
     <ClCompile Include="src\Constants.h" />
     <ClCompile Include="src\GlWrap.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Resources\ObjectReader.hpp" />
-    <ClCompile Include="src\Resources\objloader.cpp" />
+    <ClCompile Include="src\Resources\objectLoader.cpp" />
+    <ClCompile Include="src\Resources\MeshPool.cpp" />
+    <ClCompile Include="src\Resources\ObjectReader.cpp" />
     <ClCompile Include="src\Resources\Shader.cpp" />
     <ClCompile Include="src\Resources\ShaderPool.cpp" />
     <ClCompile Include="src\Resources\stb_image.cpp" />
@@ -187,12 +185,11 @@
     <ClCompile Include="src\World\World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\textures\container2.bmp" />
-    <Image Include="res\textures\container2_specular.bmp" />
     <Image Include="res\textures\timon.png" />
     <Image Include="res\textures\uvtemplate.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Algorithm.hpp" />
     <ClInclude Include="src\Buffers\FrameBuffer.h" />
     <ClInclude Include="src\Buffers\IndexBuffer.h" />
     <ClInclude Include="src\Buffers\VertexArray.h" />
@@ -200,7 +197,13 @@
     <ClInclude Include="src\Buffers\VertexBufferLayout.h" />
     <ClInclude Include="src\GlWrap.h" />
     <ClInclude Include="src\Graphics.h" />
-    <ClInclude Include="src\Resources\objloader.h" />
+    <ClInclude Include="src\Math.hpp" />
+    <ClInclude Include="src\Resources\Material.hpp" />
+    <ClInclude Include="src\Resources\MeshObjectShape.hpp" />
+    <ClInclude Include="src\Resources\MeshObject.hpp" />
+    <ClInclude Include="src\Resources\objectLoader.h" />
+    <ClInclude Include="src\Resources\MeshPool.h" />
+    <ClInclude Include="src\Resources\ObjectReader.h" />
     <ClInclude Include="src\Resources\Resources.hpp" />
     <ClInclude Include="src\Resources\Shader.h" />
     <ClInclude Include="src\Resources\ShaderPool.h" />
@@ -221,7 +224,6 @@
     <ClInclude Include="src\Vendor\imstb_rectpack.h" />
     <ClInclude Include="src\Vendor\imstb_textedit.h" />
     <ClInclude Include="src\Vendor\imstb_truetype.h" />
-    <ClInclude Include="src\WorldLoader.hpp" />
     <ClInclude Include="src\World\Camera.h" />
     <ClInclude Include="src\World\Game.h" />
     <ClInclude Include="src\World\Lights.hpp" />

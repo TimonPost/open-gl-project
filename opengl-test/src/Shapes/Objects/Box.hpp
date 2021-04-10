@@ -6,8 +6,8 @@ class Box : public ObjShapeBase
 {
 
 public:
-	Box() : ObjShapeBase("uvTemplateTexture", "C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\ojbs\\box.obj")
-	{
+	Box(string textureIdentifier) : ObjShapeBase(textureIdentifier, cube_meshID)
+	{	
 	}
 	
 	void ObjShapeBase::Draw(Graphics* graphics) override

@@ -49,10 +49,10 @@ uniform sampler2D metallicMap;
 uniform sampler2D roughnessMap;
 uniform sampler2D aoMap;
 
-uniform vec3 lightPos;
 uniform vec3 viewPos;
 
-uniform PointLight pointLights[4];
+
+uniform PointLight pointLights[7];
 
 const float PI = 3.14159265359;
 
@@ -134,12 +134,12 @@ void main()
 
     // reflectance equation
     vec3 Lo = vec3(0.0);
-    for(int i = 0; i < 1; ++i) 
+    for(int i = 0; i < 7; ++i) 
     {
       Lo += CalculatePointLight(pointLights[i], N, V, albedo, metallic, roughness, F0);
     }   
 
-    vec3 ambient = vec3(0.03) * albedo * ao;
+    vec3 ambient = vec3(0.06) * albedo * ao;
     
     vec3 color = Lo + ambient;
 

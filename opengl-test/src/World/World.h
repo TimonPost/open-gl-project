@@ -6,8 +6,8 @@
 #include "Lights.hpp"
 #include "Renderer.h"
 #include "../Shapes/ShapeBase.h"
+#include "../Shapes/ObjShapeBase.h"
 #include "../Shapes/Objects/Box.hpp"
-#include "../GlWrap.h"
 #include "../Resources/Shader.h"
 #include "../Buffers/FrameBuffer.h"
 
@@ -16,13 +16,12 @@ class World
 private:
 	std::vector<ShapeBase*> _pbrShapes;
 	std::vector<ShapeBase*> _shadowShapes;
-	std::vector<ObjShapeBase*> _objectShapes;
+	std::vector<ShapeBase*> _objectShapes;
 	
 	std::shared_ptr<Renderer> _render;
 	
 	DirectionalLight directionalLight;
 	SpotLight spotLight;
-
 
 public:
 	ShadowMapFBO shadowMap;
@@ -38,22 +37,35 @@ public:
 
 	void Initialize()
 	{
-		for (int i = 0; i < pointLights.size(); i++)
+		const glm::vec3 lightSize = glm::vec3(0.5f, 0.5f, 0.5f);
+		const glm::vec3 lightColor = glm::vec3(0.5f, 0.5f, 0.5f);
+		
+		// Add point lights to the scene as physical objects for debugging purposes.
+		for (auto& pointLight : pointLights)
 		{
-			auto* lightCube = new Box();
-			lightCube->ambient_color = glm::vec3(1,1,1);
-			
-			auto* lightData = &pointLights[i];
-						
-			lightCube->Scale(glm::vec3(0.5f, 0.5f, 0.5f));
-			lightCube->Translate(lightData->position);		
+			auto* lightCube = new Box(uvTemplateTexture);
+			lightCube->ambient_color = lightColor;
+			lightCube->Scale(lightSize);
+			lightCube->Translate(pointLight.position);						
 			
 			_objectShapes.push_back(lightCube);
 		}
 
+		// Add directional light to the scene as physical objects for debugging purposes.
+		auto* lightCube = new Box(uvTemplateTexture);
+		lightCube->ambient_color = glm::vec3(0.2f, 1.0f, 0.2f);
+		lightCube->Scale(lightSize);
+		lightCube->Translate(_render->LightPosition());
+		_objectShapes.push_back(lightCube);
+		
 		shadowMap.Init();
 	}
 
+	Renderer* Render()
+	{
+		return _render.get();
+	}
+	
 	void SetSpotLight(SpotLight light)
 	{
 		spotLight = light;
@@ -66,12 +78,12 @@ public:
 			
 	void AddBPRShape(ShapeBase& shape);
 	void AddShadowShape(ShapeBase& shape);
-	void AddObjectShape(ObjShapeBase& shape);
+	void AddObjectShape(ShapeBase& shape);
 
 	Camera* MainCamera() const;
-	std::unique_ptr<Renderer>* Render();
 	void DrawShapes();
-	void RenderScene(Graphics* graphics);
+	void DrawObjectShapes(Graphics graphics);
+	void RenderShadowScene(Graphics* graphics);
 	void RenderPBRShapes(Graphics* graphics);
 	void RenderShadowShapes(Graphics* graphics);
 };

@@ -5,7 +5,7 @@
 
 Camera::Camera()
 {
-	position = glm::vec3(0.0f, 0.0f, 3.0f);
+	position = glm::vec3(0.0f, 5.0f, -4.0f);
 	Up = glm::vec3(0.0, 1.0, 0.0);
     Yaw = YAW;
 	Pitch = PITCH;
@@ -34,20 +34,32 @@ glm::mat4 Camera::GetMatrix() const
 	return glm::lookAt(position, position + Front, Up);
 }
 
-
-
 // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
 void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 {
+    glm::vec3 newPosition = position;
+
     float velocity = MovementSpeed * deltaTime;
     if (direction == FORWARD)
-        position += Front * velocity;
+        newPosition += Front * velocity;
     if (direction == BACKWARD)
-        position -= Front * velocity;
+        newPosition -= Front * velocity;
     if (direction == LEFT)
-        position -= Right * velocity;
+        newPosition -= Right * velocity;
     if (direction == RIGHT)
-        position += Right * velocity;
+        newPosition += Right * velocity;
+
+    if (newPosition.y < 5)
+    {
+        newPosition.y = 5;        
+    }
+
+	if (newPosition.x > -translate && newPosition.x < translate && newPosition.z > -translate +1 && newPosition.z < translate - 1)
+	{
+        position = newPosition;
+	}
+
+   
 }
 
 // processes input received from a mouse input system. Expects the offset value in both the x and y direction.

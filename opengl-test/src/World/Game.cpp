@@ -24,7 +24,6 @@ float Game::LastFrame() const
 	return lastFrame;
 }
 
-
 Game* Game::Instance()
 {
 	if (instance == 0)
@@ -33,8 +32,6 @@ Game* Game::Instance()
 	}
 
 	ShaderPool::Instance();
-
-
 	
 	return instance;
 }

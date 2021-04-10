@@ -3,9 +3,8 @@
 #include "ShapeBase.h"
 
 #include "VertexFormatObj.hpp"
-#include "../Resources/ObjectReader.hpp"
-
-#include "../../objectLoader.h"
+#include "../Resources/objectLoader.h"
+#include "../Resources/ObjectReader.h"
 
 class ObjShapeBase : public ShapeBase
 {
@@ -29,13 +28,15 @@ public:
 	}
 
 	ObjShapeBase(std::string textureIdentifier, const std::string& objPath) :ShapeBase(textureIdentifier)
-	{		
-		Loader loader;
-		
-		std::vector<VertexFormatObjectWithUV> buffer = ObjReader::LoadObject(objPath);
-		_size = (sizeof(VertexFormatObjectWithUV) * buffer.size());
+	{
+		MeshPool* pool = MeshPool::Instance();
 
-		WithBuffer(&buffer[0], _size);
+		vector<Mesh*> meshes = pool->GetMeshesById(objPath);
+		Mesh* mesh = meshes[0];
+		
+		_size = (sizeof(VertexFormatObjectWithUV) * mesh->Vertices.size());
+
+		WithBuffer(&mesh->Vertices[0], _size);
 
 		_layout->AddFloat(3);
 		_layout->AddFloat(3);
@@ -65,15 +66,15 @@ public:
 class PBRTexturedObjectBase : public ShapeBase
 {
 public:
-		
+
 	PBRTexturedObjectBase(PBRTexturedObjectBase* toClone) : ShapeBase(toClone)
 	{
 	}
 
 	PBRTexturedObjectBase(std::string textureIdentifier, const std::string& objPath) :ShapeBase(
 		std::move(textureIdentifier))
-	{	
-		std::vector<VertexFormatObjectWithUV> buffer = ObjReader::LoadObject(objPath);
+	{
+		std::vector<VertexFormatObjectWithUV> buffer = ObjectReader::LoadObject(objPath);
 		_size = sizeof(VertexFormatObjectWithUV) * buffer.size();
 
 		WithBuffer(&buffer[0], _size);
@@ -84,9 +85,10 @@ public:
 
 		_va->AddBuffer(_vb, _layout);
 	}
-		
+
 	virtual void Draw(Graphics* graphics) = 0;
 };
+
 
 class ShadowObjectBase : public ShapeBase
 {
@@ -99,7 +101,7 @@ public:
 	ShadowObjectBase(std::string textureIdentifier, const std::string& objPath) :ShapeBase(
 		std::move(textureIdentifier))
 	{
-		std::vector<VertexFormatObjectWithUV> buffer = ObjReader::LoadObject(objPath);
+		std::vector<VertexFormatObjectWithUV> buffer = ObjectReader::LoadObject(objPath);
 		_size = sizeof(VertexFormatObjectWithUV) * buffer.size();
 
 		WithBuffer(&buffer[0], _size);

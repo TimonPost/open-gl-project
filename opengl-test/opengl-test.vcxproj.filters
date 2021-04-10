@@ -96,20 +96,11 @@
     <ClCompile Include="src\Shapes\VertexFormatObj.hpp">
       <Filter>Source Files\Shapes</Filter>
     </ClCompile>
-    <ClCompile Include="objectLoader.cpp">
-      <Filter>Source Files\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="src\Shapes\ShapeBase.h">
       <Filter>Source Files\Shapes</Filter>
     </ClCompile>
-    <ClCompile Include="src\Resources\ObjectReader.hpp">
-      <Filter>Source Files\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="src\Buffers\GLRegisterable.h">
       <Filter>Header Files\Buffers</Filter>
-    </ClCompile>
-    <ClCompile Include="objectLoader.h">
-      <Filter>Header Files\Resource</Filter>
     </ClCompile>
     <ClCompile Include="src\Constants.h">
       <Filter>Source Files</Filter>
@@ -138,9 +129,6 @@
     <ClCompile Include="src\Resources\stb_image.cpp">
       <Filter>Source Files\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="src\Resources\objloader.cpp">
-      <Filter>Source Files\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="src\Shapes\Objects\Box.hpp">
       <Filter>Source Files\Shapes\Objects\Box</Filter>
     </ClCompile>
@@ -153,12 +141,18 @@
     <ClCompile Include="src\Buffers\FrameBuffer.cpp">
       <Filter>Source Files\Buffers</Filter>
     </ClCompile>
+    <ClCompile Include="src\Resources\ObjectReader.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resources\objectLoader.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resources\MeshPool.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\PBR.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="res\shaders\cube3d.shader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="res\shaders\shadowMap.shader">
@@ -179,12 +173,6 @@
       <Filter>Resource Files\textures</Filter>
     </Image>
     <Image Include="res\textures\uvtemplate.bmp">
-      <Filter>Resource Files\textures</Filter>
-    </Image>
-    <Image Include="res\textures\container2.bmp">
-      <Filter>Resource Files\textures</Filter>
-    </Image>
-    <Image Include="res\textures\container2_specular.bmp">
       <Filter>Resource Files\textures</Filter>
     </Image>
   </ItemGroup>
@@ -258,9 +246,6 @@
     <ClInclude Include="src\Resources\texture.hpp">
       <Filter>Source Files\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="src\Resources\objloader.h">
-      <Filter>Header Files\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="src\Shapes\Objects\sphere.hpp">
       <Filter>Source Files\Shapes\Objects</Filter>
     </ClInclude>
@@ -282,9 +267,6 @@
     <ClInclude Include="src\Resources\TextureEntries.hpp">
       <Filter>Source Files\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="src\WorldLoader.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\World\Game.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
@@ -293,6 +275,30 @@
     </ClInclude>
     <ClInclude Include="src\Shapes\Objects\Models.hpp">
       <Filter>Source Files\Shapes\Objects\Box</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\Material.hpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\MeshObject.hpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Algorithm.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\ObjectReader.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\objectLoader.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\MeshObjectShape.hpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\MeshPool.h">
+      <Filter>Header Files\Resource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

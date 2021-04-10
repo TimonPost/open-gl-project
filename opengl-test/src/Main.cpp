@@ -7,7 +7,7 @@
 #include <fstream>
 
 #include "GlWrap.h"
-#include "WorldLoader.hpp"
+#include "Resources/WorldLoader.hpp"
 #include "Resources/Shader.h"
 #include "World/Renderer.h"
 #include "World/Window.h"

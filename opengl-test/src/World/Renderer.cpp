@@ -62,7 +62,7 @@ glm::mat4 Renderer::LightProjection() const
 
 glm::vec3 Renderer::LightPosition() const
 {
-	return glm::vec3(-2.0f, 10.0f, -10.0f);
+	return glm::vec3(-4.0f, 15, 20.0f);
 }
 
 glm::mat4 Renderer::LightView() const

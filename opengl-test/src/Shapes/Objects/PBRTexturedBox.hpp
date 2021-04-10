@@ -2,7 +2,6 @@
 
 #include "../ObjShapeBase.h"
 #include "../../Graphics.h"
-#include "../../Resources/TexturePool.h"
 
 class PBRTexturedBox : public PBRTexturedObjectBase
 {
@@ -15,9 +14,9 @@ public:
 	}
 
 	void PBRTexturedObjectBase::Draw(Graphics* graphics) override
-	{		
+	{
 		graphics->activeShader->SetUniformMatrix4fv("model", _model);
-		
+
 		glDrawArrays(GL_TRIANGLES, 0, _size);
 	}
 
@@ -33,12 +32,11 @@ public:
 	}
 
 	void PBRTexturedObjectBase::Draw(Graphics* graphics) override
-	{		
-		graphics->activeShader->SetUniformMatrix4fv("model", _model); 
+	{
+		graphics->activeShader->SetUniformMatrix4fv("model", _model);
 
 		glDrawArrays(GL_TRIANGLES, 0, _size);
 	}
 
 	virtual ~PBRTexturedObject() = default;
 };
-
