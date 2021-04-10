@@ -2,6 +2,9 @@
 
 #include "glm.hpp"
 
+/// <summary>
+/// Vertex format with position and normal.
+/// </summary>
 struct VertexFormatObject
 {
 	glm::vec3 position;
@@ -20,23 +23,4 @@ struct VertexFormatObject
 	}
 
 	~VertexFormatObject() = default;
-};
-
-struct VertexFormatObjectWithUV : public VertexFormatObject
-{
-	glm::vec2 uvs;
-
-	VertexFormatObjectWithUV() : VertexFormatObject()
-	{
-		uvs = glm::vec2();
-	}
-
-	VertexFormatObjectWithUV(glm::vec3 _pos, const glm::vec3 _normals, glm::vec2 _uvs)
-	{
-		this->position = _pos;
-		this->normal = _normals;
-		this->uvs = _uvs;
-	}
-
-	~VertexFormatObjectWithUV() = default;
 };

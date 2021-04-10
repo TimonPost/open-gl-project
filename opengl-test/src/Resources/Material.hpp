@@ -3,9 +3,12 @@
 #include <string>
 #include <vec3.hpp>
 
-struct Material
+/// <summary>
+/// A mesh its material.
+/// </summary>
+struct material
 {
-	Material()
+	material()
 	{
 		name;
 		Ns = 0.0f;

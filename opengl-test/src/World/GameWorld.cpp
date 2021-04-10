@@ -1,32 +1,32 @@
-#include "World.h"
+#include "GameWorld.h"
 
-World::World(std::shared_ptr<Renderer>& render)
+GameWorld::GameWorld(std::shared_ptr<Renderer>& render)
 {
 	_render = render;
 
 }
 
-void World::AddBPRShape(ShapeBase& shape)
+void GameWorld::AddBPRShape(ShapeBase& shape)
 {
 	_pbrShapes.push_back(&shape);
 }
 
-void World::AddShadowShape(ShapeBase& shape)
+void GameWorld::AddShadowShape(ShapeBase& shape)
 {
     _shadowShapes.push_back(&shape);
 }
 
-void World::AddObjectShape(ShapeBase& shape)
+void GameWorld::AddObjectShape(ShapeBase& shape)
 {
     _objectShapes.push_back(&shape);
 }
 
-Camera* World::MainCamera() const
+Camera* GameWorld::MainCamera() const
 {
 	return _render->camera.get();
 }
 
-void World::DrawShapes()
+void GameWorld::Render()
 {
     Graphics graphics;
     graphics.Render = _render.get();
@@ -39,12 +39,12 @@ void World::DrawShapes()
     DrawObjectShapes(graphics);
 }
 
-void World::DrawObjectShapes(Graphics graphics)
+void GameWorld::DrawObjectShapes(Graphics graphics)
 {
-    Shader* objectShader = ShaderPool::Instance()->GetShaderById(objectShaderID);
+    Shader* objectShader = ShaderPool::Instance()->GetShaderById(object_shaderID);
     objectShader->Bind();
-    objectShader->SetUniformMatrix4fv("projection", _render->P());
-    objectShader->SetUniformMatrix4fv("view", _render->V());
+    objectShader->SetUniformMatrix4fv("projection", _render->CameraProjection());
+    objectShader->SetUniformMatrix4fv("view", _render->CameraView());
 
     graphics.activeShader = objectShader;
 
@@ -61,14 +61,14 @@ void World::DrawObjectShapes(Graphics graphics)
     }	
 }
 
-void World::RenderPBRShapes(Graphics* graphics)
+void GameWorld::RenderPBRShapes(Graphics* graphics)
 {
-    Shader* pbrShader = ShaderPool::Instance()->GetShaderById(pbrShaderID);
+    Shader* pbrShader = ShaderPool::Instance()->GetShaderById(pbr_shaderID);
     pbrShader->Bind();
 	
     graphics->ApplyLightsToShader(pbrShader);
-    pbrShader->SetUniformMatrix4fv("projection", _render->P());
-    pbrShader->SetUniformMatrix4fv("view", _render->V());
+    pbrShader->SetUniformMatrix4fv("projection", _render->CameraProjection());
+    pbrShader->SetUniformMatrix4fv("view", _render->CameraView());
     pbrShader->SetUniform3fv("viewPos", _render->camera->position);
     pbrShader->SetUniform3fv("lightPos", _render->LightPosition());
     
@@ -83,12 +83,12 @@ void World::RenderPBRShapes(Graphics* graphics)
     }
 }
 
-void World::RenderShadowShapes(Graphics* graphics)
+void GameWorld::RenderShadowShapes(Graphics* graphics)
 {	
 	// Start pass
-    shadowMap.ShadowMapPass(graphics->Render);
+    shadowMap.StartShadowMapPass(graphics->Render);
 
-    graphics->activeShader = shadowMap._shadowShader;
+    graphics->activeShader = shadowMap.shadowShader;
 
     RenderShadowScene(graphics);
 
@@ -96,13 +96,13 @@ void World::RenderShadowShapes(Graphics* graphics)
 
     // Scene Pass
 	
-    shadowMap.ScenePassStart(GL_TEXTURE1);
+    shadowMap.StartScenePass(GL_TEXTURE1);
 	
-    Shader* shadowMapShader = ShaderPool::Instance()->GetShaderById(shadowMappingShaderID);
+    Shader* shadowMapShader = ShaderPool::Instance()->GetShaderById(shadow_passtrough_shaderID);
     shadowMapShader->Bind();
     	
-    shadowMapShader->SetUniformMatrix4fv("projection", _render->P());
-    shadowMapShader->SetUniformMatrix4fv("view", _render->V());
+    shadowMapShader->SetUniformMatrix4fv("projection", _render->CameraProjection());
+    shadowMapShader->SetUniformMatrix4fv("view", _render->CameraView());
     shadowMapShader->SetUniform3fv("viewPos", _render->camera->position);
     shadowMapShader->SetUniform3fv("lightPos", _render->LightPosition());
     shadowMapShader->SetUniformMatrix4fv("lightSpaceMatrix", _render->LightSpaceMVP());
@@ -114,7 +114,7 @@ void World::RenderShadowShapes(Graphics* graphics)
 }
 
 
-void World::RenderShadowScene(Graphics* graphics)
+void GameWorld::RenderShadowScene(Graphics* graphics)
 {
     for (int i = 0; i < _shadowShapes.size(); i++)
     {

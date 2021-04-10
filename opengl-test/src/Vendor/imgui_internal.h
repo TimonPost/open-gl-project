@@ -394,7 +394,8 @@ static inline ImVec4 ImLerp(const ImVec4& a, const ImVec4& b, float t)          
 static inline float  ImSaturate(float f)                                        { return (f < 0.0f) ? 0.0f : (f > 1.0f) ? 1.0f : f; }
 static inline float  ImLengthSqr(const ImVec2& lhs)                             { return (lhs.x * lhs.x) + (lhs.y * lhs.y); }
 static inline float  ImLengthSqr(const ImVec4& lhs)                             { return (lhs.x * lhs.x) + (lhs.y * lhs.y) + (lhs.z * lhs.z) + (lhs.w * lhs.w); }
-static inline float  ImInvLength(const ImVec2& lhs, float fail_value)           { float d = (lhs.x * lhs.x) + (lhs.y * lhs.y); if (d > 0.0f) return 1.0f / ImSqrt(d); return fail_value; }
+static inline float  ImInvLength(const ImVec2& lhs, float fail_value)           {
+	const float d = (lhs.x * lhs.x) + (lhs.y * lhs.y); if (d > 0.0f) return 1.0f / ImSqrt(d); return fail_value; }
 static inline float  ImFloor(float f)                                           { return (float)(int)(f); }
 static inline ImVec2 ImFloor(const ImVec2& v)                                   { return ImVec2((float)(int)(v.x), (float)(int)(v.y)); }
 static inline int    ImModPositive(int a, int b)                                { return (a + b) % b; }
@@ -472,17 +473,20 @@ struct IMGUI_API ImRect
 };
 
 // Helper: ImBitArray
-inline bool     ImBitArrayTestBit(const ImU32* arr, int n)      { ImU32 mask = (ImU32)1 << (n & 31); return (arr[n >> 5] & mask) != 0; }
-inline void     ImBitArrayClearBit(ImU32* arr, int n)           { ImU32 mask = (ImU32)1 << (n & 31); arr[n >> 5] &= ~mask; }
-inline void     ImBitArraySetBit(ImU32* arr, int n)             { ImU32 mask = (ImU32)1 << (n & 31); arr[n >> 5] |= mask; }
+inline bool     ImBitArrayTestBit(const ImU32* arr, int n)      {
+	const ImU32 mask = (ImU32)1 << (n & 31); return (arr[n >> 5] & mask) != 0; }
+inline void     ImBitArrayClearBit(ImU32* arr, int n)           {
+	const ImU32 mask = (ImU32)1 << (n & 31); arr[n >> 5] &= ~mask; }
+inline void     ImBitArraySetBit(ImU32* arr, int n)             {
+	const ImU32 mask = (ImU32)1 << (n & 31); arr[n >> 5] |= mask; }
 inline void     ImBitArraySetBitRange(ImU32* arr, int n, int n2) // Works on range [n..n2)
 {
     n2--;
     while (n <= n2)
     {
-        int a_mod = (n & 31);
-        int b_mod = (n2 > (n | 31) ? 31 : (n2 & 31)) + 1;
-        ImU32 mask = (ImU32)(((ImU64)1 << b_mod) - 1) & ~(ImU32)(((ImU64)1 << a_mod) - 1);
+	    const int a_mod = (n & 31);
+	    const int b_mod = (n2 > (n | 31) ? 31 : (n2 & 31)) + 1;
+	    const ImU32 mask = (ImU32)(((ImU64)1 << b_mod) - 1) & ~(ImU32)(((ImU64)1 << a_mod) - 1);
         arr[n >> 5] |= mask;
         n = (n + 32) & ~31;
     }
@@ -511,8 +515,10 @@ struct IMGUI_API ImBitVector
     void            Create(int sz)              { Storage.resize((sz + 31) >> 5); memset(Storage.Data, 0, (size_t)Storage.Size * sizeof(Storage.Data[0])); }
     void            Clear()                     { Storage.clear(); }
     bool            TestBit(int n) const        { IM_ASSERT(n < (Storage.Size << 5)); return ImBitArrayTestBit(Storage.Data, n); }
-    void            SetBit(int n)               { IM_ASSERT(n < (Storage.Size << 5)); ImBitArraySetBit(Storage.Data, n); }
-    void            ClearBit(int n)             { IM_ASSERT(n < (Storage.Size << 5)); ImBitArrayClearBit(Storage.Data, n); }
+    void            SetBit(int n) const
+    { IM_ASSERT(n < (Storage.Size << 5)); ImBitArraySetBit(Storage.Data, n); }
+    void            ClearBit(int n) const
+    { IM_ASSERT(n < (Storage.Size << 5)); ImBitArrayClearBit(Storage.Data, n); }
 };
 
 // Helper: ImSpan<>
@@ -530,8 +536,8 @@ struct ImSpan
 
     inline void         set(T* data, int size)      { Data = data; DataEnd = data + size; }
     inline void         set(T* data, T* data_end)   { Data = data; DataEnd = data_end; }
-    inline int          size() const                { return (int)(ptrdiff_t)(DataEnd - Data); }
-    inline int          size_in_bytes() const       { return (int)(ptrdiff_t)(DataEnd - Data) * (int)sizeof(T); }
+    inline int          size() const                { return (ptrdiff_t)(DataEnd - Data); }
+    inline int          size_in_bytes() const       { return (ptrdiff_t)(DataEnd - Data) * (int)sizeof(T); }
     inline T&           operator[](int i)           { T* p = Data + i; IM_ASSERT(p >= Data && p < DataEnd); return *p; }
     inline const T&     operator[](int i) const     { const T* p = Data + i; IM_ASSERT(p >= Data && p < DataEnd); return *p; }
 
@@ -541,7 +547,7 @@ struct ImSpan
     inline const T*     end() const                 { return DataEnd; }
 
     // Utilities
-    inline int  index_from_ptr(const T* it) const   { IM_ASSERT(it >= Data && it < DataEnd); const ptrdiff_t off = it - Data; return (int)off; }
+    inline int  index_from_ptr(const T* it) const   { IM_ASSERT(it >= Data && it < DataEnd); const ptrdiff_t off = it - Data; return off; }
 };
 
 // Helper: ImSpanAllocator<>
@@ -558,7 +564,7 @@ struct ImSpanAllocator
 
     ImSpanAllocator()                               { memset(this, 0, sizeof(*this)); }
     inline void  Reserve(int n, size_t sz, int a=4) { IM_ASSERT(n == CurrIdx && n < CHUNKS); CurrOff = IM_MEMALIGN(CurrOff, a); Offsets[n] = CurrOff; Sizes[n] = (int)sz; CurrIdx++; CurrOff += (int)sz; }
-    inline int   GetArenaSizeInBytes()              { return CurrOff; }
+    inline int   GetArenaSizeInBytes() const { return CurrOff; }
     inline void  SetArenaBasePtr(void* base_ptr)    { BasePtr = (char*)base_ptr; }
     inline void* GetSpanPtrBegin(int n)             { IM_ASSERT(n >= 0 && n < CHUNKS && CurrIdx == CHUNKS); return (void*)(BasePtr + Offsets[n]); }
     inline void* GetSpanPtrEnd(int n)               { IM_ASSERT(n >= 0 && n < CHUNKS && CurrIdx == CHUNKS); return (void*)(BasePtr + Offsets[n] + Sizes[n]); }
@@ -605,12 +611,16 @@ struct IMGUI_API ImChunkStream
     void    clear()                     { Buf.clear(); }
     bool    empty() const               { return Buf.Size == 0; }
     int     size() const                { return Buf.Size; }
-    T*      alloc_chunk(size_t sz)      { size_t HDR_SZ = 4; sz = IM_MEMALIGN(HDR_SZ + sz, 4u); int off = Buf.Size; Buf.resize(off + (int)sz); ((int*)(void*)(Buf.Data + off))[0] = (int)sz; return (T*)(void*)(Buf.Data + off + (int)HDR_SZ); }
-    T*      begin()                     { size_t HDR_SZ = 4; if (!Buf.Data) return NULL; return (T*)(void*)(Buf.Data + HDR_SZ); }
-    T*      next_chunk(T* p)            { size_t HDR_SZ = 4; IM_ASSERT(p >= begin() && p < end()); p = (T*)(void*)((char*)(void*)p + chunk_size(p)); if (p == (T*)(void*)((char*)end() + HDR_SZ)) return (T*)0; IM_ASSERT(p < end()); return p; }
+    T*      alloc_chunk(size_t sz)      {
+	    const size_t HDR_SZ = 4; sz = IM_MEMALIGN(HDR_SZ + sz, 4u);
+	    const int off = Buf.Size; Buf.resize(off + (int)sz); ((int*)(void*)(Buf.Data + off))[0] = (int)sz; return (T*)(void*)(Buf.Data + off + (int)HDR_SZ); }
+    T*      begin()                     {
+	    const size_t HDR_SZ = 4; if (!Buf.Data) return NULL; return (T*)(void*)(Buf.Data + HDR_SZ); }
+    T*      next_chunk(T* p)            {
+	    const size_t HDR_SZ = 4; IM_ASSERT(p >= begin() && p < end()); p = (T*)(void*)((char*)(void*)p + chunk_size(p)); if (p == (T*)(void*)((char*)end() + HDR_SZ)) return 0; IM_ASSERT(p < end()); return p; }
     int     chunk_size(const T* p)      { return ((const int*)p)[-1]; }
     T*      end()                       { return (T*)(void*)(Buf.Data + Buf.Size); }
-    int     offset_from_ptr(const T* p) { IM_ASSERT(p >= begin() && p < end()); const ptrdiff_t off = (const char*)p - Buf.Data; return (int)off; }
+    int     offset_from_ptr(const T* p) { IM_ASSERT(p >= begin() && p < end()); const ptrdiff_t off = (const char*)p - Buf.Data; return off; }
     T*      ptr_from_offset(int off)    { IM_ASSERT(off >= 4 && off < Buf.Size); return (T*)(void*)(Buf.Data + off); }
     void    swap(ImChunkStream<T>& rhs) { rhs.Buf.swap(Buf); }
 
@@ -1262,7 +1272,7 @@ struct IMGUI_API ImGuiStackSizes
 
     ImGuiStackSizes() { memset(this, 0, sizeof(*this)); }
     void SetToCurrentState();
-    void CompareWithCurrentState();
+    void CompareWithCurrentState() const;
 };
 
 //-----------------------------------------------------------------------------
@@ -1846,7 +1856,8 @@ public:
     float       TitleBarHeight() const  { ImGuiContext& g = *GImGui; return (Flags & ImGuiWindowFlags_NoTitleBar) ? 0.0f : CalcFontSize() + g.Style.FramePadding.y * 2.0f; }
     ImRect      TitleBarRect() const    { return ImRect(Pos, ImVec2(Pos.x + SizeFull.x, Pos.y + TitleBarHeight())); }
     float       MenuBarHeight() const   { ImGuiContext& g = *GImGui; return (Flags & ImGuiWindowFlags_MenuBar) ? DC.MenuBarOffset.y + CalcFontSize() + g.Style.FramePadding.y * 2.0f : 0.0f; }
-    ImRect      MenuBarRect() const     { float y1 = Pos.y + TitleBarHeight(); return ImRect(Pos.x, y1, Pos.x + SizeFull.x, y1 + MenuBarHeight()); }
+    ImRect      MenuBarRect() const     {
+	    const float y1 = Pos.y + TitleBarHeight(); return ImRect(Pos.x, y1, Pos.x + SizeFull.x, y1 + MenuBarHeight()); }
 };
 
 // Backup and restore just enough data to be able to use IsItemHovered() on item A after another B in the same window has overwritten the data.

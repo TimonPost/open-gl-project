@@ -29,7 +29,7 @@ void Camera::RefreshCameraData()
     Up = glm::normalize(glm::cross(Right, Front));
 }
 
-glm::mat4 Camera::GetMatrix() const
+glm::mat4 Camera::GetViewMatrix() const
 {
 	return glm::lookAt(position, position + Front, Up);
 }
@@ -39,7 +39,7 @@ void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 {
     glm::vec3 newPosition = position;
 
-    float velocity = MovementSpeed * deltaTime;
+    const float velocity = MovementSpeed * deltaTime;
     if (direction == FORWARD)
         newPosition += Front * velocity;
     if (direction == BACKWARD)
@@ -87,7 +87,7 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constr
 // processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
 void Camera::ProcessMouseScroll(float yoffset)
 {
-    Zoom -= (float)yoffset;
+    Zoom -= yoffset;
     if (Zoom < 1.0f)
         Zoom = 1.0f;
     if (Zoom > 45.0f)

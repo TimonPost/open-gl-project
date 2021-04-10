@@ -2,11 +2,11 @@
 
 #include <string>
 
-MeshPool* MeshPool::instance = 0;
+MeshPool* MeshPool::instance = nullptr;
 
 MeshPool* MeshPool::Instance()
 {
-	if (instance == 0)
+	if (instance == nullptr)
 	{
 		instance = new MeshPool();
 	}
@@ -14,18 +14,18 @@ MeshPool* MeshPool::Instance()
 	return instance;
 }
 
-void MeshPool::AddMesh(Mesh* entry)
+void MeshPool::AddMesh(mesh* entry)
 {
 	Meshes.push_back(entry);
 }
 
-vector<Mesh*> MeshPool::GetMeshesById(std::string objectId)
+std::vector<mesh*> MeshPool::GetMeshesById(std::string meshId)
 {
-	vector<Mesh*> foundMeshes = vector<Mesh*>();
+	std::vector<mesh*> foundMeshes = std::vector<mesh*>();
 	
 	for (auto mesh: Meshes)
 	{
-		if (mesh->MeshName == objectId)
+		if (mesh->MeshName == meshId)
 			foundMeshes.push_back(mesh);
 	}
 

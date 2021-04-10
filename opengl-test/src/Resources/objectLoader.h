@@ -6,13 +6,10 @@
 
 #include "Material.hpp"
 #include "MeshObjectShape.hpp"
-#include "MeshObject.hpp"
 
 #include "../Algorithm.hpp"
 #include "../Math.hpp"
 
-// Class: Loader
-//
 // Description: The OBJ Model Loader
 class ObjectLoader
 {
@@ -23,7 +20,7 @@ private:
 		const std::vector<glm::vec3>& iPositions,
 		const std::vector<glm::vec2>& iTCoords,
 		const std::vector<glm::vec3>& iNormals,
-		std::string icurline);
+		std::string icurline) const;
 
 	void VertexTriangluation(std::vector<unsigned int>& oIndices,
 		const std::vector<VertexFormatObjectWithUV>& iVerts);
@@ -32,19 +29,18 @@ private:
 	bool LoadMaterials(std::string path);
 
 public:
-	// Default Constructor
 	ObjectLoader();
 
 	~ObjectLoader();
 
 	// Loaded Mesh Objects
-	std::vector<Mesh> LoadedMeshes;
+	std::vector<mesh> LoadedMeshes;
 	// Loaded Vertex Objects
 	std::vector<VertexFormatObjectWithUV> LoadedVertices;
 	// Loaded Index Positions
 	std::vector<unsigned int> LoadedIndices;
 	// Loaded Material Objects
-	std::vector<Material> LoadedMaterials;
+	std::vector<material> LoadedMaterials;
 
 	// Load a file into the loader
 	//

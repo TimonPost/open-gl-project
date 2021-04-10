@@ -13,35 +13,44 @@
 
 #include "../Buffers/GLRegisterable.h"
 
-struct ShaderProgramSource
+struct shader_program_source
 {
 	std::string VertexSource;
 	std::string FragmentSource;
 };
 
-enum class ShaderType
+enum class shader_type
 {
 	NONE = -1,
 	VERTEX = 0,
 	FRAGMENT = 1
 };
 
-
-class Shader : GLRegisterable
+/// <summary>
+/// Abstraction over an opgengl shader.
+/// </summary>
+class Shader final : GLRegisterable
 {
-private:
 	std::string _filePath;
-	std::unordered_map<std::string, int> m_UniformLocationCache;
-	
+	std::unordered_map<std::string, int> uniformLocationCache;
+private:
+	static unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
+	static unsigned int CompileShader(unsigned int type, const std::string& source);
+	shader_program_source ParseShader(const std::string& filePath) const;
+
 public:
 	std::string Label;
 	
 	Shader(const std::string& filePath, std::string label);
-	virtual ~Shader();
+	~Shader() override;
 
 	void Bind() const override;
 	void Unbind() const override;
 
+	/// <summary>
+	/// Returns the shader path.
+	/// </summary>
+	/// <returns></returns>
 	std::string Path() const;
 
 	// Set uniforms
@@ -52,8 +61,5 @@ public:
 	void SetUniformMatrix4fv(const std::string& name, glm::mat4 value);
 	int GetUniformLocation(const std::string& name);
 	int GetAttributeLocation(const std::string& name) const;
-private:
-	static unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
-	static unsigned int CompileShader(unsigned int type, const std::string& source);
-	ShaderProgramSource ParseShader(const std::string& filePath) const;
+
 };

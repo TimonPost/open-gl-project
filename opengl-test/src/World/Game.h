@@ -1,10 +1,12 @@
 #pragma once
 
-#include "World.h"
+#include "GameWorld.h"
 
+/// <summary>
+/// The main game entry.
+/// </summary>
 class Game
 {
-private:
 	static Game* instance;
 
 	// timing
@@ -15,7 +17,7 @@ private:
 
 public:
 	std::shared_ptr<Renderer> render = std::make_shared<Renderer>();
-	World world = World(render);
+	GameWorld world = GameWorld(render);
 
 	void Tick();
 	float DeltaTime() const;

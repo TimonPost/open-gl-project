@@ -5,7 +5,7 @@
 
 #include "MeshObjectShape.hpp"
 #include "objectLoader.h"
-#include "../Shapes/VertexFormatObj.hpp"
+#include "../Shapes/VertexformatObjectWithUV.hpp"
 
 
 std::vector<VertexFormatObjectWithUV> ObjectReader::LoadObject(const std::string path)
@@ -16,7 +16,7 @@ std::vector<VertexFormatObjectWithUV> ObjectReader::LoadObject(const std::string
 	return ObjectLoader.LoadedVertices;
 }
 
-std::vector<Mesh> ObjectReader::LoadMeshes(const std::string path)
+std::vector<mesh> ObjectReader::LoadMeshes(const std::string path)
 {
 	ObjectLoader ObjectLoader;
 	bool loadout = ObjectLoader.LoadFile(path);
@@ -24,4 +24,3 @@ std::vector<Mesh> ObjectReader::LoadMeshes(const std::string path)
 	return ObjectLoader.LoadedMeshes;
 }
 
-ObjectReader::~ObjectReader() = default;

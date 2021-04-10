@@ -4,7 +4,10 @@
 #include <GL/glew.h>
 #include "../GlWrap.h"
 
-struct VertexBufferElement
+/// <summary>
+/// Specifies the layout in a buffer.
+/// </summary>
+struct VertexLayoutElement
 {
 	unsigned int type;
 	unsigned int count;
@@ -23,30 +26,51 @@ struct VertexBufferElement
 	}
 };
 
-class VertexBufferLayout
+/// <summary>
+/// Layout manager for the opengl buffer.
+/// </summary>
+class vertex_buffer_layout
 {
-private:
 	unsigned int _stride;
-	std::vector<VertexBufferElement> _elements;
+	std::vector<VertexLayoutElement> _elements;
 
 public:
-	VertexBufferLayout() :
+	vertex_buffer_layout() :
 		_stride(0)
 	{
 	}
 
+	/// <summary>
+	/// Adds one or more floats to the layout.
+	/// </summary>
+	/// <param name="count"></param>
 	void AddFloat(unsigned int count) { Push(GL_FLOAT, count, GL_FALSE); }
+
+	/// <summary>
+	/// Adds one or more integers to the layout.
+	/// </summary>
+	/// <param name="count"></param>
 	void AddUnsignedInt(unsigned int count) { Push(GL_UNSIGNED_INT, count, GL_FALSE); }
+
+	/// <summary>
+	/// Adds one or more bytes to the layout.
+	/// </summary>
+	/// <param name="count"></param>
 	void AddUnsignedByte(unsigned int count) { Push(GL_UNSIGNED_BYTE, count, GL_TRUE); }
 
-	std::vector<VertexBufferElement> GetElements() const { return _elements; };
-	unsigned int GetStride() const { return _stride; };
+	/// <summary>
+	/// Gets the layout elements making up the layout.
+	/// </summary>
+	/// <param name="count"></param>
+	std::vector<VertexLayoutElement> GetElements() const { return _elements; }
+	
+	unsigned int GetStride() const { return _stride; }
 
 private:
 	void Push(unsigned int type, unsigned int count, unsigned char normalized)
 	{
-		const struct VertexBufferElement vbe = {type, count, normalized};
+		const struct VertexLayoutElement vbe = {type, count, normalized};
 		_elements.push_back(vbe);
-		_stride += count * VertexBufferElement::GetSizeOfType(type);
+		_stride += count * VertexLayoutElement::GetSizeOfType(type);
 	};
 };

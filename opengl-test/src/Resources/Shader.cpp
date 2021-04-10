@@ -6,7 +6,7 @@
 
 Shader::Shader(const std::string& filePath, std::string label)
 {
-	const ShaderProgramSource source = ParseShader(filePath);
+	const shader_program_source source = ParseShader(filePath);
 	_registerId = CreateShader(source.VertexSource, source.FragmentSource);
 	_filePath = filePath;
 	Label = std::move(label);
@@ -60,9 +60,9 @@ void Shader::SetUniformMatrix4fv(const std::string& name, glm::mat4 value)
 
 int Shader::GetUniformLocation(const std::string& name)
 {
-	if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
+	if (uniformLocationCache.find(name) != uniformLocationCache.end())
 	{
-		return m_UniformLocationCache[name];
+		return uniformLocationCache[name];
 	}
 
 	int location;
@@ -72,7 +72,7 @@ int Shader::GetUniformLocation(const std::string& name)
 	{
 		std::cout << "Warning: uniform '" << name << "'doesnt exist!" << std::endl;
 	}
-	m_UniformLocationCache[name] = location;
+	uniformLocationCache[name] = location;
 	return location;
 }
 
@@ -110,8 +110,8 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
 {
 	unsigned int program;
 	GLCall(program = glCreateProgram());
-	unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
-	unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
+	const unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
+	const unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
 
 	GLCall(glAttachShader(program, vs));
 	GLCall(glAttachShader(program, fs));
@@ -124,13 +124,13 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
 	return program;
 }
 
-ShaderProgramSource Shader::ParseShader(const std::string& filePath) const
+shader_program_source Shader::ParseShader(const std::string& filePath) const
 {
 	std::ifstream stream(filePath);
 
 	std::string line;
 	std::stringstream ss[2];
-	ShaderType type = ShaderType::NONE;
+	shader_type type = shader_type::NONE;
 
 	while (getline(stream, line))
 	{
@@ -138,11 +138,11 @@ ShaderProgramSource Shader::ParseShader(const std::string& filePath) const
 		{
 			if (line.find("vertex") != std::string::npos)
 			{
-				type = ShaderType::VERTEX;
+				type = shader_type::VERTEX;
 			}
 			else if (line.find("fragment") != std::string::npos)
 			{
-				type = ShaderType::FRAGMENT;
+				type = shader_type::FRAGMENT;
 			}
 		}
 		else
@@ -151,7 +151,7 @@ ShaderProgramSource Shader::ParseShader(const std::string& filePath) const
 		}
 	}
 
-	return ShaderProgramSource{ss[0].str(), ss[1].str()};
+	return shader_program_source{ss[0].str(), ss[1].str()};
 }
 
 int Shader::GetAttributeLocation(const std::string& name) const

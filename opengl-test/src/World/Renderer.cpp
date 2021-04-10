@@ -12,8 +12,8 @@ Renderer::Renderer()
 	camera = std::make_unique<Camera>();
 
 	_identity = glm::mat4(1.0f);
-	_model = glm::scale(_identity, glm::vec3(UNIT_SIZE, UNIT_SIZE, UNIT_SIZE));
-	_view = camera->GetMatrix();
+	_model = glm::scale(_identity, glm::vec3(1, 1, 1));
+	_view = camera->GetViewMatrix();
 
 	UpdateProjection(SCREEN_WIDTH, SCREEN_HEIGHT, DEFAULT_ASPECT_RATIO, FAR_PLANE, NEAR_PLANE);
 }
@@ -21,7 +21,7 @@ Renderer::Renderer()
 void Renderer::UpdateProjection(float screenWidth, float screenHeight, float aspectRatio, float nearPlane,
                                 float farPlane)
 {
-	_projection = glm::perspective(glm::radians(camera->Zoom), (float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
+	_projection = glm::perspective(glm::radians(camera->Zoom), screenWidth / screenHeight, 0.1f, 100.0f);
 }
 
 void Renderer::Clear()
@@ -29,34 +29,34 @@ void Renderer::Clear()
 	GLCall(glClear(GL_COLOR_BUFFER_BIT));
 }
 
-glm::mat4 Renderer::M() const
+glm::mat4 Renderer::CameraModel() const
 {
 	return _model;
 }
 
-glm::mat4 Renderer::P() const
+glm::mat4 Renderer::CameraProjection() const
 {
 	return _projection;
 }
 
-glm::mat4 Renderer::V() const
+glm::mat4 Renderer::CameraView() const
 {
-	return camera->GetMatrix();
+	return camera->GetViewMatrix();
 }
 
-glm::mat4 Renderer::MV() const
+glm::mat4 Renderer::CameraMV() const
 {
-	return V() * M();
+	return CameraView() * CameraModel();
 }
 
-glm::mat4 Renderer::MVP() const
+glm::mat4 Renderer::CameraMVP() const
 {
-	return P() * MV();
+	return CameraProjection() * CameraMV();
 }
 
 glm::mat4 Renderer::LightProjection() const
 {
-	float near_plane = 1.0f, far_plane = 50.5f;
+	const float near_plane = 1.0f, far_plane = 50.5f;
 	return glm::ortho(-30.0f, 30.0f, -5.0f, 30.0f, near_plane, far_plane);
 }
 

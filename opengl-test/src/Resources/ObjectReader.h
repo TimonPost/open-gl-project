@@ -4,14 +4,20 @@
 
 #include "MeshObjectShape.hpp"
 
-struct VertexFormatObjectWithUV;
-
 class ObjectReader
 {
 public:
+	/// <summary>
+	/// Returns a vector with vertex information from a single mesh.
+	/// </summary>
+	/// <param name="path"></param>
+	/// <returns></returns>
 	static std::vector<VertexFormatObjectWithUV> LoadObject(const std::string path);
 
-	static std::vector<Mesh> LoadMeshes(const std::string path);
-
-	~ObjectReader();
+	/// <summary>
+	/// Returns a vector with meshes from an object file.
+	/// </summary>
+	/// <param name="path"></param>
+	/// <returns></returns>
+	static std::vector<mesh> LoadMeshes(const std::string path);
 };

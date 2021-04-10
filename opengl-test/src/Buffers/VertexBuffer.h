@@ -3,6 +3,9 @@
 #include "GLRegisterable.h"
 #include "../GlWrap.h"
 
+/// <summary>
+/// Abstraction for the opengl vertex buffer.
+/// </summary>
 class VertexBuffer : public GLRegisterable
 {
 public:

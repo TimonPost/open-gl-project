@@ -6,11 +6,11 @@ TexturePool::TexturePool(TexturePool const&)
 {
 }
 
-TexturePool* TexturePool::instance = 0;
+TexturePool* TexturePool::instance = nullptr;
 
 TexturePool* TexturePool::Instance()
 {
-	if (instance == 0)
+	if (instance == nullptr)
 	{
 		instance = new TexturePool();
 	}
@@ -21,11 +21,6 @@ TexturePool* TexturePool::Instance()
 void TexturePool::AddPBRTexture(PBRTextureEntry* entry)
 {
 	PBRTextures.push_back(entry);
-}
-
-void TexturePool::AddObjectTexture(ObjectTextureEntry* entry)
-{
-	ObjectTextures.push_back(entry);
 }
 
 void TexturePool::AddSimpleTexture(SimpleTextureEntry* entry)
@@ -41,7 +36,7 @@ SimpleTextureEntry* TexturePool::GetSimpleTextureById(const std::string textureI
 			return simple_texture;
 	}
 
-	throw "Texture Could not be found";
+	throw std::exception("Texture Could not be found");
 }
 
 PBRTextureEntry* TexturePool::GetPBRById(const std::string textureId)
@@ -52,5 +47,5 @@ PBRTextureEntry* TexturePool::GetPBRById(const std::string textureId)
 			return pbr_texture;
 	}
 
-	throw "Texture Could not be found";
+	throw std::exception("Texture Could not be found");
 }

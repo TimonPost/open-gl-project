@@ -152,7 +152,6 @@
     <None Include="res\shaders\shadowMapQuadDebug.shader" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Buffers\FrameBuffer.cpp" />
     <ClCompile Include="src\Buffers\GLRegisterable.h" />
     <ClCompile Include="src\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="src\Buffers\VertexArray.cpp" />
@@ -160,14 +159,12 @@
     <ClCompile Include="src\Constants.h" />
     <ClCompile Include="src\GlWrap.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Resources\objectLoader.cpp" />
     <ClCompile Include="src\Resources\MeshPool.cpp" />
+    <ClCompile Include="src\Resources\ObjectLoader.cpp" />
     <ClCompile Include="src\Resources\ObjectReader.cpp" />
     <ClCompile Include="src\Resources\Shader.cpp" />
     <ClCompile Include="src\Resources\ShaderPool.cpp" />
-    <ClCompile Include="src\Resources\stb_image.cpp" />
     <ClCompile Include="src\Shapes\Objects\Box.hpp" />
-    <ClCompile Include="src\Shapes\Objects\Teapot.hpp" />
     <ClCompile Include="src\Shapes\ShapeBase.h" />
     <ClCompile Include="src\Shapes\VertexFormat.hpp" />
     <ClCompile Include="src\Shapes\VertexFormatObj.hpp" />
@@ -178,19 +175,16 @@
     <ClCompile Include="src\Vendor\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\Vendor\imgui_tables.cpp" />
     <ClCompile Include="src\Vendor\imgui_widgets.cpp" />
+    <ClCompile Include="src\Vendor\stb_image.cpp" />
     <ClCompile Include="src\World\Camera.cpp" />
     <ClCompile Include="src\World\Game.cpp" />
     <ClCompile Include="src\World\Renderer.cpp" />
-    <ClCompile Include="src\World\Window.cpp" />
-    <ClCompile Include="src\World\World.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\textures\timon.png" />
-    <Image Include="res\textures\uvtemplate.bmp" />
+    <ClCompile Include="src\World\GameWindow.cpp" />
+    <ClCompile Include="src\World\GameWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Algorithm.hpp" />
-    <ClInclude Include="src\Buffers\FrameBuffer.h" />
+    <ClInclude Include="src\Buffers\ShadowMap.h" />
     <ClInclude Include="src\Buffers\IndexBuffer.h" />
     <ClInclude Include="src\Buffers\VertexArray.h" />
     <ClInclude Include="src\Buffers\VertexBuffer.h" />
@@ -199,23 +193,25 @@
     <ClInclude Include="src\Graphics.h" />
     <ClInclude Include="src\Math.hpp" />
     <ClInclude Include="src\Resources\Material.hpp" />
+    <ClInclude Include="src\Resources\Mesh.hpp" />
+    <ClInclude Include="src\Resources\MeshesLoader.hpp" />
     <ClInclude Include="src\Resources\MeshObjectShape.hpp" />
-    <ClInclude Include="src\Resources\MeshObject.hpp" />
-    <ClInclude Include="src\Resources\objectLoader.h" />
     <ClInclude Include="src\Resources\MeshPool.h" />
     <ClInclude Include="src\Resources\ObjectReader.h" />
-    <ClInclude Include="src\Resources\Resources.hpp" />
     <ClInclude Include="src\Resources\Shader.h" />
     <ClInclude Include="src\Resources\ShaderPool.h" />
-    <ClInclude Include="src\Resources\stb_image.h" />
-    <ClInclude Include="src\Resources\texture.hpp" />
+    <ClInclude Include="src\Resources\Texture.hpp" />
     <ClInclude Include="src\Resources\TextureEntries.hpp" />
     <ClInclude Include="src\Resources\TexturePool.h" />
     <ClInclude Include="src\Resources\TexturePool.cpp" />
     <ClInclude Include="src\Shapes\Objects\PBRTexturedBox.hpp" />
-    <ClInclude Include="src\Shapes\Objects\sphere.hpp" />
     <ClInclude Include="src\Shapes\Objects\Models.hpp" />
+    <ClInclude Include="src\Shapes\Objects\PBRTexturedObject.hpp" />
+    <ClInclude Include="src\Shapes\Objects\Sphere.hpp" />
     <ClInclude Include="src\Shapes\ObjShapeBase.h" />
+    <ClInclude Include="src\Shapes\PBRTexturedObjectBase.hpp" />
+    <ClInclude Include="src\Shapes\ShadowObjectBase.hpp" />
+    <ClInclude Include="src\Shapes\VertexformatObjectWithUV.hpp" />
     <ClInclude Include="src\Vendor\imconfig.h" />
     <ClInclude Include="src\Vendor\imgui.h" />
     <ClInclude Include="src\Vendor\imgui_impl_glfw.h" />
@@ -224,12 +220,13 @@
     <ClInclude Include="src\Vendor\imstb_rectpack.h" />
     <ClInclude Include="src\Vendor\imstb_textedit.h" />
     <ClInclude Include="src\Vendor\imstb_truetype.h" />
+    <ClInclude Include="src\Vendor\stb_image.h" />
     <ClInclude Include="src\World\Camera.h" />
     <ClInclude Include="src\World\Game.h" />
     <ClInclude Include="src\World\Lights.hpp" />
     <ClInclude Include="src\World\Renderer.h" />
-    <ClInclude Include="src\World\Window.h" />
-    <ClInclude Include="src\World\World.h" />
+    <ClInclude Include="src\World\GameWindow.h" />
+    <ClInclude Include="src\World\GameWorld.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

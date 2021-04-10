@@ -12,7 +12,7 @@ VertexArray::~VertexArray()
 	GLCall(glDeleteVertexArrays(1, &_registerId));
 }
 
-void VertexArray::AddBuffer(std::shared_ptr<VertexBuffer>& vb, std::shared_ptr<VertexBufferLayout>& layout) const
+void VertexArray::AddBuffer(std::shared_ptr<VertexBuffer>& vb, std::shared_ptr<vertex_buffer_layout>& layout) const
 {
 	Bind();
 	vb->Bind();

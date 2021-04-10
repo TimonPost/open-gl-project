@@ -1,4 +1,4 @@
-#include "objectLoader.h"
+#include "ObjectLoader.h"
 
 // Default Constructor
 ObjectLoader::ObjectLoader()
@@ -43,7 +43,7 @@ bool ObjectLoader::LoadFile(std::string Path)
 	bool listening = false;
 	std::string meshname;
 
-	Mesh tempMesh;
+	mesh tempMesh;
 
 #ifdef OBJL_CONSOLE_OUTPUT
 	const unsigned int outputEveryNth = 1000;
@@ -92,7 +92,7 @@ bool ObjectLoader::LoadFile(std::string Path)
 				if (!Indices.empty() && !Vertices.empty())
 				{
 					// Create Mesh
-					tempMesh = Mesh(Vertices, Indices);
+					tempMesh = mesh(Vertices, Indices);
 					tempMesh.MeshName = meshname;
 
 					// Insert Mesh
@@ -182,10 +182,10 @@ bool ObjectLoader::LoadFile(std::string Path)
 			// Add Indices
 			for (int i = 0; i < int(iIndices.size()); i++)
 			{
-				unsigned int indnum = (unsigned int)((Vertices.size()) - vVerts.size()) + iIndices[i];
+				unsigned int indnum = Vertices.size() - vVerts.size() + iIndices[i];
 				Indices.push_back(indnum);
 
-				indnum = (unsigned int)((LoadedVertices.size()) - vVerts.size()) + iIndices[i];
+				indnum = LoadedVertices.size() - vVerts.size() + iIndices[i];
 				LoadedIndices.push_back(indnum);
 
 			}
@@ -199,7 +199,7 @@ bool ObjectLoader::LoadFile(std::string Path)
 			if (!Indices.empty() && !Vertices.empty())
 			{
 				// Create Mesh
-				tempMesh = Mesh(Vertices, Indices);
+				tempMesh = mesh(Vertices, Indices);
 				tempMesh.MeshName = meshname;
 				int i = 2;
 				while (1) {
@@ -263,7 +263,7 @@ bool ObjectLoader::LoadFile(std::string Path)
 	if (!Indices.empty() && !Vertices.empty())
 	{
 		// Create Mesh
-		tempMesh = Mesh(Vertices, Indices);
+		tempMesh = mesh(Vertices, Indices);
 		tempMesh.MeshName = meshname;
 
 		// Insert Mesh
@@ -305,7 +305,7 @@ void ObjectLoader::GenVerticesFromRawOBJ(std::vector<VertexFormatObjectWithUV>& 
 	const std::vector<glm::vec3>& iPositions,
 	const std::vector<glm::vec2>& iTCoords,
 	const std::vector<glm::vec3>& iNormals,
-	std::string icurline)
+	std::string icurline) const
 {
 	std::vector<std::string> sface, svert;
 	VertexFormatObjectWithUV vVert;
@@ -592,7 +592,7 @@ bool ObjectLoader::LoadMaterials(std::string path)
 	if (!file.is_open())
 		return false;
 
-	Material tempMaterial;
+	material tempMaterial;
 
 	bool listening = false;
 
@@ -624,7 +624,7 @@ bool ObjectLoader::LoadMaterials(std::string path)
 				LoadedMaterials.push_back(tempMaterial);
 
 				// Clear Loaded Material
-				tempMaterial = Material();
+				tempMaterial = material();
 
 				if (curline.size() > 7)
 				{

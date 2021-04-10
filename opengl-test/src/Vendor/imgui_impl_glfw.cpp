@@ -184,7 +184,7 @@ static bool ImGui_ImplGlfw_Init(GLFWwindow* window, bool install_callbacks, Glfw
     // (By design, on X11 cursors are user configurable and some cursors may be missing. When a cursor doesn't exist,
     // GLFW will emit an error which will often be printed by the app, so we temporarily disable error reporting.
     // Missing cursors will return NULL and our _UpdateMouseCursor() function will use the Arrow cursor instead.)
-    GLFWerrorfun prev_error_callback = glfwSetErrorCallback(NULL);
+    const GLFWerrorfun prev_error_callback = glfwSetErrorCallback(NULL);
     g_MouseCursors[ImGuiMouseCursor_Arrow] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
     g_MouseCursors[ImGuiMouseCursor_TextInput] = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
     g_MouseCursors[ImGuiMouseCursor_ResizeNS] = glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR);
@@ -278,7 +278,7 @@ static void ImGui_ImplGlfw_UpdateMousePosAndButtons()
     {
         if (io.WantSetMousePos)
         {
-            glfwSetCursorPos(g_Window, (double)mouse_pos_backup.x, (double)mouse_pos_backup.y);
+            glfwSetCursorPos(g_Window, mouse_pos_backup.x, mouse_pos_backup.y);
         }
         else
         {
@@ -295,7 +295,7 @@ static void ImGui_ImplGlfw_UpdateMouseCursor()
     if ((io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange) || glfwGetInputMode(g_Window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED)
         return;
 
-    ImGuiMouseCursor imgui_cursor = ImGui::GetMouseCursor();
+    const ImGuiMouseCursor imgui_cursor = ImGui::GetMouseCursor();
     if (imgui_cursor == ImGuiMouseCursor_None || io.MouseDrawCursor)
     {
         // Hide OS mouse cursor if imgui is drawing it or if it wants no cursor
@@ -362,8 +362,8 @@ void ImGui_ImplGlfw_NewFrame()
         io.DisplayFramebufferScale = ImVec2((float)display_w / w, (float)display_h / h);
 
     // Setup time step
-    double current_time = glfwGetTime();
-    io.DeltaTime = g_Time > 0.0 ? (float)(current_time - g_Time) : (float)(1.0f / 60.0f);
+    const double current_time = glfwGetTime();
+    io.DeltaTime = g_Time > 0.0 ? (float)(current_time - g_Time) : 1.0f / 60.0f;
     g_Time = current_time;
 
     ImGui_ImplGlfw_UpdateMousePosAndButtons();

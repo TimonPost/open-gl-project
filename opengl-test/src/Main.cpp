@@ -10,10 +10,9 @@
 #include "Resources/WorldLoader.hpp"
 #include "Resources/Shader.h"
 #include "World/Renderer.h"
-#include "World/Window.h"
+#include "World/GameWindow.h"
 
-#include "World/World.h"
-#include "Shapes/Objects/Car.hpp"
+#include "World/GameWorld.h"
 
 #include "Vendor/imgui.h"
 #include "Vendor/imgui_impl_glfw.h"
@@ -27,7 +26,7 @@ float lastX = 400, lastY = 300;
 float yaw = -90, pitch = 0;
 bool firstMouse = true;
 
-Window window;
+GameWindow window;
 
 void window_size_callback(GLFWwindow* glfWindow, int width, int height)
 {
@@ -39,7 +38,7 @@ void window_size_callback(GLFWwindow* glfWindow, int width, int height)
 	window.SetHeight(height);
 
 	game->render->UpdateProjection(width, height, DEFAULT_ASPECT_RATIO, camera->NearPlane, camera->FarPlane);
-	glViewport(0, 0, static_cast<GLint>(width), static_cast<GLint>(height));
+	glViewport(0, 0, width, height);
 }
 
 void ScrollBack(GLFWwindow* glfWindow, double xoffset, double yoffset)
@@ -68,8 +67,7 @@ void KeyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods
 
 void MouseCallback(GLFWwindow* w, double xPos, double yPos)
 {
-
-	int button = glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_RIGHT);
+	const int button = glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_RIGHT);
 
 	if (button != GLFW_PRESS)
 	{
@@ -82,10 +80,10 @@ void MouseCallback(GLFWwindow* w, double xPos, double yPos)
 		lastY = yPos;
 		firstMouse = false;
 	}
-		
 
-	float xoffset = xPos - lastX;
-	float yoffset = lastY - yPos; // reversed since y-coordinates go from bottom to top
+
+	const float xoffset = xPos - lastX;
+	const float yoffset = lastY - yPos; // reversed since y-coordinates go from bottom to top
 
 	lastX = xPos;
 	lastY = yPos;
@@ -111,7 +109,7 @@ public:
 		
 	void Initialize(ShapeBase* base);
 
-	void Update();
+	void Update() const;
 
 	void Draw();
 };
@@ -126,7 +124,7 @@ void ModelEditor::Initialize(ShapeBase* base)
 	this->initialized = true;
 }
 
-void ModelEditor::Update()
+void ModelEditor::Update() const
 {
 	if (this->initialized)
 	{
@@ -196,7 +194,7 @@ int main()
 	
 	window.SetCallback(KeyCallback, MouseCallback, window_size_callback, ScrollBack);
 
-	 WorldLoader loader;
+	const WorldLoader loader;
 	 loader.InitializeWorld(&game->world);
 	 	
 	/* Loop until the user closes the window */

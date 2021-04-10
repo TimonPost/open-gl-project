@@ -26,7 +26,7 @@ namespace math
 	// Projection Calculation of a onto b
 	inline glm::vec3 ProjV3(const glm::vec3 a, const glm::vec3 b)
 	{
-		glm::vec3 bn = b / MagnitudeV3(b);
+		const glm::vec3 bn = b / MagnitudeV3(b);
 		return bn * glm::dot(a, bn);
 	}
 }

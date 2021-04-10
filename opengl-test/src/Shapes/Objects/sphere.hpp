@@ -99,11 +99,11 @@ private:
         {
             for (unsigned int x = 0; x <= X_SEGMENTS; ++x)
             {
-                float xSegment = (float)x / (float)X_SEGMENTS;
-                float ySegment = (float)y / (float)Y_SEGMENTS;
-                float xPos = std::cos(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
-                float yPos = std::cos(ySegment * PI);
-                float zPos = std::sin(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+	            const float xSegment = (float)x / (float)X_SEGMENTS;
+	            const float ySegment = (float)y / (float)Y_SEGMENTS;
+	            const float xPos = std::cos(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+	            const float yPos = std::cos(ySegment * PI);
+	            const float zPos = std::sin(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
 
                 positions.push_back(glm::vec3(xPos, yPos, zPos));
                 uv.push_back(glm::vec2(xSegment, ySegment));
@@ -161,7 +161,7 @@ public:
     {        
     }
 	
-	Sphere(string textureId, Animation* animation = nullptr) : ShapeBase(textureId)
+	Sphere(std::string textureId, Animation* animation = nullptr) : ShapeBase(textureId)
 	{
         this->animation = animation;
 		CreateCircleArray();

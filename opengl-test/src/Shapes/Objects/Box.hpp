@@ -1,12 +1,13 @@
 #pragma once
 
 #include "../ObjShapeBase.h"
+#include "../ShadowObjectBase.hpp"
 
 class Box : public ObjShapeBase
 {
 
 public:
-	Box(string textureIdentifier) : ObjShapeBase(textureIdentifier, cube_meshID)
+	Box(std::string textureIdentifier) : ObjShapeBase(textureIdentifier, cube_meshID)
 	{	
 	}
 	
@@ -24,7 +25,7 @@ public:
 class CubeShadowObject : public ShadowObjectBase
 {
 public:
-	CubeShadowObject(string textureIdentifier) : ShadowObjectBase(textureIdentifier, "C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\ojbs\\box.obj")
+	CubeShadowObject(std::string textureIdentifier) : ShadowObjectBase(textureIdentifier, "C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\box.obj")
 	{
 	}
 

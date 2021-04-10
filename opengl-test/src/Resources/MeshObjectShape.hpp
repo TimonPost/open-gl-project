@@ -3,44 +3,17 @@
 #include "../Shapes/ShapeBase.h"
 #include "../Shapes/VertexFormatObj.hpp"
 #include "Material.hpp"
+#include "mesh.hpp"
 
-// Structure: Mesh
-//
-// Description: A Simple Mesh Object that holds
-//	a name, a vertex list, and an index list
-struct Mesh
-{
-	// Default Constructor
-	Mesh()
-	{}
-
-	// Variable Set Constructor
-	Mesh(std::vector<VertexFormatObjectWithUV>& _Vertices, std::vector<unsigned int>& _Indices)
-	{
-		Vertices = _Vertices;
-		Indices = _Indices;
-	}
-	// Mesh Name
-	std::string MeshName;
-	// Vertex List
-	std::vector<VertexFormatObjectWithUV> Vertices;
-	// Index List
-	std::vector<unsigned int> Indices;
-
-	// Material
-	Material MeshMaterial;
-};
-
-// Structure: Mesh
-//
-// Description: A Simple Mesh Object that holds
-//	a name, a vertex list, and an index list
+/// <summary>
+/// A Simple Mesh Object that holds a name, a vertex list, and an index list. 
+/// </summary>
 class MeshObjectShape : public ShapeBase
 {
 public:
 	
 	// Variable Set Constructor
-	MeshObjectShape(Mesh mesh) : ShapeBase("")
+	MeshObjectShape(mesh mesh) : ShapeBase("")
 	{
 		Vertices = mesh.Vertices;
 		Indices = mesh.Indices;
@@ -65,7 +38,7 @@ public:
 	// Index List
 	std::vector<unsigned int> Indices;
 	// Material
-	Material MeshMaterial;
+	material MeshMaterial;
 
 	void Draw(Graphics* graphics) override
 	{

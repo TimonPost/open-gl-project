@@ -1,4 +1,4 @@
-#include "Window.h"
+#include "GameWindow.h"
 
 #include <iostream>
 
@@ -7,7 +7,7 @@
 #include "../Vendor/imgui_impl_opengl3.h"
 
 
-int Window::CreateWindow()
+int GameWindow::CreateWindow()
 {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -40,7 +40,7 @@ int Window::CreateWindow()
 	return 1;
 }
 
-void Window::StartFrame() const
+void GameWindow::StartFrame() const
 {
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
@@ -50,13 +50,13 @@ void Window::StartFrame() const
 	ImGui::NewFrame();
 }
 
-void Window::EndFrame() const
+void GameWindow::EndFrame() const
 {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void Window::Tick() const
+void GameWindow::Tick() const
 {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -68,17 +68,17 @@ void Window::Tick() const
 	GLCall(glfwPollEvents())
 }
 
-bool Window::ShouldClose() const
+bool GameWindow::ShouldClose() const
 {
 	return glfwWindowShouldClose(_window);
 }
 
-GLFWwindow* Window::GetWindowRef() const
+GLFWwindow* GameWindow::GetWindowRef() const
 {
 	return _window;
 }
 
-void Window::SetCallback(GLFWkeyfun keyCallback, GLFWcursorposfun mouseCallback, GLFWwindowsizefun resizeCallback, GLFWscrollfun scrollFun) const
+void GameWindow::SetCallback(GLFWkeyfun keyCallback, GLFWcursorposfun mouseCallback, GLFWwindowsizefun resizeCallback, GLFWscrollfun scrollFun) const
 {
 	GLCall(glfwSetKeyCallback(_window, keyCallback));
 	GLCall(glfwSetCursorPosCallback(_window, mouseCallback));
@@ -87,32 +87,32 @@ void Window::SetCallback(GLFWkeyfun keyCallback, GLFWcursorposfun mouseCallback,
 	GLCall(glfwSetInputMode(_window, GLFW_STICKY_KEYS | GLFW_CURSOR, GLFW_CURSOR_DISABLED));
 }
 
-int Window::CalculateAspectRatio()
+int GameWindow::CalculateAspectRatio()
 {
 	return 1.0f * SCREEN_WIDTH / SCREEN_HEIGHT;
 }
 
-int Window::Width() const
+int GameWindow::Width() const
 {
 	return screenWidth;
 }
 
-int Window::Height() const
+int GameWindow::Height() const
 {
 	return screenHeight;
 }
 
-void Window::SetWidth(int width)
+void GameWindow::SetWidth(int width)
 {
 	screenHeight = width;
 }
 
-void Window::SetHeight(int height)
+void GameWindow::SetHeight(int height)
 {
 	screenHeight = height;
 }
 
-void  Window::Terminate()
+void  GameWindow::Terminate()
 {
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();

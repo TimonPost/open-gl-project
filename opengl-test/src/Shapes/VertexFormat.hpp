@@ -2,14 +2,15 @@
 
 #include "glm.hpp"
 
+/// <summary>
+/// Most basic vertex buffer format.
+/// </summary>
 struct VertexFormat
 {
-	glm::vec4 position;
-	glm::vec4 color;
+	glm::vec4 position{};
+	glm::vec4 color{};
 
-	VertexFormat()
-	{
-	}
+	VertexFormat() = default;
 
 	VertexFormat(glm::vec4 pos, glm::vec4 col)
 	{
@@ -17,7 +18,5 @@ struct VertexFormat
 		color = col;
 	}
 
-	~VertexFormat()
-	{
-	}
+	~VertexFormat() = default;
 };

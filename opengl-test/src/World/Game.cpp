@@ -11,7 +11,7 @@ void Game::Tick()
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
-	world.DrawShapes();
+	world.Render();
 }
 
 float Game::DeltaTime() const

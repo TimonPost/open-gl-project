@@ -3,35 +3,50 @@
 #include "Resources/ShaderPool.h"
 #include "Resources/TexturePool.h"
 #include "Resources/MeshPool.h"
-#include "World/World.h"
+#include "World/GameWorld.h"
 #include "Shapes/Objects/Box.hpp"
-#include "Shapes/Objects/BoxWood.hpp"
+#include "Shapes/ShadowObjectBase.hpp"
+#include "Shapes/PBRTexturedObjectBase.hpp"
 #include "Shapes/Objects/Models.hpp"
 #include "Shapes/Objects/Sphere.hpp"
 #include "../Resources/objectLoader.h"
 
-
-
 class WorldLoader
-{	
-	static void AddCoordinateLines(World* world)
+{
+	/// <summary>
+	/// Adds the given meshes to the mesh pool.
+	/// </summary>
+	/// <param name="meshPool"></param>
+	/// <param name="meshes"></param>
+	/// <param name="meshId"></param>
+	static void AddMeshesToPool(MeshPool* meshPool, std::vector<mesh>& meshes, std::string meshId)
+	{
+		for (auto& m : meshes)
+		{
+			auto* heapMesh = new mesh(m);
+			heapMesh->MeshName = meshId;
+			meshPool->AddMesh(heapMesh);
+		}
+	}
+	
+	static void InitializeCoordinateLines(GameWorld* world)
 	{
 		float thickness = 0.3;
 		float lenght = 200;
 
-		Box* x = new Box(uvTemplateTexture);
+		Box* x = new Box(wood_textureID);
 		x->Translate(glm::vec3(-0, -0, -0));
-		x->Scale(glm::vec3(UNIT_SIZE * lenght, UNIT_SIZE * thickness, UNIT_SIZE * thickness));
+		x->Scale(glm::vec3(1 * lenght, 1 * thickness, 1 * thickness));
 		x->ambient_color = glm::vec3(1, 0, 0);
 
-		Box* y = new Box(uvTemplateTexture);
+		Box* y = new Box(wood_textureID);
 		y->Translate(glm::vec3(-0, -0, -0));
-		y->Scale(glm::vec3(UNIT_SIZE * thickness, UNIT_SIZE * lenght, UNIT_SIZE * thickness));
+		y->Scale(glm::vec3(1 * thickness, 1 * lenght, 1 * thickness));
 		y->ambient_color = glm::vec3(0, 1, 0);
 
-		Box* z = new Box(uvTemplateTexture);
+		Box* z = new Box(wood_textureID);
 		z->Translate(glm::vec3(-0, -0, -0));
-		z->Scale(glm::vec3(UNIT_SIZE * thickness, UNIT_SIZE * thickness, UNIT_SIZE * lenght));
+		z->Scale(glm::vec3(1 * thickness, 1 * thickness, 1 * lenght));
 		z->ambient_color = glm::vec3(0, 0, 1);
 
 		world->AddObjectShape(*x);
@@ -39,7 +54,7 @@ class WorldLoader
 		world->AddObjectShape(*z);
 	}
 
-	static void AddMeshes(World* world, vector<MeshObjectShape*> meshes)
+	static void AddMeshes(GameWorld* world, std::vector<MeshObjectShape*> meshes)
 	{
 		for (auto mesh : meshes)
 		{
@@ -47,13 +62,17 @@ class WorldLoader
 		}
 	}
 
-	static void AddShadowMeshes(World* world, ShapeBase* shape)
+	static void AddShadowMesh(GameWorld* world, ShapeBase* shape)
 	{
 		shape->Scale(glm::vec3(0.9,0.9,0.9));
 		world->AddShadowShape(*shape);
 	}
 
-	static void TestSpheres(World* world)
+	/// <summary>
+	/// Initaizlizes shadow spheres.
+	/// </summary>
+	/// <param name="world"></param>
+	static void InitializeShadowSpheres(GameWorld* world)
 	{
 		int nrRows = 5;
 		int nrColumns = 6;
@@ -71,11 +90,11 @@ class WorldLoader
 
 				glm::vec3 scale = glm::vec3(0.75, 0.75, 0.75);
 
-				Sphere* sphere = new Sphere("wood");
+				Sphere* sphere = new Sphere(wood_textureID);
 				sphere->Translate(transform);
 				sphere->Scale(scale);
 
-				AddShadowMeshes(world, sphere);
+				AddShadowMesh(world, sphere);
 
 				world->AddShadowShape(*sphere);
 
@@ -87,8 +106,12 @@ class WorldLoader
 			}
 		}
 	}
-	
-	static void WindowWall(World* world)
+
+	/// <summary>
+	/// Initializes window wall.
+	/// </summary>
+	/// <param name="world"></param>
+	static void InitializeWindows(GameWorld* world)
 	{
 		int nrRows = 3;
 		int nrColumns = 6;
@@ -122,7 +145,11 @@ class WorldLoader
 		}
 	}
 
-	static void Roof(World* world)
+	/// <summary>
+	/// Initializes the roof tiles.
+	/// </summary>
+	/// <param name="world"></param>
+	static void InitializeRoof(GameWorld* world)
 	{
 		int nrRows = 10;
 		int nrColumns = 10;
@@ -146,7 +173,11 @@ class WorldLoader
 		}
 	}
 
-	static void LoadBallPosts(World* world)
+	/// <summary>
+	/// Initializes the animated spheres.
+	/// </summary>
+	/// <param name="world"></param>
+	static void InitializeAnimatedShperes(GameWorld* world)
 	{
 		float offset = 2;
 		glm::vec3 ballScale = glm::vec3(0.80, 0.80, 0.80);
@@ -161,41 +192,45 @@ class WorldLoader
 		sphere4->Scale(ballScale);
 		world->AddBPRShape(*sphere4);
 		
-		Sphere* sphere2 = new Sphere(goldShpereID, new HorizontalCircleAnimation());
+		Sphere* sphere2 = new Sphere(gold_textureID, new HorizontalCircleAnimation());
 		sphere2->Translate(glm::vec3(translate- 5, 6, -20-offset));
 		sphere2->Scale(ballScale);
 		world->AddBPRShape(*sphere2);
 		
-		Sphere* sphere3 = new Sphere(medievalIronTextureID, new XLineAnimation());
+		Sphere* sphere3 = new Sphere(midevil_textureID, new XLineAnimation());
 		sphere3->Translate(glm::vec3(translate - 5-offset, 6, -20));
 		sphere3->Scale(ballScale);
 		world->AddBPRShape(*sphere3);
 	}
-	
-	static void LoadRoom(World* world) {				
-		WindowWall(world);
-		Roof(world);
-		LoadBallPosts(world);
+
+	/// <summary>
+	/// Load main game room and components.
+	/// </summary>
+	/// <param name="world"></param>
+	static void LoadRoom(GameWorld* world) {
+		InitializeWindows(world);
+		InitializeRoof(world);
+		InitializeAnimatedShperes(world);
 		
 		// Walls
-		Box* sky = new Box(skyTextureID);
+		Box* sky = new Box(sky_texture_ID);
 		sky->Translate(glm::vec3(0, 0, translate + 5));
 		sky->Scale(glm::vec3(wallSize, wallHeight, 1));
 
-		PBRTexturedBox* back = new PBRTexturedBox(wall_texture);
+		PBRTexturedBox* back = new PBRTexturedBox(wall_textureID);
 		back->Translate(glm::vec3(0, 0,-translate));
 		back->Scale(glm::vec3(wallSize, wallHeight, 1));
 		
-		PBRTexturedBox* right = new PBRTexturedBox(wall_texture);
+		PBRTexturedBox* right = new PBRTexturedBox(wall_textureID);
 		right->Translate(glm::vec3(translate, 0, 0));
 		right->Scale(glm::vec3(1, wallHeight, wallSize));
 
-		PBRTexturedBox* left = new PBRTexturedBox(wall_texture);
+		PBRTexturedBox* left = new PBRTexturedBox(wall_textureID);
 		left->Translate(glm::vec3(-translate, 0, 0));
 		left->Scale(glm::vec3(1, wallHeight, wallSize));
 
 		// Ground and roof
-		CubeShadowObject* ground = new CubeShadowObject(ground_texture);
+		PBRTexturedBox* ground = new PBRTexturedBox(ground_textureID);
 		ground->Translate(glm::vec3(0, 0, 0));
 		ground->Scale(glm::vec3(wallSize, 0.1, wallSize));
 
@@ -203,7 +238,7 @@ class WorldLoader
 		roof->Translate(glm::vec3(0, 0, 0));
 		roof->Scale(glm::vec3(wallSize, wallHeight, wallSize));
 
-		CubeShadowObject* groundShadowPlane = new CubeShadowObject("wood");
+		CubeShadowObject* groundShadowPlane = new CubeShadowObject(wood_textureID);
 		groundShadowPlane->Translate(glm::vec3(0, 0.2, -2));
 		groundShadowPlane->Scale(glm::vec3(20, 0.1, 20));
 		
@@ -244,26 +279,24 @@ class WorldLoader
 		bottomLeftPost->Scale(scale);
 		bottomLeftPost->Rotate(glm::vec3(0, 1, 0), glm::radians(-90.0f));
 		AddMeshes(world, bottomLeftPost->meshObjects);
-
-		// RomanArch* romanArch = new RomanArch();
-		// romanArch->Translate(glm::vec3(0, 10, -translate + 0.8));
-		// romanArch->Scale(glm::vec3(0.03, 0.03, 0.03)); 
-
-
+				
 		world->AddShadowShape(*groundShadowPlane);
 		world->AddObjectShape(*sky);
 		
 		world->AddBPRShape(*ground);
-		//world->AddBPRShape(*roof);
-		//world->AddBPRShape(*building);
 		world->AddBPRShape(*back);
 		world->AddBPRShape(*right);
 		world->AddBPRShape(*left);
 
 	}
 
-	void SetupLighting(World* world) const
+	/// <summary>
+	/// Initialize lighting in the scene.
+	/// </summary>
+	/// <param name="world"></param>
+	void InitializeLighting(GameWorld* world) const
 	{
+		// base light
 		PointLight light1;
 		light1.position = glm::vec3(-2.0f, 8.0f, 10.0f);
 		light1.ambient = glm::vec3(0.05f, 0.05f, 0.05f);
@@ -274,6 +307,7 @@ class WorldLoader
 		light1.linear = 0.09f;
 		light1.quadratic = 0.032f;
 
+		// room lights
 		PointLight light2 = light1;
 		light2.position = glm::vec3(10, wallHeight *0.50, 20);
 
@@ -286,6 +320,7 @@ class WorldLoader
 		PointLight light5 = light1;
 		light5.position = glm::vec3(0, wallHeight - 4, +10);
 
+		// animation lights
 		PointLight light6 = light1;
 		light6.position = glm::vec3(-20, 5,-20);
 
@@ -299,7 +334,8 @@ class WorldLoader
 		world->AddPointLight(light5);
 		world->AddPointLight(light6);
 		world->AddPointLight(light7);
-				
+
+		// directional light
 		DirectionalLight directionalLight;
 		directionalLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 		directionalLight.ambient = glm::vec3(0.05f, 0.05f, 0.05f);
@@ -309,9 +345,13 @@ class WorldLoader
 		world->SetDirectionalLight(directionalLight);
 	}
 
-	static void InitializeTextures(World* world)
+	/// <summary>
+	/// Loads textures and adds them to the texture pool such that they can be accuired by the renderer for rendering objects.
+	/// </summary>
+	/// <param name="world"></param>
+	static void InitializeTextures(GameWorld* world)
 	{
-		PBRTextureEntry* pbrtTextureEntry = new PBRTextureEntry(wall_texture,
+		PBRTextureEntry* wallTextureEntry = new PBRTextureEntry(wall_textureID,
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wall\\2k\\albedo.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wall\\2k\\normal.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wall\\2k\\metalness.jpg",
@@ -319,7 +359,7 @@ class WorldLoader
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wall\\2k\\ao.jpg"
 		);
 
-		PBRTextureEntry* pbrGroundTexture = new PBRTextureEntry(ground_texture,
+		PBRTextureEntry* groundTextureEntry = new PBRTextureEntry(ground_textureID,
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\floor\\2k\\albedo.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\floor\\2k\\normal.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\floor\\2k\\metallness.jpg",
@@ -327,39 +367,39 @@ class WorldLoader
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\floor\\2k\\ao.jpg"
 		);
 
-		PBRTextureEntry* pbrStatue = new PBRTextureEntry(statue_texture,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\statue\\2k\\tgeodcxda_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\statue\\2k\\tgeodcxda_2K_Normal_LOD0.jpg",
+		PBRTextureEntry* statueTextureEntry = new PBRTextureEntry(statue_textureID,
+			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\statue\\2k\\tgeodcxda_2K_Albedo.jpg",
+			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\statue\\2k\\tgeodcxda_2K_Normal_LOD0.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\statue\\2k\\tgeodcxda_2K_Roughness.jpg",
+			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\statue\\2k\\tgeodcxda_2K_Roughness.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_ao.png"
 		);
 
-		PBRTextureEntry* wall = new PBRTextureEntry(building_texture,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\building\\2k\\vdiwfgydw_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\building\\2k\\vdiwfgydw_2K_Normal_LOD0.jpg",
+		PBRTextureEntry* buildingTextureEntry = new PBRTextureEntry(building_textureID,
+			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\building\\2k\\vdiwfgydw_2K_Albedo.jpg",
+			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\building\\2k\\vdiwfgydw_2K_Normal_LOD0.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\building\\2k\\vdiwfgydw_2K_Roughness.jpg",
+			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\building\\2k\\vdiwfgydw_2K_Roughness.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_ao.png"
 		);
 
-		PBRTextureEntry* post = new PBRTextureEntry(post_texture,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\post\\2k\\ujwrfhsdw_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\post\\2k\\ujwrfhsdw_2K_Normal_LOD0.jpg",
+		PBRTextureEntry* ironFenceTextureEntry = new PBRTextureEntry(ironFence_textureID,
+			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\post\\2k\\ujwrfhsdw_2K_Albedo.jpg",
+			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\post\\2k\\ujwrfhsdw_2K_Normal_LOD0.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\post\\2k\\ujwrfhsdw_2K_Roughness.jpg",
+			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\post\\2k\\ujwrfhsdw_2K_Roughness.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_ao.png"
 		);
 
-		PBRTextureEntry* window = new PBRTextureEntry(window_texture,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\window\\2k\\vdisaihdw_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\window\\2k\\vdisaihdw_2K_Normal_LOD0.jpg",
+		PBRTextureEntry* windowTextureEntry = new PBRTextureEntry(window_textureID,
+			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\window\\2k\\vdisaihdw_2K_Albedo.jpg",
+			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\window\\2k\\vdisaihdw_2K_Normal_LOD0.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\window\\2k\\vdisaihdw_2K_Roughness.jpg",
+			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\window\\2k\\vdisaihdw_2K_Roughness.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_ao.png"
 		);
 
-		PBRTextureEntry* sphere = new PBRTextureEntry(sphere_textureID,
+		PBRTextureEntry* sphereTextureEntry = new PBRTextureEntry(sphere_textureID,
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\sphere\\2k\\vdfjbfvv_2K_Albedo.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\sphere\\2k\\vdfjbfvv_2K_Normal.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\sphere\\2k\\vdfjbfvv_2K_Metalness.jpg",
@@ -367,7 +407,7 @@ class WorldLoader
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\sphere\\2k\\vdfjbfvv_2K_AO.jpg"
 		);
 
-		PBRTextureEntry* brick = new PBRTextureEntry(brick_textureID,
+		PBRTextureEntry* brickTextureEntry = new PBRTextureEntry(brick_textureID,
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\brick\\2k\\ulmmbgbo_2K_Albedo.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\brick\\2k\\ulmmbgbo_2K_Normal.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
@@ -375,7 +415,7 @@ class WorldLoader
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\brick\\2k\\ulmmbgbo_2K_AO.jpg"
 		);
 
-		PBRTextureEntry* woodSphere = new PBRTextureEntry(wood_textureID,
+		PBRTextureEntry* woodTextureEntry = new PBRTextureEntry(wood_textureID,
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wood\\ulkjbfuew_2K_Albedo.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wood\\ulkjbfuew_2K_Normal.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
@@ -383,7 +423,7 @@ class WorldLoader
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wood\\ulkjbfuew_2K_AO.jpg"
 		);
 
-		PBRTextureEntry* clothSphere = new PBRTextureEntry(cloth_textureID,
+		PBRTextureEntry* clothTextureEntry = new PBRTextureEntry(cloth_textureID,
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\cloth\\vb1kfdt_2K_Albedo.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\cloth\\vb1kfdt_2K_Normal.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
@@ -391,7 +431,7 @@ class WorldLoader
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\cloth\\vb1kfdt_2K_AO.jpg"
 		);
 
-		PBRTextureEntry* medievalIronSphere = new PBRTextureEntry(medievalIronTextureID,
+		PBRTextureEntry* medievalIronTextureEntry = new PBRTextureEntry(midevil_textureID,
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\medievalIron\\ub1gfbwew_2K_Albedo.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\medievalIron\\ub1gfbwew_2K_Normal.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
@@ -399,7 +439,7 @@ class WorldLoader
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\medievalIron\\ub1gfbwew_2K_AO.jpg"
 		);
 
-		PBRTextureEntry* goldSphere = new PBRTextureEntry(goldShpereID,
+		PBRTextureEntry* goldTextureEntry = new PBRTextureEntry(gold_textureID,
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\gold\\schvfgwp_2K_Albedo.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\gold\\schvfgwp_2K_Normal.jpg",
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\gold\\schvfgwp_2K_Metalness.jpg",
@@ -407,72 +447,59 @@ class WorldLoader
 			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_ao.png"
 		);
 		
-		// PBRTextureEntry* pbrRomanArch = new PBRTextureEntry(romanArchTexture,
-		// 	"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\romanArch\\2k\\thedegyfa_2K_Albedo.jpg",
-		// 	"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\romanArch\\2k\\thedegyfa_2K_Normal_LOD0.jpg",
-		// 	"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\metallness.jpg",
-		// 	"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\romanArch\\2k\\thedegyfa_2K_Roughness.jpg",
-		// 	"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png"
-		// );
-
-		SimpleTextureEntry* uvTemplate = new SimpleTextureEntry("uvTemplateTexture", "res\\textures\\uvtemplate.bmp");
-		SimpleTextureEntry* wood = new SimpleTextureEntry("wood", "res\\textures\\wood.png");
-		SimpleTextureEntry* skyTexture = new SimpleTextureEntry(skyTextureID, "res\\textures\\sky.jpg");
+		SimpleTextureEntry* wood = new SimpleTextureEntry(wood_textureID, "res\\textures\\wood.png");
+		SimpleTextureEntry* skyTexture = new SimpleTextureEntry(sky_texture_ID, "res\\textures\\sky.jpg");
 		
 		TexturePool* pool = TexturePool::Instance();
 
-		pool->AddPBRTexture(pbrtTextureEntry);
-		pool->AddPBRTexture(pbrGroundTexture);
-		pool->AddPBRTexture(pbrStatue);
-		pool->AddPBRTexture(wall);
-		pool->AddPBRTexture(post);
-		pool->AddPBRTexture(sphere);
-		pool->AddPBRTexture(brick);		
-		pool->AddPBRTexture(window);
-		pool->AddPBRTexture(clothSphere);
-		pool->AddPBRTexture(goldSphere);
-		pool->AddPBRTexture(medievalIronSphere);
-		pool->AddPBRTexture(woodSphere);
+		pool->AddPBRTexture(wallTextureEntry);
+		pool->AddPBRTexture(groundTextureEntry);
+		pool->AddPBRTexture(statueTextureEntry);
+		pool->AddPBRTexture(buildingTextureEntry);
+		pool->AddPBRTexture(ironFenceTextureEntry);
+		pool->AddPBRTexture(sphereTextureEntry);
+		pool->AddPBRTexture(brickTextureEntry);		
+		pool->AddPBRTexture(windowTextureEntry);
+		pool->AddPBRTexture(clothTextureEntry);
+		pool->AddPBRTexture(goldTextureEntry);
+		pool->AddPBRTexture(medievalIronTextureEntry);
+		pool->AddPBRTexture(woodTextureEntry);
 		
-		pool->AddSimpleTexture(uvTemplate);
 		pool->AddSimpleTexture(wood);
 		pool->AddSimpleTexture(skyTexture);
 	}
-
-
-	static void AddMesh(MeshPool* meshPool, std::vector<Mesh>& meshes, std::string meshId)
-	{
-		for (auto& mesh : meshes)
-		{
-			auto* heapMesh = new Mesh(mesh);
-			heapMesh->MeshName = meshId;
-			meshPool->AddMesh(heapMesh);
-		}
-	}
-	
-	static void InitializeMeshes(World* world)
+		
+	/// <summary>
+	/// Loads meshes and adds them to the mesh pool such that objects can require a copy of the loaded meshes.
+	/// </summary>
+	/// <param name="world"></param>
+	static void InitializeMeshes(GameWorld* world)
 	{
 		MeshPool* pool = MeshPool::Instance();
 		
-		std::vector<Mesh> meshes = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\building\\2k\\vdiwfgydw_LOD5.obj");
-		AddMesh(pool, meshes, building_meshID);
+		std::vector<mesh> meshes = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\building\\2k\\vdiwfgydw_LOD5.obj");
+		AddMeshesToPool(pool, meshes, building_meshID);
 		
-		std::vector<Mesh> meshes1 = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\post\\2k\\ujwrfhsdw_LOD4.obj");
-		AddMesh(pool, meshes1, post_meshID);
+		std::vector<mesh> meshes1 = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\post\\2k\\ujwrfhsdw_LOD4.obj");
+		AddMeshesToPool(pool, meshes1, ironFence_meshID);
 
-		std::vector<Mesh> meshes2 = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\window\\2k\\vdisaihdw_LOD5.obj");
-		AddMesh(pool, meshes2, window_meshID);
+		std::vector<mesh> meshes2 = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\window\\2k\\vdisaihdw_LOD5.obj");
+		AddMeshesToPool(pool, meshes2, window_meshID);
 
-		std::vector<Mesh> meshes3 = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\statue\\2k\\tgeodcxda_LOD5.obj");
-		AddMesh(pool, meshes3, statue_meshID);
+		std::vector<mesh> meshes3 = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\statue\\2k\\tgeodcxda_LOD5.obj");
+		AddMeshesToPool(pool, meshes3, statue_meshID);
 
-		std::vector<Mesh> meshes4 = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\ojbs\\box.obj");
-		AddMesh(pool, meshes4, cube_meshID);
+		std::vector<mesh> meshes4 = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\box.obj");
+		AddMeshesToPool(pool, meshes4, cube_meshID);
 	}
-	
-	static void InitializeShaders(World* world)
+
+	/// <summary>
+	/// Loads shaders and adds them to the shader pool such that they can be accuired by the renderer for rendering objects.
+	/// </summary>
+	/// <param name="world"></param>
+	static void InitializeShaders(GameWorld* world)
 	{		
-		Shader* pbrShader = new Shader("res\\shaders\\PBR.shader", pbrShaderID);
+		Shader* pbrShader = new Shader("res\\shaders\\PBR.shader", pbr_shaderID);
 		pbrShader->Bind();
 		pbrShader->SetUniform1i("albedoMap", 0);
 		pbrShader->SetUniform1i("normalMap", 1);
@@ -480,41 +507,34 @@ class WorldLoader
 		pbrShader->SetUniform1i("roughnessMap", 3);
 		pbrShader->SetUniform1i("aoMap", 4);
 		
-		Shader* objectShader = new Shader("res\\shaders\\object.shader", objectShaderID);
+		Shader* objectShader = new Shader("res\\shaders\\object.shader", object_shaderID);
 		
-		Shader* shadowMapShader = new Shader("res\\shaders\\shadowMap.shader", shadowMapShaderID);
-		Shader* shadowMappingShader = new Shader("res\\shaders\\shadowMapping.shader", shadowMappingShaderID);
+		Shader* shadowMapShader = new Shader("res\\shaders\\shadowMap.shader", shadow_map_shaderID);
+		Shader* shadowMappingShader = new Shader("res\\shaders\\shadowMapping.shader", shadow_passtrough_shaderID);
 		shadowMappingShader->Bind();
 		shadowMappingShader->SetUniform1i("material.diffuseMap", 0);
 		shadowMappingShader->SetUniform1i("shadowMap", 1);
-				
-		Shader* debugShader = new Shader("res\\shaders\\shadowMapQuadDebug.shader", "debugShader");
-		
+						
 		ShaderPool* pool = ShaderPool::Instance();
 
 		pool->AddShader(pbrShader);
 		pool->AddShader(objectShader);
 		pool->AddShader(shadowMapShader);
 		pool->AddShader(shadowMappingShader);
-		pool->AddShader(debugShader);
 	}
-	
 
-
-public:
-	WorldLoader() {  }
-	
-	void InitializeWorld(World* world) const
+public:	
+	void InitializeWorld(GameWorld* world) const
 	{
 		InitializeTextures(world);
 		InitializeShaders(world);
-		InitializeMeshes(world);
+		InitializeMeshes(world);		
+		InitializeLighting(world);
 		
-		SetupLighting(world);
 		world->Initialize();
-		TestSpheres(world);
+		InitializeShadowSpheres(world);
 
 		LoadRoom(world);
-		AddCoordinateLines(world);
+		InitializeCoordinateLines(world);
 	}
 };

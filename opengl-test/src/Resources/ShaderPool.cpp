@@ -20,12 +20,12 @@ ShaderPool* ShaderPool::Instance()
 
 void ShaderPool::AddShader(Shader* entry)
 {
-	Shaders.push_back(entry);
+	_shaders.push_back(entry);
 }
 
 Shader* ShaderPool::GetShaderById(const std::string shaderId)
 {
-	for (auto& pbr_texture : Shaders)
+	for (auto& pbr_texture : _shaders)
 	{
 		if (pbr_texture->Label == shaderId)
 			return pbr_texture;
