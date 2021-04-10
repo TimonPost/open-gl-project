@@ -16,7 +16,7 @@ std::vector<VertexFormatObjectWithUV> ObjectReader::LoadObject(const std::string
 	return ObjectLoader.LoadedVertices;
 }
 
-std::vector<mesh> ObjectReader::LoadMeshes(const std::string path)
+std::vector<Mesh> ObjectReader::LoadMeshes(const std::string path)
 {
 	ObjectLoader ObjectLoader;
 	bool loadout = ObjectLoader.LoadFile(path);

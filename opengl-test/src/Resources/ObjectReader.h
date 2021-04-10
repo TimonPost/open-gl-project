@@ -19,5 +19,5 @@ public:
 	/// </summary>
 	/// <param name="path"></param>
 	/// <returns></returns>
-	static std::vector<mesh> LoadMeshes(const std::string path);
+	static std::vector<Mesh> LoadMeshes(const std::string path);
 };

@@ -19,11 +19,11 @@ class WorldLoader
 	/// <param name="meshPool"></param>
 	/// <param name="meshes"></param>
 	/// <param name="meshId"></param>
-	static void AddMeshesToPool(MeshPool* meshPool, std::vector<mesh>& meshes, std::string meshId)
+	static void AddMeshesToPool(MeshPool* meshPool, std::vector<Mesh>& meshes, std::string meshId)
 	{
 		for (auto& m : meshes)
 		{
-			auto* heapMesh = new mesh(m);
+			auto* heapMesh = new Mesh(m);
 			heapMesh->MeshName = meshId;
 			meshPool->AddMesh(heapMesh);
 		}
@@ -312,8 +312,9 @@ class WorldLoader
 		light2.position = glm::vec3(10, wallHeight *0.50, 20);
 
 		PointLight light3 = light1;
-		light3.position = glm::vec3(0, wallHeight *0.50, 20);
+		light3.position = glm::vec3(-10, wallHeight *0.50, 20);
 
+		// ceiling lights
 		PointLight light4 = light1;
 		light4.position = glm::vec3(0, wallHeight -4, -10);
 
@@ -352,99 +353,99 @@ class WorldLoader
 	static void InitializeTextures(GameWorld* world)
 	{
 		PBRTextureEntry* wallTextureEntry = new PBRTextureEntry(wall_textureID,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wall\\2k\\albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wall\\2k\\normal.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wall\\2k\\metalness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wall\\2k\\roughness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wall\\2k\\ao.jpg"
+			"res\\textures\\wall\\2k\\albedo.jpg",
+			"res\\textures\\wall\\2k\\normal.jpg",
+			"res\\textures\\wall\\2k\\metalness.jpg",
+			"res\\textures\\wall\\2k\\roughness.jpg",
+			"res\\textures\\wall\\2k\\ao.jpg"
 		);
 
 		PBRTextureEntry* groundTextureEntry = new PBRTextureEntry(ground_textureID,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\floor\\2k\\albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\floor\\2k\\normal.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\floor\\2k\\metallness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\floor\\2k\\roughness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\floor\\2k\\ao.jpg"
+			"res\\textures\\floor\\2k\\albedo.jpg",
+			"res\\textures\\floor\\2k\\normal.jpg",
+			"res\\textures\\floor\\2k\\metallness.jpg",
+			"res\\textures\\floor\\2k\\roughness.jpg",
+			"res\\textures\\floor\\2k\\ao.jpg"
 		);
 
 		PBRTextureEntry* statueTextureEntry = new PBRTextureEntry(statue_textureID,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\statue\\2k\\tgeodcxda_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\statue\\2k\\tgeodcxda_2K_Normal_LOD0.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\statue\\2k\\tgeodcxda_2K_Roughness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_ao.png"
+			"res\\objs\\statue\\2k\\tgeodcxda_2K_Albedo.jpg",
+			"res\\objs\\statue\\2k\\tgeodcxda_2K_Normal_LOD0.jpg",
+			"res\\textures\\empty_metall.png",
+			"res\\objs\\statue\\2k\\tgeodcxda_2K_Roughness.jpg",
+			"res\\textures\\empty_ao.png"
 		);
 
 		PBRTextureEntry* buildingTextureEntry = new PBRTextureEntry(building_textureID,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\building\\2k\\vdiwfgydw_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\building\\2k\\vdiwfgydw_2K_Normal_LOD0.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\building\\2k\\vdiwfgydw_2K_Roughness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_ao.png"
+			"res\\objs\\building\\2k\\vdiwfgydw_2K_Albedo.jpg",
+			"res\\objs\\building\\2k\\vdiwfgydw_2K_Normal_LOD0.jpg",
+			"res\\textures\\empty_metall.png",
+			"res\\objs\\building\\2k\\vdiwfgydw_2K_Roughness.jpg",
+			"res\\textures\\empty_ao.png"
 		);
 
 		PBRTextureEntry* ironFenceTextureEntry = new PBRTextureEntry(ironFence_textureID,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\post\\2k\\ujwrfhsdw_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\post\\2k\\ujwrfhsdw_2K_Normal_LOD0.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\post\\2k\\ujwrfhsdw_2K_Roughness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_ao.png"
+			"res\\objs\\post\\2k\\ujwrfhsdw_2K_Albedo.jpg",
+			"res\\objs\\post\\2k\\ujwrfhsdw_2K_Normal_LOD0.jpg",
+			"res\\textures\\empty_metall.png",
+			"res\\objs\\post\\2k\\ujwrfhsdw_2K_Roughness.jpg",
+			"res\\textures\\empty_ao.png"
 		);
 
 		PBRTextureEntry* windowTextureEntry = new PBRTextureEntry(window_textureID,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\window\\2k\\vdisaihdw_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\window\\2k\\vdisaihdw_2K_Normal_LOD0.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\window\\2k\\vdisaihdw_2K_Roughness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_ao.png"
+			"res\\objs\\window\\2k\\vdisaihdw_2K_Albedo.jpg",
+			"res\\objs\\window\\2k\\vdisaihdw_2K_Normal_LOD0.jpg",
+			"res\\textures\\empty_metall.png",
+			"res\\objs\\window\\2k\\vdisaihdw_2K_Roughness.jpg",
+			"res\\textures\\empty_ao.png"
 		);
 
 		PBRTextureEntry* sphereTextureEntry = new PBRTextureEntry(sphere_textureID,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\sphere\\2k\\vdfjbfvv_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\sphere\\2k\\vdfjbfvv_2K_Normal.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\sphere\\2k\\vdfjbfvv_2K_Metalness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\sphere\\2k\\vdfjbfvv_2K_Roughness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\sphere\\2k\\vdfjbfvv_2K_AO.jpg"
+			"res\\textures\\sphere\\2k\\vdfjbfvv_2K_Albedo.jpg",
+			"res\\textures\\sphere\\2k\\vdfjbfvv_2K_Normal.jpg",
+			"res\\textures\\sphere\\2k\\vdfjbfvv_2K_Metalness.jpg",
+			"res\\textures\\sphere\\2k\\vdfjbfvv_2K_Roughness.jpg",
+			"res\\textures\\sphere\\2k\\vdfjbfvv_2K_AO.jpg"
 		);
 
 		PBRTextureEntry* brickTextureEntry = new PBRTextureEntry(brick_textureID,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\brick\\2k\\ulmmbgbo_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\brick\\2k\\ulmmbgbo_2K_Normal.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\brick\\2k\\ulmmbgbo_2K_Roughness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\brick\\2k\\ulmmbgbo_2K_AO.jpg"
+			"res\\textures\\brick\\2k\\ulmmbgbo_2K_Albedo.jpg",
+			"res\\textures\\brick\\2k\\ulmmbgbo_2K_Normal.jpg",
+			"res\\textures\\empty_metall.png",
+			"res\\textures\\brick\\2k\\ulmmbgbo_2K_Roughness.jpg",
+			"res\\textures\\brick\\2k\\ulmmbgbo_2K_AO.jpg"
 		);
 
 		PBRTextureEntry* woodTextureEntry = new PBRTextureEntry(wood_textureID,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wood\\ulkjbfuew_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wood\\ulkjbfuew_2K_Normal.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wood\\ulkjbfuew_2K_Roughness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\wood\\ulkjbfuew_2K_AO.jpg"
+			"res\\textures\\wood\\ulkjbfuew_2K_Albedo.jpg",
+			"res\\textures\\wood\\ulkjbfuew_2K_Normal.jpg",
+			"res\\textures\\empty_metall.png",
+			"res\\textures\\wood\\ulkjbfuew_2K_Roughness.jpg",
+			"res\\textures\\wood\\ulkjbfuew_2K_AO.jpg"
 		);
 
 		PBRTextureEntry* clothTextureEntry = new PBRTextureEntry(cloth_textureID,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\cloth\\vb1kfdt_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\cloth\\vb1kfdt_2K_Normal.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\cloth\\vb1kfdt_2K_Roughness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\cloth\\vb1kfdt_2K_AO.jpg"
+			"res\\textures\\cloth\\vb1kfdt_2K_Albedo.jpg",
+			"res\\textures\\cloth\\vb1kfdt_2K_Normal.jpg",
+			"res\\textures\\empty_metall.png",		
+			"res\\textures\\cloth\\vb1kfdt_2K_Roughness.jpg",
+			"res\\textures\\cloth\\vb1kfdt_2K_AO.jpg"
 		);
 
 		PBRTextureEntry* medievalIronTextureEntry = new PBRTextureEntry(midevil_textureID,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\medievalIron\\ub1gfbwew_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\medievalIron\\ub1gfbwew_2K_Normal.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_metall.png",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\medievalIron\\ub1gfbwew_2K_Roughness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\medievalIron\\ub1gfbwew_2K_AO.jpg"
+			"res\\textures\\medievalIron\\ub1gfbwew_2K_Albedo.jpg",
+			"res\\textures\\medievalIron\\ub1gfbwew_2K_Normal.jpg",
+			"res\\textures\\empty_metall.png",
+			"res\\textures\\medievalIron\\ub1gfbwew_2K_Roughness.jpg",
+			"res\\textures\\medievalIron\\ub1gfbwew_2K_AO.jpg"
 		);
 
 		PBRTextureEntry* goldTextureEntry = new PBRTextureEntry(gold_textureID,
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\gold\\schvfgwp_2K_Albedo.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\gold\\schvfgwp_2K_Normal.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\gold\\schvfgwp_2K_Metalness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\gold\\schvfgwp_2K_Roughness.jpg",
-			"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\textures\\empty_ao.png"
+			"res\\textures\\gold\\schvfgwp_2K_Albedo.jpg",
+			"res\\textures\\gold\\schvfgwp_2K_Normal.jpg",
+			"res\\textures\\gold\\schvfgwp_2K_Metalness.jpg",
+			"res\\textures\\gold\\schvfgwp_2K_Roughness.jpg",
+			"res\\textures\\empty_ao.png"
 		);
 		
 		SimpleTextureEntry* wood = new SimpleTextureEntry(wood_textureID, "res\\textures\\wood.png");
@@ -477,19 +478,19 @@ class WorldLoader
 	{
 		MeshPool* pool = MeshPool::Instance();
 		
-		std::vector<mesh> meshes = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\building\\2k\\vdiwfgydw_LOD5.obj");
+		std::vector<Mesh> meshes = ObjectReader::LoadMeshes("res\\objs\\building\\2k\\vdiwfgydw_LOD5.obj");
 		AddMeshesToPool(pool, meshes, building_meshID);
 		
-		std::vector<mesh> meshes1 = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\post\\2k\\ujwrfhsdw_LOD4.obj");
+		std::vector<Mesh> meshes1 = ObjectReader::LoadMeshes("res\\objs\\post\\2k\\ujwrfhsdw_LOD4.obj");
 		AddMeshesToPool(pool, meshes1, ironFence_meshID);
 
-		std::vector<mesh> meshes2 = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\window\\2k\\vdisaihdw_LOD5.obj");
+		std::vector<Mesh> meshes2 = ObjectReader::LoadMeshes("res\\objs\\window\\2k\\vdisaihdw_LOD5.obj");
 		AddMeshesToPool(pool, meshes2, window_meshID);
 
-		std::vector<mesh> meshes3 = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\statue\\2k\\tgeodcxda_LOD5.obj");
+		std::vector<Mesh> meshes3 = ObjectReader::LoadMeshes("res\\objs\\statue\\2k\\tgeodcxda_LOD5.obj");
 		AddMeshesToPool(pool, meshes3, statue_meshID);
 
-		std::vector<mesh> meshes4 = ObjectReader::LoadMeshes("C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\box.obj");
+		std::vector<Mesh> meshes4 = ObjectReader::LoadMeshes("res\\objs\\box.obj");
 		AddMeshesToPool(pool, meshes4, cube_meshID);
 	}
 
@@ -508,19 +509,21 @@ class WorldLoader
 		pbrShader->SetUniform1i("aoMap", 4);
 		
 		Shader* objectShader = new Shader("res\\shaders\\object.shader", object_shaderID);
+		Shader* objectNoTextureShader = new Shader("res\\shaders\\object.shader", object_no_texture_shaderID);
 		
 		Shader* shadowMapShader = new Shader("res\\shaders\\shadowMap.shader", shadow_map_shaderID);
-		Shader* shadowMappingShader = new Shader("res\\shaders\\shadowMapping.shader", shadow_passtrough_shaderID);
-		shadowMappingShader->Bind();
-		shadowMappingShader->SetUniform1i("material.diffuseMap", 0);
-		shadowMappingShader->SetUniform1i("shadowMap", 1);
+		Shader* shadowMapGenerationShader = new Shader("res\\shaders\\shadowMapping.shader", shadow_passtrough_shaderID);
+		shadowMapGenerationShader->Bind();
+		shadowMapGenerationShader->SetUniform1i("material.diffuseMap", 0);
+		shadowMapGenerationShader->SetUniform1i("shadowMap", 1);
 						
 		ShaderPool* pool = ShaderPool::Instance();
 
 		pool->AddShader(pbrShader);
 		pool->AddShader(objectShader);
+		pool->AddShader(objectNoTextureShader);
 		pool->AddShader(shadowMapShader);
-		pool->AddShader(shadowMappingShader);
+		pool->AddShader(shadowMapGenerationShader);
 	}
 
 public:	
@@ -535,6 +538,5 @@ public:
 		InitializeShadowSpheres(world);
 
 		LoadRoom(world);
-		InitializeCoordinateLines(world);
 	}
 };

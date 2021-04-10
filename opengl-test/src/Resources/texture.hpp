@@ -5,7 +5,7 @@
 
 #include <iostream>
 #include <GL/glew.h>
-#include "Vendor/stb_image.h"
+#include "../Vendor/stb_image.h"
 
 inline unsigned int loadTexture(char const* path)
 {

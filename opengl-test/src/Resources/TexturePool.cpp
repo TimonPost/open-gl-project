@@ -49,3 +49,17 @@ PBRTextureEntry* TexturePool::GetPBRById(const std::string textureId)
 
 	throw std::exception("Texture Could not be found");
 }
+
+TexturePool::~TexturePool()
+{
+	for (PBRTextureEntry* obj : PBRTextures)
+		delete obj;
+	for (SimpleTextureEntry* obj : SimpleTextures)
+		delete obj;
+	for (ObjectTextureEntry* obj : ObjectTextures)
+		delete obj;
+
+	PBRTextures.clear();
+	SimpleTextures.clear();
+	ObjectTextures.clear();
+}

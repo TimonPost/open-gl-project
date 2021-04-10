@@ -6,6 +6,9 @@
 #include "glm.hpp"
 #include "../Constants.h"
 #include "../GlWrap.h"
+#include "../Vendor/imgui.h"
+#include "../Vendor/imgui_impl_glfw.h"
+#include "../Vendor/imgui_impl_opengl3.h"
 
 /// <summary>
 /// Opgengl game window.
@@ -16,8 +19,11 @@ private:
 	GLFWwindow* _window;
 	int screenWidth = SCREEN_WIDTH;
 	int screenHeight = SCREEN_HEIGHT;
+	
 
 public:
+	int tick;
+	
 	/// <summary>
 	/// Create a new window instance.
 	/// </summary>
@@ -37,7 +43,7 @@ public:
 	/// <summary>
 	/// Ticks logic for each game tick.
 	/// </summary>
-	void Tick() const;
+	void Tick();
 
 	/// <summary>
 	/// Returns whether the window is closed.
@@ -71,4 +77,9 @@ public:
 	void Terminate();
 
 	static int CalculateAspectRatio();
+
+	~GameWindow()
+	{
+		delete& _window;
+	}
 };

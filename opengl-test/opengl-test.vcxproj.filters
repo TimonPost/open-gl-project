@@ -22,12 +22,6 @@
     <Filter Include="Source Files\Buffers">
       <UniqueIdentifier>{a46e049d-d65e-4409-8a66-c38162649902}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\textures">
-      <UniqueIdentifier>{ce9fdd89-1653-45cb-8a56-6d80a9f05cbf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\objs">
-      <UniqueIdentifier>{397d5f07-280b-4f76-8851-e6c43c154720}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{339d4dcc-42e8-4b6c-b55a-54b82993c8a6}</UniqueIdentifier>
     </Filter>
@@ -156,6 +150,9 @@
       <Filter>Resource Files\Shaders\shadowMapping</Filter>
     </None>
     <None Include="res\shaders\lighting.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="res\shaders\objectNoTexture.shader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>

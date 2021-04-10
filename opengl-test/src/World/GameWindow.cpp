@@ -2,9 +2,7 @@
 
 #include <iostream>
 
-#include "../Vendor/imgui.h"
-#include "../Vendor/imgui_impl_glfw.h"
-#include "../Vendor/imgui_impl_opengl3.h"
+
 
 
 int GameWindow::CreateWindow()
@@ -56,8 +54,9 @@ void GameWindow::EndFrame() const
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void GameWindow::Tick() const
+void GameWindow::Tick()
 {
+	tick++;
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	

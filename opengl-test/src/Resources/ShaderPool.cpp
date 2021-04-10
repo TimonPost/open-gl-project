@@ -31,5 +31,12 @@ Shader* ShaderPool::GetShaderById(const std::string shaderId)
 			return pbr_texture;
 	}
 
-	throw "Shader Could not be found";
+	throw std::exception("Shader Could not be found");
+}
+
+ShaderPool::~ShaderPool()
+{
+	for (Shader* obj : _shaders)
+		delete obj;
+	_shaders.clear();
 }

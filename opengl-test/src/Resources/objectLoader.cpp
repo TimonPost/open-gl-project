@@ -1,12 +1,12 @@
 #include "ObjectLoader.h"
 
-// Default Constructor
-ObjectLoader::ObjectLoader()
-{}
+ObjectLoader::ObjectLoader() = default;
 
 ObjectLoader::~ObjectLoader()
 {
 	LoadedMeshes.clear();
+	LoadedVertices.clear();
+	LoadedIndices.clear();
 }
 
 // Load a file into the loader
@@ -43,7 +43,7 @@ bool ObjectLoader::LoadFile(std::string Path)
 	bool listening = false;
 	std::string meshname;
 
-	mesh tempMesh;
+	Mesh tempMesh;
 
 #ifdef OBJL_CONSOLE_OUTPUT
 	const unsigned int outputEveryNth = 1000;
@@ -92,7 +92,7 @@ bool ObjectLoader::LoadFile(std::string Path)
 				if (!Indices.empty() && !Vertices.empty())
 				{
 					// Create Mesh
-					tempMesh = mesh(Vertices, Indices);
+					tempMesh = Mesh(Vertices, Indices);
 					tempMesh.MeshName = meshname;
 
 					// Insert Mesh
@@ -199,7 +199,7 @@ bool ObjectLoader::LoadFile(std::string Path)
 			if (!Indices.empty() && !Vertices.empty())
 			{
 				// Create Mesh
-				tempMesh = mesh(Vertices, Indices);
+				tempMesh = Mesh(Vertices, Indices);
 				tempMesh.MeshName = meshname;
 				int i = 2;
 				while (1) {
@@ -263,7 +263,7 @@ bool ObjectLoader::LoadFile(std::string Path)
 	if (!Indices.empty() && !Vertices.empty())
 	{
 		// Create Mesh
-		tempMesh = mesh(Vertices, Indices);
+		tempMesh = Mesh(Vertices, Indices);
 		tempMesh.MeshName = meshname;
 
 		// Insert Mesh

@@ -5,6 +5,8 @@
 #include <gtc/matrix_transform.hpp>
 
 #include <fstream>
+#include <future>
+#include <thread>
 
 #include "GlWrap.h"
 #include "Resources/WorldLoader.hpp"
@@ -14,11 +16,8 @@
 
 #include "World/GameWorld.h"
 
-#include "Vendor/imgui.h"
-#include "Vendor/imgui_impl_glfw.h"
-#include "Vendor/imgui_impl_opengl3.h"
-
 #include "Resources/TexturePool.cpp"
+#include "Vendor/imgui_internal.h"
 #include "World/Game.h"
 
 // camera
@@ -28,7 +27,9 @@ bool firstMouse = true;
 
 GameWindow window;
 
-void window_size_callback(GLFWwindow* glfWindow, int width, int height)
+
+// Opgengl window resize callback
+void WindowSizeCallback(GLFWwindow* glfWindow, int width, int height)
 {
 	auto* game = Game::Instance();
 	
@@ -41,12 +42,14 @@ void window_size_callback(GLFWwindow* glfWindow, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
+// Opgengl mouse scroll callback
 void ScrollBack(GLFWwindow* glfWindow, double xoffset, double yoffset)
 {
 	Camera* camera = Game::Instance()->world.MainCamera();
 	camera->ProcessMouseScroll(yoffset);
 }
 
+// Opengl keyboard callback
 void KeyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods)
 {
 	auto* game = Game::Instance();
@@ -65,6 +68,7 @@ void KeyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods
 		camera->ProcessKeyboard(RIGHT, game->DeltaTime());
 }
 
+// Opengl mouse callback
 void MouseCallback(GLFWwindow* w, double xPos, double yPos)
 {
 	const int button = glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_RIGHT);
@@ -92,90 +96,107 @@ void MouseCallback(GLFWwindow* w, double xPos, double yPos)
 	camera->ProcessMouseMovement(xoffset, yoffset);
 }
 
-class ModelEditor
-{
-public:
-	glm::mat4 scaleMat = glm::mat4(1.0f);
-	glm::mat4 translateMat = glm::mat4(1.0f);
-	glm::mat4 rotateMat = glm::mat4(1.0f);
+namespace ImGui {
 
-	ShapeBase* _base = nullptr;
+	bool BufferingBar(const char* label, float value, const ImVec2& size_arg, const ImU32& bg_col, const ImU32& fg_col) {
+		ImGuiWindow* window = GetCurrentWindow();
+		if (window->SkipItems)
+			return false;
 
-	glm::vec3 scaleVec = glm::vec3(1.0f);
-	glm::vec3 translateVec = glm::vec3(1.0f);
-	glm::vec3 rotateVec = glm::vec3(1.0f);
-	
-	bool initialized = false;
-		
-	void Initialize(ShapeBase* base);
+		ImGuiContext& g = *GImGui;
+		const ImGuiStyle& style = g.Style;
+		const ImGuiID id = window->GetID(label);
 
-	void Update() const;
+		ImVec2 pos = window->DC.CursorPos;
+		ImVec2 size = size_arg;
+		size.x -= style.FramePadding.x * 2;
 
-	void Draw();
-};
+		const ImRect bb(pos, ImVec2(pos.x + size.x, pos.y + size.y));
+		ItemSize(bb, style.FramePadding.y);
+		if (!ItemAdd(bb, id))
+			return false;
 
-void ModelEditor::Initialize(ShapeBase* base)
-{
-	this->_base = base;
+		// Render
+		const float circleStart = size.x * 0.7f;
+		const float circleEnd = size.x;
+		const float circleWidth = circleEnd - circleStart;
 
-	this->scaleMat = this->_base->_scale;
-	this->rotateMat = this->_base->_rotate;
-	this->translateMat = this->_base->_translate;
-	this->initialized = true;
-}
+		window->DrawList->AddRectFilled(bb.Min, ImVec2(pos.x + circleStart, bb.Max.y), bg_col);
+		window->DrawList->AddRectFilled(bb.Min, ImVec2(pos.x + circleStart * value, bb.Max.y), fg_col);
 
-void ModelEditor::Update() const
-{
-	if (this->initialized)
-	{
-		this->_base->_scale = this->scaleMat;
-		this->_base->_translate = this->translateMat;
+		const float t = g.Time;
+		const float r = size.y / 2;
+		const float speed = 1.5f;
 
-		this->_base->Scale(this->scaleVec);
-		this->_base->Translate(this->translateVec);
-	}
-}
+		const float a = speed * 0;
+		const float b = speed * 0.333f;
+		const float c = speed * 0.666f;
 
-void ModelEditor::Draw()
-{
-	if (this->initialized)
-	{
-		ImGui::SliderFloat3("Scale", &this->scaleVec.x, -10.0, 10.0);
-		ImGui::SliderFloat3("Translate", &this->translateVec.x, -30, 30.0f);
-		ImGui::SliderFloat3("Rotate", &this->rotateVec.x, 0.0f, 50.0f);
-		ImGui::Separator();
-	}
-}
+		const float o1 = (circleWidth + r) * (t + a - speed * (int)((t + a) / speed)) / speed;
+		const float o2 = (circleWidth + r) * (t + b - speed * (int)((t + b) / speed)) / speed;
+		const float o3 = (circleWidth + r) * (t + c - speed * (int)((t + c) / speed)) / speed;
 
-ModelEditor* statueEditor = new ModelEditor();
-ModelEditor* romanArchEditor = new ModelEditor();
-
-void DrawEditors(ModelEditor* editor,ShapeBase* shapes)
-{
-	if (!editor->initialized) {
-		editor->Initialize(shapes);
+		window->DrawList->AddCircleFilled(ImVec2(pos.x + circleEnd - o1, bb.Min.y + r), r, bg_col);
+		window->DrawList->AddCircleFilled(ImVec2(pos.x + circleEnd - o2, bb.Min.y + r), r, bg_col);
+		window->DrawList->AddCircleFilled(ImVec2(pos.x + circleEnd - o3, bb.Min.y + r), r, bg_col);
 	}
 
-	editor->Draw();
-	editor->Update();
+	bool Spinner(const char* label, float radius, int thickness, const ImU32& color) {
+		ImGuiWindow* window = GetCurrentWindow();
+		if (window->SkipItems)
+			return false;
+
+		ImGuiContext& g = *GImGui;
+		const ImGuiStyle& style = g.Style;
+		const ImGuiID id = window->GetID(label);
+
+		ImVec2 pos = window->DC.CursorPos;
+		ImVec2 size((radius) * 2, (radius + style.FramePadding.y) * 2);
+
+		const ImRect bb(pos, ImVec2(pos.x + size.x, pos.y + size.y));
+		ItemSize(bb, style.FramePadding.y);
+		if (!ItemAdd(bb, id))
+			return false;
+
+		// Render
+		window->DrawList->PathClear();
+
+		int num_segments = 30;
+		int start = abs(ImSin(g.Time * 1.8f) * (num_segments - 5));
+
+		const float a_min = IM_PI * 2.0f * ((float)start) / (float)num_segments;
+		const float a_max = IM_PI * 2.0f * ((float)num_segments - 3) / (float)num_segments;
+
+		const ImVec2 centre = ImVec2(pos.x + radius, pos.y + radius + style.FramePadding.y);
+
+		for (int i = 0; i < num_segments; i++) {
+			const float a = a_min + ((float)i / (float)num_segments) * (a_max - a_min);
+			window->DrawList->PathLineTo(ImVec2(centre.x + ImCos(a + g.Time * 8) * radius,
+				centre.y + ImSin(a + g.Time * 8) * radius));
+		}
+
+		window->DrawList->PathStroke(color, false, thickness);
+	}
+
 }
 
-void SetupWindow()
+void LoadingMessage()
 {	
-	// auto* game = Game::Instance();
-	// std::vector<ShapeBase*>* shapes = game->world.GetShapes();
-	//
-	// {
-	// 	ImGui::Begin("Element");
-	//
-	// 	DrawEditors(statueEditor, shapes->at(10));
-	// 	DrawEditors(romanArchEditor, shapes->at(11));
-	//
-	// 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	// 	ImGui::End();
-	//
-	// }
+	ImGui::Begin("Resource Loading");
+	ImGui::SetCursorPos(ImVec2(10, 30));			
+	ImGui::Text("Loading Game Contents... can take up to 1 minute. It is loading several big models and 8K textures. Result will be nice ;)");	
+	ImGui::End();
 }
+
+void FPSUI()
+{
+	ImGui::Begin("FPS");
+	ImGui::SetCursorPos(ImVec2(10, 30));
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::End();
+}
+
+bool resourcedLoaded = false;
 
 int main()
 {
@@ -192,21 +213,29 @@ int main()
 	
 	glEnable(GL_DEPTH_TEST);
 	
-	window.SetCallback(KeyCallback, MouseCallback, window_size_callback, ScrollBack);
-
-	const WorldLoader loader;
-	 loader.InitializeWorld(&game->world);
-	 	
+	window.SetCallback(KeyCallback, MouseCallback, WindowSizeCallback, ScrollBack);
+	
 	/* Loop until the user closes the window */
 	while (!window.ShouldClose())
-	{				
+	{
+		if (window.tick == 2)
+		{
+			// load game content 
+			const WorldLoader loader;
+			loader.InitializeWorld(&game->world);
+			resourcedLoaded = true;
+		}
+		
 		window.StartFrame();
 
-		SetupWindow();
-
-		game->Tick();
-		window.Tick();
+		if (resourcedLoaded) {
+			game->Tick();
+			FPSUI();
+		}
+		else 
+			LoadingMessage();
 		
+		window.Tick();
 		window.EndFrame();
 	}
 

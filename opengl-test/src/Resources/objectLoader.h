@@ -34,7 +34,7 @@ public:
 	~ObjectLoader();
 
 	// Loaded Mesh Objects
-	std::vector<mesh> LoadedMeshes;
+	std::vector<Mesh> LoadedMeshes;
 	// Loaded Vertex Objects
 	std::vector<VertexFormatObjectWithUV> LoadedVertices;
 	// Loaded Index Positions

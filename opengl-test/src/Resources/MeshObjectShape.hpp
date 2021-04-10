@@ -3,7 +3,7 @@
 #include "../Shapes/ShapeBase.h"
 #include "../Shapes/VertexFormatObj.hpp"
 #include "Material.hpp"
-#include "mesh.hpp"
+#include "Mesh.hpp"
 
 /// <summary>
 /// A Simple Mesh Object that holds a name, a vertex list, and an index list. 
@@ -13,7 +13,7 @@ class MeshObjectShape : public ShapeBase
 public:
 	
 	// Variable Set Constructor
-	MeshObjectShape(mesh mesh) : ShapeBase("")
+	MeshObjectShape(Mesh mesh) : ShapeBase("")
 	{
 		Vertices = mesh.Vertices;
 		Indices = mesh.Indices;

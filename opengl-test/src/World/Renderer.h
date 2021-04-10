@@ -2,7 +2,6 @@
 
 #include <memory>
 #include "Camera.h"
-#include "../GlWrap.h"
 
 /// <summary>
 /// Renderer for the game graphics.

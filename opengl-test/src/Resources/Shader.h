@@ -33,7 +33,7 @@ class Shader final : GLRegisterable
 {
 	std::string _filePath;
 	std::unordered_map<std::string, int> uniformLocationCache;
-private:
+
 	static unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
 	static unsigned int CompileShader(unsigned int type, const std::string& source);
 	shader_program_source ParseShader(const std::string& filePath) const;
@@ -61,5 +61,5 @@ public:
 	void SetUniformMatrix4fv(const std::string& name, glm::mat4 value);
 	int GetUniformLocation(const std::string& name);
 	int GetAttributeLocation(const std::string& name) const;
-
+	
 };

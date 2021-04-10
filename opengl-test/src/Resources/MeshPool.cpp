@@ -14,14 +14,14 @@ MeshPool* MeshPool::Instance()
 	return instance;
 }
 
-void MeshPool::AddMesh(mesh* entry)
+void MeshPool::AddMesh(Mesh* entry)
 {
 	Meshes.push_back(entry);
 }
 
-std::vector<mesh*> MeshPool::GetMeshesById(std::string meshId)
+std::vector<Mesh*> MeshPool::GetMeshesById(std::string meshId)
 {
-	std::vector<mesh*> foundMeshes = std::vector<mesh*>();
+	std::vector<Mesh*> foundMeshes = std::vector<Mesh*>();
 	
 	for (auto mesh: Meshes)
 	{

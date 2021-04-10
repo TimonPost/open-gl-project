@@ -33,8 +33,8 @@ public:
 	{
 		MeshPool* pool = MeshPool::Instance();
 
-		std::vector<mesh*> meshes = pool->GetMeshesById(objPath);
-		mesh* mesh = meshes[0];
+		std::vector<Mesh*> meshes = pool->GetMeshesById(objPath);
+		Mesh* mesh = meshes[0];
 		
 		_size = (sizeof(VertexFormatObjectWithUV) * mesh->Vertices.size());
 

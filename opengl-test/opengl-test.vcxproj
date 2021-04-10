@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="res\shaders\objectNoTexture.shader" />
     <None Include="res\shaders\shadowMapping.shader" />
     <None Include="res\shaders\lighting.shader" />
     <None Include="res\shaders\PBR.shader" />

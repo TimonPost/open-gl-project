@@ -1,10 +1,12 @@
 #pragma once
 
 #include "Resources/Shader.h"
-#include "Resources/TexturePool.h"
 #include "World/Renderer.h"
 #include "World/Lights.hpp"
 
+/// <summary>
+/// Graphics for access to render related data.
+/// </summary>
 class Graphics
 {
 public:
@@ -37,6 +39,5 @@ public:
 		shader->SetUniform3fv("dirLight.ambient", directionalLight->ambient);
 		shader->SetUniform3fv("dirLight.diffuse", directionalLight->diffuse);
 		shader->SetUniform3fv("dirLight.specular", directionalLight->specular);
-
 	}
 };

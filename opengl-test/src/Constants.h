@@ -42,6 +42,8 @@ static std::string cube_meshID = "cube_meshID";
 static std::string shadow_map_shaderID = "shadow_map_shaderID";
 static std::string shadow_passtrough_shaderID = "shadow_passtrough_shaderID"; 
 static std::string object_shaderID = "object_shaderID";
+static std::string object_no_texture_shaderID = "object_no_texture_shaderID";
+
 static std::string pbr_shaderID = "pbr_shaderID"; 
 static std::string lighting_shaderID = "lighting_shaderID";
 

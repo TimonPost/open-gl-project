@@ -17,6 +17,7 @@ public:
 	/// </summary>
 	Shader* GetShaderById(std::string shaderId);
 
+	~ShaderPool();
 private:
 	std::vector<Shader*> _shaders;
 	

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mesh.hpp"
+#include "Mesh.hpp"
 #include "MeshObjectShape.hpp"
 #include "MeshPool.h"
 #include "../Shapes/ShapeBase.h"
@@ -22,7 +22,7 @@ public:
 	{
 		MeshPool* pool = MeshPool::Instance();
 		
-		std::vector<mesh*> meshes = pool->GetMeshesById(objectMeshID);
+		std::vector<Mesh*> meshes = pool->GetMeshesById(objectMeshID);
 
 		for (auto& mesh : meshes)
 		{

@@ -39,6 +39,8 @@ public:
 	/// <returns></returns>
 	PBRTextureEntry* GetPBRById(std::string textureId);
 
+	~TexturePool();
+
 private:
 	TexturePool() {}
 	static TexturePool* instance;
