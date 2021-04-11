@@ -287,7 +287,6 @@ class WorldLoader
 		world->AddBPRShape(*back);
 		world->AddBPRShape(*right);
 		world->AddBPRShape(*left);
-
 	}
 
 	/// <summary>
@@ -353,19 +352,19 @@ class WorldLoader
 	static void InitializeTextures(GameWorld* world)
 	{
 		PBRTextureEntry* wallTextureEntry = new PBRTextureEntry(wall_textureID,
-			"res\\textures\\wall\\2k\\albedo.jpg",
-			"res\\textures\\wall\\2k\\normal.jpg",
-			"res\\textures\\wall\\2k\\metalness.jpg",
-			"res\\textures\\wall\\2k\\roughness.jpg",
-			"res\\textures\\wall\\2k\\ao.jpg"
+			"res\\textures\\wall\\4k\\vdfjajdv_4K_Albedo.jpg",
+			"res\\textures\\wall\\4k\\vdfjajdv_4K_Normal.jpg",
+			"res\\textures\\wall\\4k\\vdfjajdv_4K_Metalness.jpg",
+			"res\\textures\\wall\\4k\\vdfjajdv_4K_Roughness.jpg",
+			"res\\textures\\wall\\2k\\vdfjajdv_2K_AO.jpg"
 		);
 
 		PBRTextureEntry* groundTextureEntry = new PBRTextureEntry(ground_textureID,
-			"res\\textures\\floor\\2k\\albedo.jpg",
-			"res\\textures\\floor\\2k\\normal.jpg",
-			"res\\textures\\floor\\2k\\metallness.jpg",
-			"res\\textures\\floor\\2k\\roughness.jpg",
-			"res\\textures\\floor\\2k\\ao.jpg"
+			"res\\textures\\floor\\8k\\vdlmacov_8K_Albedo.jpg",
+			"res\\textures\\floor\\8k\\vdlmacov_8K_Normal.jpg",
+			"res\\textures\\floor\\8k\\vdlmacov_8K_Metalness.jpg",
+			"res\\textures\\floor\\8k\\vdlmacov_8K_Roughness.jpg",
+			"res\\textures\\floor\\2k\\vdlmacov_2K_AO.jpg"
 		);
 
 		PBRTextureEntry* statueTextureEntry = new PBRTextureEntry(statue_textureID,
@@ -409,11 +408,11 @@ class WorldLoader
 		);
 
 		PBRTextureEntry* brickTextureEntry = new PBRTextureEntry(brick_textureID,
-			"res\\textures\\brick\\2k\\ulmmbgbo_2K_Albedo.jpg",
-			"res\\textures\\brick\\2k\\ulmmbgbo_2K_Normal.jpg",
+			"res\\textures\\brick\\1k\\ulmmbgbo_1K_Albedo.jpg",
+			"res\\textures\\brick\\1k\\ulmmbgbo_1K_Normal.jpg",
 			"res\\textures\\empty_metall.png",
-			"res\\textures\\brick\\2k\\ulmmbgbo_2K_Roughness.jpg",
-			"res\\textures\\brick\\2k\\ulmmbgbo_2K_AO.jpg"
+			"res\\textures\\brick\\1k\\ulmmbgbo_1K_Roughness.jpg",
+			"res\\textures\\brick\\1k\\ulmmbgbo_1K_AO.jpg"
 		);
 
 		PBRTextureEntry* woodTextureEntry = new PBRTextureEntry(wood_textureID,
@@ -478,13 +477,13 @@ class WorldLoader
 	{
 		MeshPool* pool = MeshPool::Instance();
 		
-		std::vector<Mesh> meshes = ObjectReader::LoadMeshes("res\\objs\\building\\2k\\vdiwfgydw_LOD5.obj");
+		std::vector<Mesh> meshes = ObjectReader::LoadMeshes("res\\objs\\building\\2k\\vdiwfgydw_LOD3.obj");
 		AddMeshesToPool(pool, meshes, building_meshID);
 		
 		std::vector<Mesh> meshes1 = ObjectReader::LoadMeshes("res\\objs\\post\\2k\\ujwrfhsdw_LOD4.obj");
 		AddMeshesToPool(pool, meshes1, ironFence_meshID);
 
-		std::vector<Mesh> meshes2 = ObjectReader::LoadMeshes("res\\objs\\window\\2k\\vdisaihdw_LOD5.obj");
+		std::vector<Mesh> meshes2 = ObjectReader::LoadMeshes("res\\objs\\window\\2k\\vdisaihdw_LOD4.obj");
 		AddMeshesToPool(pool, meshes2, window_meshID);
 
 		std::vector<Mesh> meshes3 = ObjectReader::LoadMeshes("res\\objs\\statue\\2k\\tgeodcxda_LOD5.obj");

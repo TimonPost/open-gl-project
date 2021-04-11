@@ -184,7 +184,15 @@ void LoadingMessage()
 {	
 	ImGui::Begin("Resource Loading");
 	ImGui::SetCursorPos(ImVec2(10, 30));			
-	ImGui::Text("Loading Game Contents... can take up to 1 minute. It is loading several big models and 8K textures. Result will be nice ;)");	
+	ImGui::Text("Loading Game Contents... can take up to 1 minute. ");
+	ImGui::Text("It is loading several big models, 8K, 4K, 2K textures etc... ");
+	ImGui::Text("I could have used 8K textures for everything but due to loading times I am forced to reduce most to 2K.");
+	ImGui::Text("Next to that, I also decreased the level of detail for my models to allow faster loading speeds.");
+	ImGui::Text("For performance I created an object pool, texture pool such that resources are only loaded once at the start.");
+	ImGui::Text("For the textures, assets I have used blender, photoshop and most importantly the QUIXEL BRIDGE");
+	ImGui::Text("QUIXEL BRIDGE is opensourced by Epic Games. It provides a whole library of high level textures and models of all kinds.");
+	ImGui::Text("In my game I make use of physical based rendering and use the metallic, albeto, AO, roughness, normal maps provided by them.");
+	ImGui::Text("Game should be loaded by about now. Thanks for reading ;)");
 	ImGui::End();
 }
 
