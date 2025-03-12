@@ -10,9 +10,8 @@
 /// </summary>
 class MeshPool
 {
-public:
 	std::vector<Mesh*> Meshes;
-		
+public:		
 	static MeshPool* Instance();
 
 	/// <summary>
@@ -27,13 +26,8 @@ public:
 	/// <param name="meshId"></param>
 	/// <returns></returns>
 	std::vector<Mesh*> GetMeshesById(std::string meshId);
-	
-	~MeshPool()
-	{
-		for (Mesh* obj : Meshes)
-			delete obj;
-		Meshes.clear();
-	}
+
+	~MeshPool();
 
 private:
 	MeshPool() {}

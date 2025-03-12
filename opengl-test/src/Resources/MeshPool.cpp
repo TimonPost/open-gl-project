@@ -31,3 +31,10 @@ std::vector<Mesh*> MeshPool::GetMeshesById(std::string meshId)
 
 	return foundMeshes;
 }
+
+MeshPool::~MeshPool()
+{
+	for (Mesh* obj : Meshes)
+		delete obj;
+	Meshes.clear();
+}

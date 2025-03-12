@@ -155,6 +155,9 @@
     <None Include="res\shaders\objectNoTexture.shader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="res\shaders\object.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Buffers\IndexBuffer.h">
@@ -288,6 +291,15 @@
     </ClInclude>
     <ClInclude Include="src\Resources\Texture.hpp">
       <Filter>Source Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\ObjectLoader.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shapes\Animation.hpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shapes\Objects\SelfDesigned.hpp">
+      <Filter>Source Files\Shapes\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

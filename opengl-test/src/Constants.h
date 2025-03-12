@@ -3,17 +3,12 @@
 
 const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 
-const float SCREEN_WIDTH = 1920;
-const float SCREEN_HEIGHT = 1080;
-
 const float NEAR_PLANE = 0.1f;
 const float FAR_PLANE = 100.0f;
 
 static float wallSize = 60;
 static float wallHeight = 30;
 static float translate = 30;
-
-const float DEFAULT_ASPECT_RATIO = 1 * SCREEN_WIDTH / SCREEN_HEIGHT;
 
 // Texture Identifiers
 static std::string wall_textureID = "wall_textureID";
@@ -37,6 +32,8 @@ static std::string ironFence_meshID = "ironFence_meshID";
 static std::string building_meshID = "building_meshID";
 static std::string statue_meshID = "statue_meshID";
 static std::string cube_meshID = "cube_meshID";
+static std::string self_designed_MeshID = "self_designed_MeshID";
+
 
 // Shader Identifiers
 static std::string shadow_map_shaderID = "shadow_map_shaderID";

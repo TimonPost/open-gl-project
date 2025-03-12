@@ -19,7 +19,7 @@ public:
 	/// </summary>
 	/// <param name="vb"></param>
 	/// <param name="layout"></param>
-	void AddBuffer(std::shared_ptr<VertexBuffer>& vb, std::shared_ptr<vertex_buffer_layout>& layout) const;
+	void AddBuffer(std::shared_ptr<VertexBuffer>& vb, std::shared_ptr<VertexBufferLayout>& layout) const;
 
 	void Bind() const override;
 	void Unbind() const override;

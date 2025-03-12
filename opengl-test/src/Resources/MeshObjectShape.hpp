@@ -38,7 +38,7 @@ public:
 	// Index List
 	std::vector<unsigned int> Indices;
 	// Material
-	material MeshMaterial;
+	Material MeshMaterial;
 
 	void Draw(Graphics* graphics) override
 	{

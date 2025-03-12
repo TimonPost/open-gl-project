@@ -9,7 +9,7 @@ class PBRTexturedBox : public PBRTexturedObjectBase
 public:
 	PBRTexturedBox(const std::string textureId) : PBRTexturedObjectBase(
 		textureId,
-		"C:\\Users\\Timon\\source\\repos\\opengl-test\\opengl-test\\res\\objs\\box.obj")
+		cube_meshID)
 	{
 	}
 

@@ -137,8 +137,7 @@ void GameWorld::RenderShadowShapes(Graphics* graphics)
 
     shadowMap.EndShadowMapPass();
 
-    // Scene Pass
-	
+    // Scene Pass	
     shadowMap.StartScenePass(GL_TEXTURE1);
 	
     Shader* shadowMapShader = ShaderPool::Instance()->GetShaderById(shadow_passtrough_shaderID);

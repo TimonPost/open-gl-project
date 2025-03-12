@@ -28,13 +28,13 @@ struct VertexLayoutElement
 /// <summary>
 /// Layout manager for the opengl buffer.
 /// </summary>
-class vertex_buffer_layout
+class VertexBufferLayout
 {
 	unsigned int _stride;
 	std::vector<VertexLayoutElement> _elements;
 
 public:
-	vertex_buffer_layout() :
+	VertexBufferLayout() :
 		_stride(0)
 	{
 	}

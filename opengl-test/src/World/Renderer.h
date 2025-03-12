@@ -2,6 +2,7 @@
 
 #include <memory>
 #include "Camera.h"
+#include "GameWindow.h"
 
 /// <summary>
 /// Renderer for the game graphics.
@@ -12,21 +13,10 @@ class Renderer
 	glm::mat4 _model;
 	glm::mat4 _view;
 	glm::mat4 _projection;
-
 public:
 	std::unique_ptr<Camera> camera;
-
+	
 	Renderer();
-
-	/// <summary>
-	/// Updates projection matrix when screen, aspect ratio, nearplane or far plane have changed.
-	/// </summary>
-	/// <param name="screenWidth"></param>
-	/// <param name="screenHeight"></param>
-	/// <param name="aspectRatio"></param>
-	/// <param name="nearPlane"></param>
-	/// <param name="farPlane"></param>
-	void UpdateProjection(float screenWidth, float screenHeight, float aspectRatio, float nearPlane, float farPlane);
 
 	/// <summary>
 	/// Returns the camera model view projection matrix.

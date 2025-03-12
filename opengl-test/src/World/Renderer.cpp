@@ -9,19 +9,11 @@
 
 Renderer::Renderer()
 {
-	camera = std::make_unique<Camera>();
+	camera = std::make_unique<Camera>(MovementModes::Walking);
 
 	_identity = glm::mat4(1.0f);
 	_model = glm::scale(_identity, glm::vec3(1, 1, 1));
 	_view = camera->GetViewMatrix();
-
-	UpdateProjection(SCREEN_WIDTH, SCREEN_HEIGHT, DEFAULT_ASPECT_RATIO, FAR_PLANE, NEAR_PLANE);
-}
-
-void Renderer::UpdateProjection(float screenWidth, float screenHeight, float aspectRatio, float nearPlane,
-                                float farPlane)
-{
-	_projection = glm::perspective(glm::radians(camera->Zoom), screenWidth / screenHeight, 0.1f, 100.0f);
 }
 
 void Renderer::Clear()
@@ -36,7 +28,7 @@ glm::mat4 Renderer::CameraModel() const
 
 glm::mat4 Renderer::CameraProjection() const
 {
-	return _projection;
+	return glm::perspective(glm::radians(camera->Zoom), GameWindow::AspectRatio(), 0.1f, 100.0f);
 }
 
 glm::mat4 Renderer::CameraView() const

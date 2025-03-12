@@ -1,6 +1,6 @@
 #pragma once
 
-#include "texture.hpp"
+#include "Texture.hpp"
 #include "../Buffers/GLRegisterable.h"
 
 class SimpleTextureEntry : public GLRegisterable

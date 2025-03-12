@@ -3,9 +3,10 @@
 #include <ext/matrix_clip_space.hpp>
 #include <ext/matrix_transform.hpp>
 
-Camera::Camera()
+Camera::Camera(MovementModes modes)
 {
-	position = glm::vec3(0.0f, 5.0f, -4.0f);
+    movement_modes = modes;
+	position = glm::vec3(0.0f, 5.0f, -6.0f);
 	Up = glm::vec3(0.0, 1.0, 0.0);
     Yaw = YAW;
 	Pitch = PITCH;
@@ -54,6 +55,11 @@ void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
         newPosition.y = 5;        
     }
 
+	if (movement_modes == MovementModes::Walking)
+	{
+        newPosition.y = 5;
+	}
+
 	if (newPosition.x > -translate && newPosition.x < translate && newPosition.z > -translate +1 && newPosition.z < translate - 1)
 	{
         position = newPosition;
@@ -92,4 +98,25 @@ void Camera::ProcessMouseScroll(float yoffset)
         Zoom = 1.0f;
     if (Zoom > 45.0f)
         Zoom = 45.0f;
+}
+
+void Camera::ToggleMovementMode()
+{
+    if (movement_modes == MovementModes::Walking) {
+        movement_modes = DroneModes;
+        lastCameraPosition = position;
+        lastCameraYaw = Yaw;
+        lastCameraPitch = Pitch;
+    	
+        position = defaultDroneModesPosition;
+        Yaw = defaultDroneYaw;
+        Pitch = defaultDronePitch;
+    }
+    else if (movement_modes == MovementModes::DroneModes) {
+        movement_modes = Walking;
+        position = lastCameraPosition;
+        Yaw = lastCameraYaw;
+        Pitch = lastCameraPitch;
+    }
+    RefreshCameraData();
 }

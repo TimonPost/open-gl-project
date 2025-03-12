@@ -17,7 +17,7 @@ class ShapeBase
 
 protected:	
 	std::shared_ptr<VertexBuffer> _vb;
-	std::shared_ptr<vertex_buffer_layout> _layout;
+	std::shared_ptr<VertexBufferLayout> _layout;
 	std::shared_ptr<IndexBuffer> _indexBuffer;
 	
 	std::unique_ptr<VertexArray> _va;
@@ -101,7 +101,7 @@ public:
 	{
 		_va = std::make_unique<VertexArray>();
 		_vb = std::make_shared<VertexBuffer>(data, size);
-		_layout = std::make_shared<vertex_buffer_layout>();
+		_layout = std::make_shared<VertexBufferLayout>();
 	}
 
 	/// <summary>

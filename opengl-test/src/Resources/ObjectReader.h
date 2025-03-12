@@ -4,6 +4,9 @@
 
 #include "MeshObjectShape.hpp"
 
+/// <summary>
+/// Object file reader abstraction.
+/// </summary>
 class ObjectReader
 {
 public:

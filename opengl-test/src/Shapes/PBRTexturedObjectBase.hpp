@@ -17,10 +17,13 @@ public:
 	PBRTexturedObjectBase(std::string textureIdentifier, const std::string& objPath) :ShapeBase(
 		std::move(textureIdentifier))
 	{
-		std::vector<VertexFormatObjectWithUV> buffer = ObjectReader::LoadObject(objPath);
-		_size = sizeof(VertexFormatObjectWithUV) * buffer.size();
+		MeshPool* pool = MeshPool::Instance();
+		std::vector<Mesh*> meshes = pool->GetMeshesById(objPath);
+		Mesh* mesh = meshes[0];
+		
+		_size = (sizeof(VertexFormatObjectWithUV) * mesh->Vertices.size());
 
-		WithBuffer(&buffer[0], _size);
+		WithBuffer(&mesh->Vertices[0], _size);
 
 		_layout->AddFloat(3);
 		_layout->AddFloat(3);

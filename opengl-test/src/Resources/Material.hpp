@@ -6,9 +6,9 @@
 /// <summary>
 /// A mesh its material.
 /// </summary>
-struct material
+struct Material
 {
-	material()
+	Material()
 	{
 		name;
 		Ns = 0.0f;

@@ -9,6 +9,8 @@
 #include "Shapes/PBRTexturedObjectBase.hpp"
 #include "Shapes/Objects/Models.hpp"
 #include "Shapes/Objects/Sphere.hpp"
+#include "Shapes/Objects/SelfDesigned.hpp"
+
 #include "../Resources/objectLoader.h"
 
 class WorldLoader
@@ -238,7 +240,7 @@ class WorldLoader
 		roof->Translate(glm::vec3(0, 0, 0));
 		roof->Scale(glm::vec3(wallSize, wallHeight, wallSize));
 
-		CubeShadowObject* groundShadowPlane = new CubeShadowObject(wood_textureID);
+		Box * groundShadowPlane = new Box(wood_textureID);
 		groundShadowPlane->Translate(glm::vec3(0, 0.2, -2));
 		groundShadowPlane->Scale(glm::vec3(20, 0.1, 20));
 		
@@ -279,7 +281,14 @@ class WorldLoader
 		bottomLeftPost->Scale(scale);
 		bottomLeftPost->Rotate(glm::vec3(0, 1, 0), glm::radians(-90.0f));
 		AddMeshes(world, bottomLeftPost->meshObjects);
-				
+
+		SelfDesignedObject* selfDesignedObject = new SelfDesignedObject();
+		selfDesignedObject->Translate(glm::vec3(-0, 5, -translate +2));
+		selfDesignedObject->Rotate(glm::vec3(0, 1, 0), glm::radians(90.0f));
+		selfDesignedObject->Scale(glm::vec3(4, 4, 4));
+		
+		AddMeshes(world, selfDesignedObject->meshObjects);
+		
 		world->AddShadowShape(*groundShadowPlane);
 		world->AddObjectShape(*sky);
 		
@@ -491,6 +500,9 @@ class WorldLoader
 
 		std::vector<Mesh> meshes4 = ObjectReader::LoadMeshes("res\\objs\\box.obj");
 		AddMeshesToPool(pool, meshes4, cube_meshID);
+
+		std::vector<Mesh> meshes5= ObjectReader::LoadMeshes("res\\objs\\selfDesigned.obj");
+		AddMeshesToPool(pool, meshes5, self_designed_MeshID);
 	}
 
 	/// <summary>

@@ -19,6 +19,12 @@ enum Camera_Movement {
 	RIGHT
 };
 
+enum MovementModes
+{
+	DroneModes,
+	Walking
+};
+
 /// <summary>
 /// A device for catching light in a scene. 
 /// </summary>
@@ -38,7 +44,16 @@ class Camera
 	glm::vec3 Up;
 	glm::vec3 Right;
 	glm::vec3 WorldUp;
+	MovementModes movement_modes = MovementModes::Walking;
+	glm::vec3 lastCameraPosition;
+	
+	float lastCameraYaw;
+	float lastCameraPitch;
 
+	glm::vec3 defaultDroneModesPosition = glm::vec3(26.7271271, 26.7271271, -26.7271271);
+	float defaultDroneYaw = 140;
+	float defaultDronePitch = -20;
+	
 	void RefreshCameraData();
 
 public:
@@ -48,19 +63,19 @@ public:
 	float FarPlane = FAR_PLANE;
 	float NearPlane = NEAR_PLANE;
 	
-	Camera();
-
-	/// <summary>
+	Camera(MovementModes movementModes);
+	
 	/// Returns the camera view matrix.
-	/// </summary>
 	glm::mat4 GetViewMatrix() const;
 
-	// Processes input received from a keyboar input system. Expects the offset value in both the x and y direction.
+	/// Processes input received from a keyboar input system. Expects the offset value in both the x and y direction.
 	void ProcessKeyboard(Camera_Movement direction, float deltaTime);
 	
-    // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
+    /// Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
 	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
 
-    // Processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
+    /// Processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
 	void ProcessMouseScroll(float yoffset);
+
+	void ToggleMovementMode();
 };

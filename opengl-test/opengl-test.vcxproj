@@ -88,12 +88,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Timon\source\repos\opengl-test\opengl-test\Dependencies\GLM;C:\Users\Timon\source\repos\opengl-test\opengl-test\Dependencies\GLFW\include;C:\Users\Timon\source\repos\opengl-test\opengl-test\Dependencies\GLEW\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)opengl-test\Dependencies\GLM;$(SolutionDir)opengl-test\Dependencies\GLFW\include;$(SolutionDir)opengl-test\Dependencies\GLEW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Timon\source\repos\opengl-test\opengl-test\Dependencies\GLM;C:\Users\Timon\source\repos\opengl-test\opengl-test\Dependencies\GLEW\lib\Release\Win32;C:\Users\Timon\source\repos\opengl-test\opengl-test\Dependencies\GLFW\lib-vc2015</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)opengl-test\Dependencies\GLM;$(SolutionDir)opengl-test\Dependencies\GLEW\lib\Release\Win32;$(SolutionDir)opengl-test\Dependencies\GLFW\lib-vc2015</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -105,14 +105,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Timon\source\repos\opengl-test\opengl-test\Dependencies\GLM;C:\Users\Timon\source\repos\opengl-test\opengl-test\Dependencies\GLFW\include;C:\Users\Timon\source\repos\opengl-test\opengl-test\Dependencies\GLEW\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)opengl-test\Dependencies\GLM;$(SolutionDir)opengl-test\Dependencies\GLFW\include;$(SolutionDir)opengl-test\Dependencies\GLEW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Timon\source\repos\opengl-test\opengl-test\Dependencies\GLM;C:\Users\Timon\source\repos\opengl-test\opengl-test\Dependencies\GLEW\lib\Release\Win32;C:\Users\Timon\source\repos\opengl-test\opengl-test\Dependencies\GLFW\lib-vc2015</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)opengl-test\Dependencies\GLM;$(SolutionDir)opengl-test\Dependencies\GLEW\lib\Release\Win32;$(SolutionDir)opengl-test\Dependencies\GLFW\lib-vc2015</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="res\shaders\object.shader" />
     <None Include="res\shaders\objectNoTexture.shader" />
     <None Include="res\shaders\shadowMapping.shader" />
     <None Include="res\shaders\lighting.shader" />
@@ -198,6 +199,7 @@
     <ClInclude Include="src\Resources\MeshesLoader.hpp" />
     <ClInclude Include="src\Resources\MeshObjectShape.hpp" />
     <ClInclude Include="src\Resources\MeshPool.h" />
+    <ClInclude Include="src\Resources\ObjectLoader.h" />
     <ClInclude Include="src\Resources\ObjectReader.h" />
     <ClInclude Include="src\Resources\Shader.h" />
     <ClInclude Include="src\Resources\ShaderPool.h" />
@@ -205,9 +207,11 @@
     <ClInclude Include="src\Resources\TextureEntries.hpp" />
     <ClInclude Include="src\Resources\TexturePool.h" />
     <ClInclude Include="src\Resources\TexturePool.cpp" />
+    <ClInclude Include="src\Shapes\Animation.hpp" />
     <ClInclude Include="src\Shapes\Objects\PBRTexturedBox.hpp" />
     <ClInclude Include="src\Shapes\Objects\Models.hpp" />
     <ClInclude Include="src\Shapes\Objects\PBRTexturedObject.hpp" />
+    <ClInclude Include="src\Shapes\Objects\SelfDesigned.hpp" />
     <ClInclude Include="src\Shapes\Objects\Sphere.hpp" />
     <ClInclude Include="src\Shapes\ObjShapeBase.h" />
     <ClInclude Include="src\Shapes\PBRTexturedObjectBase.hpp" />

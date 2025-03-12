@@ -29,5 +29,5 @@ struct Mesh
 	std::vector<unsigned int> Indices;
 
 	// Material
-	material MeshMaterial;
+	Material MeshMaterial;
 };

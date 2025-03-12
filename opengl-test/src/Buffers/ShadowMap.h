@@ -5,6 +5,7 @@
 #include "../Resources/ShaderPool.h"
 #include "../Constants.h"
 #include "../World/Renderer.h"
+#include "GameWindow.h"
 
 /// <summary>
 /// Manages shadow map generation for scene objects.
@@ -78,7 +79,7 @@ public:
 	void EndShadowMapPass() const
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);		
+		glViewport(0, 0, GameWindow::ScreenWidth, GameWindow::ScreenHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		shadowShader->Unbind();
 	}

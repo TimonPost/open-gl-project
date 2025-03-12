@@ -592,7 +592,7 @@ bool ObjectLoader::LoadMaterials(std::string path)
 	if (!file.is_open())
 		return false;
 
-	material tempMaterial;
+	Material tempMaterial;
 
 	bool listening = false;
 
@@ -624,7 +624,7 @@ bool ObjectLoader::LoadMaterials(std::string path)
 				LoadedMaterials.push_back(tempMaterial);
 
 				// Clear Loaded Material
-				tempMaterial = material();
+				tempMaterial = Material();
 
 				if (curline.size() > 7)
 				{

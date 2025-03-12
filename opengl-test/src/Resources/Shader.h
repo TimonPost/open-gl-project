@@ -6,7 +6,6 @@
 #include <unordered_map>
 #include <gtc/type_ptr.hpp>
 
-#include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
